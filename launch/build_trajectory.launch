@@ -1,0 +1,5 @@
+<launch>
+	<node pkg="lab6" type="trajectory_builder.py" name="Trajectory_builder">
+		<param name="save_path" value="$(find lab6)/trajectories/"/>
+	</node>
+</launch>

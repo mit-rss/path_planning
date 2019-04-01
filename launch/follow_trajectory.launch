@@ -1,0 +1,17 @@
+<launch>
+	<arg name="lookahead" default="1.5"/>
+	<arg name="max_reacquire" default="3.0"/>
+	<arg name="speed" default="1.5"/>
+
+	<arg name="odom_topic" default="/pf/pose/odom"/>
+	
+	<node pkg="lab6" type="pure_pursuit.py" name="Trajectory_follower">
+		<param name="odom_topic" value="$(arg odom_topic)"/>		
+		<param name="trajectory_topic" value="/trajectory/current"/>
+		<param name="lookahead" value="$(arg lookahead)"/>
+		<param name="speed" value="$(arg speed)"/>
+		<param name="wheelbase" value="0.25"/>
+		<param name="wrap" value="0"/>
+		<param name="drive_topic" value="/vesc/high_level/ackermann_cmd_mux/input/nav_0"/>
+	</node>
+</launch>
