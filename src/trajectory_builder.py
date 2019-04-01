@@ -2,7 +2,7 @@
 
 import rospy
 import numpy as np
-from geometry_msgs.msg import PoseStamped, PointStamped, PolygonStamped
+from geometry_msgs.msg import PoseStamped, PointStamped, PolygonStamped, Point
 import time, os
 from utils import LineTrajectory
 from visualization_msgs.msg import Marker, MarkerArray
@@ -20,8 +20,8 @@ class BuildTrajectory(object):
         '''
         self.data_points = []
         self.count = 0
-        self.click_sub = rospy.Subscriber("/clicked_point", PointStamped, self.clicked_pose, queue_size=1)
-        self.traj_pub = rospy.Publisher("/trajectory/current", PolygonStamped, queue_size=1)
+        self.click_sub = rospy.Subscriber("/clicked_point", PointStamped, self.clicked_pose, queue_size=10)
+        self.traj_pub = rospy.Publisher("/trajectory/current", PolygonStamped, queue_size=10)
         self.trajectory_points = rospy.Publisher("/traj_pts", Marker, queue_size=20)
         self.trajectory.publish_viz(duration=40.0)
 
@@ -43,6 +43,8 @@ class BuildTrajectory(object):
         self.data_points.append(point)
         self.mark_pt(self.trajectory_points, (0,1,0), self.data_points)
         if self.count > 2:
+            rospy.loginfo("PUBSLIH TRAJ")
+            print("publish traj")
             self.publish_trajectory()
 
 
