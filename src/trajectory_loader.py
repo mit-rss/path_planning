@@ -9,7 +9,6 @@ class LoadTrajectory(object):
 	"""
 	def __init__(self):
 		self.path           = rospy.get_param("~trajectory")
-		#self.should_publish = bool(rospy.get_param("~publish"))
 		self.pub_topic      = rospy.get_param("~topic")
 
 		# initialize and load the trajectory

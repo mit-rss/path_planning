@@ -3,7 +3,6 @@
 	<arg name="trajectory" default="$(find lab6)/trajectories/loop2.traj"/>
 	<node pkg="lab6" type="trajectory_loader.py" name="Trajectory_loader">
 		<param name="trajectory" value="$(arg trajectory)"/>
-		<param name="publish" value="1"/>
 		<param name="topic" value="/trajectory/current"/>
 		<param name="spin" value="$(arg spin)"/>
 	</node>
