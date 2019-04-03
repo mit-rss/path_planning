@@ -15,14 +15,13 @@ class LoadTrajectory(object):
 		self.trajectory = LineTrajectory("/loaded_trajectory")
 		self.trajectory.load(self.path)
 
-		#if self.should_publish:
 		self.traj_pub = rospy.Publisher(self.pub_topic, PolygonStamped, queue_size=1)
 
 		# need to wait a short period of time before publishing  the first message
 		time.sleep(0.5)
 
-		# visualize the loaded trajectory for 40 seconds
-		self.trajectory.publish_viz(duration=40.0)
+		# visualize the loaded trajectory
+		self.trajectory.publish_viz()
 
 		# send the trajectory
 		self.publish_trajectory()
