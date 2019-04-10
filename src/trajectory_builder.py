@@ -12,7 +12,7 @@ class BuildTrajectory(object):
     """ Listens for points published by RViz and uses them to build a trajectory. Saves the output to the file system.
     """
     def __init__(self):
-        self.save_path = os.path.join(rospy.get_param("~save_path"), time.strftime("point") + ".traj") #%Y-%m-%d-%H-%M-%S
+        self.save_path = os.path.join(rospy.get_param("~save_path"), time.strftime("%Y-%m-%d-%H-%M-%S") + ".traj") #%Y-%m-%d-%H-%M-%S
         self.trajectory = LineTrajectory("/built_trajectory")
         '''
         Insert appropriate subscribers/publishers here
@@ -23,7 +23,7 @@ class BuildTrajectory(object):
         self.click_sub = rospy.Subscriber("/clicked_point", PointStamped, self.clicked_pose, queue_size=10)
         self.traj_pub = rospy.Publisher("/trajectory/current", PolygonStamped, queue_size=10)
         self.trajectory_points = rospy.Publisher("/traj_pts", Marker, queue_size=20)
-        self.trajectory.publish_viz(duration=40.0)
+        self.trajectory.publish_viz() #duration=40.0
 
         # save the built trajectory on shutdown
         rospy.on_shutdown(self.saveTrajectory)
@@ -43,7 +43,7 @@ class BuildTrajectory(object):
         self.data_points.append(point)
         self.mark_pt(self.trajectory_points, (0,1,0), self.data_points)
         if self.count > 2:
-            rospy.loginfo("PUBSLIH TRAJ")
+            rospy.loginfo("PUBLISH TRAJ")
             print("publish traj")
             self.publish_trajectory()
 
