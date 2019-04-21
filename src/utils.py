@@ -153,7 +153,7 @@ class LineTrajectory(object):
 
     def publish_start_point(self, duration=0.0, scale=0.1):
         should_publish = len(self.points) > 0
-        if self.visualize and self.speed_pub.get_num_connections() > 0:
+        if self.visualize and self.start_pub.get_num_connections() > 0:
             print "Publishing speed profile"
             marker = Marker()
             marker.header = self.make_header("/map")
