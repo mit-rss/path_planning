@@ -1,0 +1,5 @@
+<launch>
+	<node pkg="lab6" type="path_planning.py" name="Trajectory_planner" output="screen">
+		<param name="odom_topic" value="/pf/pose/odom"/>
+	</node>
+</launch>
