@@ -1,9 +1,5 @@
 <launch>
-	<arg name="spin" default="1"/>
-	<arg name="trajectory" default="$(find lab6)/trajectories/loop2.traj"/>
 	<node pkg="lab6" type="trajectory_loader.py" name="Trajectory_loader">
-		<param name="trajectory" value="$(arg trajectory)"/>
-		<param name="topic" value="/trajectory/current"/>
-		<param name="spin" value="$(arg spin)"/>
+		<param name="trajectory" value="$(find lab6)/trajectories/2020-04-06-16-57-37.traj"/>
 	</node>
 </launch>
