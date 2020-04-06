@@ -2,7 +2,7 @@
 
 import rospy
 import numpy as np
-from geometry_msgs.msg import PoseStamped, PointStamped, PolygonStamped, Point
+from geometry_msgs.msg import PoseStamped, PointStamped, PoseArray, Point
 import time, os
 from utils import LineTrajectory
 from visualization_msgs.msg import Marker, MarkerArray
@@ -12,24 +12,20 @@ class BuildTrajectory(object):
     """ Listens for points published by RViz and uses them to build a trajectory. Saves the output to the file system.
     """
     def __init__(self):
-        self.save_path = os.path.join(rospy.get_param("~save_path"), time.strftime("%Y-%m-%d-%H-%M-%S") + ".traj") #%Y-%m-%d-%H-%M-%S
+        self.save_path = os.path.join("trajectories/", time.strftime("%Y-%m-%d-%H-%M-%S") + ".traj") #%Y-%m-%d-%H-%M-%S
         self.trajectory = LineTrajectory("/built_trajectory")
-        '''
-        Insert appropriate subscribers/publishers here
-        
-        '''
         self.data_points = []
         self.count = 0
         self.click_sub = rospy.Subscriber("/clicked_point", PointStamped, self.clicked_pose, queue_size=10)
-        self.traj_pub = rospy.Publisher("/trajectory/current", PolygonStamped, queue_size=10)
+        self.traj_pub = rospy.Publisher("/trajectory/current", PoseArray, queue_size=10)
         self.trajectory_points = rospy.Publisher("/traj_pts", Marker, queue_size=20)
-        self.trajectory.publish_viz() #duration=40.0
+        self.trajectory.publish_viz()
 
         # save the built trajectory on shutdown
         rospy.on_shutdown(self.saveTrajectory)
 
     def publish_trajectory(self):
-        self.traj_pub.publish(self.trajectory.toPolygon())
+        self.traj_pub.publish(self.trajectory.toPoseArray())
 
     def saveTrajectory(self):
         self.trajectory.save(self.save_path)
@@ -44,8 +40,8 @@ class BuildTrajectory(object):
         self.mark_pt(self.trajectory_points, (0,1,0), self.data_points)
         if self.count > 2:
             rospy.loginfo("PUBLISH TRAJ")
-            print("publish traj")
             self.publish_trajectory()
+            self.trajectory.publish_viz()
 
 
     def mark_pt(self, subscriber, color_tup, data):

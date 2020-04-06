@@ -2,7 +2,7 @@ import rospy
 import numpy as np
 from yaml import load
 from visualization_msgs.msg import Marker, MarkerArray
-from geometry_msgs.msg import Vector3, Point, Pose, PoseStamped, PoseArray, Quaternion, PolygonStamped, Polygon, Point32, PoseWithCovarianceStamped, PointStamped
+from geometry_msgs.msg import Vector3, Point, Pose, PoseStamped, PoseArray, Quaternion, Point32, PoseWithCovarianceStamped, PointStamped
 from std_msgs.msg import Header, ColorRGBA
 from nav_msgs.msg import OccupancyGrid
 import json
@@ -118,7 +118,7 @@ class LineTrajectory(object):
         self.update_distances()
         print "Loaded:", len(self.points), "points"
         self.mark_dirty()
-        
+
     # put the points into a KD tree for faster nearest neighbors queries
     def make_np_array(self):
         self.np_points = np.array(self.points)
@@ -126,30 +126,30 @@ class LineTrajectory(object):
         self.has_acceleration = True
 
     # build a trajectory class instance from a trajectory message
-    def fromPolygon(self, trajMsg):
-        for p in trajMsg.points:
-            self.points.append((p.x, p.y))
-            if p.z >= 0:
-                self.speed_profile.append(p.z)
+    def fromPoseArray(self, trajMsg):
+        for p in trajMsg.poses:
+            self.points.append((p.position.x, p.position.y))
+            if p.position.z >= 0:
+                self.speed_profile.append(p.position.z)
         self.update_distances()
         self.mark_dirty()
         print "Loaded new trajectory with:", len(self.points), "points"
 
-    def toPolygon(self):
-        poly = PolygonStamped()
-        poly.header = self.make_header("/map")
+    def toPoseArray(self):
+        traj = PoseArray()
+        traj.header = self.make_header("/map")
         use_speed_profile = len(self.speed_profile) == len(self.points)
         for i in xrange(len(self.points)):
             p = self.points[i]
-            pt = Point32()
-            pt.x = p[0]
-            pt.y = p[1]
+            pose = Pose()
+            pose.position.x = p[0]
+            pose.position.y = p[1]
             if use_speed_profile:
-                pt.z = self.speed_profile[i]
+                pose.position.z = self.speed_profile[i]
             else:
-                pt.z = -1
-            poly.polygon.points.append(pt)
-        return poly
+                pose.position.z = -1
+            traj.poses.append(pose)
+        return traj
 
     def publish_start_point(self, duration=0.0, scale=0.1):
         should_publish = len(self.points) > 0
@@ -219,27 +219,26 @@ class LineTrajectory(object):
             marker.header = self.make_header("/map")
             marker.ns = self.viz_namespace + "/trajectory"
             marker.id = 2
-            marker.type = 4 # line strip
+            marker.type = marker.LINE_STRIP # line strip
             marker.lifetime = rospy.Duration.from_sec(duration)
             if should_publish:
-                marker.action = 0
+                marker.action = marker.ADD
                 marker.scale.x = 0.3
-                marker.scale.y = 0.3
-                marker.scale.z = 0.05
                 marker.color.r = 1.0
                 marker.color.g = 1.0
                 marker.color.b = 1.0
-                marker.color.a = 0.5
+                marker.color.a = 1.0
                 for p in self.points:
                     pt = Point32()
                     pt.x = p[0]
                     pt.y = p[1]
-                    pt.z = -0.1
+                    pt.z = 0.0
                     marker.points.append(pt)
             else:
                 # delete
-                marker.action = 2
+                marker.action = marker.DELETE
             self.traj_pub.publish(marker)
+            print('publishing traj')
         elif self.traj_pub.get_num_connections() == 0:
             print "Not publishing trajectory, no subscribers"
 
