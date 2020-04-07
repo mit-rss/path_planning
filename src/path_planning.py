@@ -7,7 +7,6 @@ from nav_msgs.msg import Odometry, OccupancyGrid
 import rospkg
 import time, os
 from utils import LineTrajectory
-from PIL import Image
 from rrt import rrt_star
 
 class PathPlan(object):
@@ -39,7 +38,7 @@ class PathPlan(object):
 
         # publish trajectory
         self.traj_pub.publish(self.trajectory.toPoseArray())
-        
+
         # visualize trajectory Markers
         self.trajectory.publish_viz()
 
