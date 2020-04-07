@@ -2,12 +2,11 @@
 
 import rospy
 import numpy as np
-from geometry_msgs.msg import PoseStamped, PoseArray, Point
+from geometry_msgs.msg import PoseStamped, PoseArray
 from nav_msgs.msg import Odometry, OccupancyGrid
 import rospkg
 import time, os
 from utils import LineTrajectory
-from rrt import rrt_star
 
 class PathPlan(object):
     """ Listens for goal pose published by RViz and uses it to plan a path from
