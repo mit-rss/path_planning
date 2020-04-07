@@ -34,6 +34,15 @@ class PathPlan(object):
     def goal_cb(self, msg):
         pass ## REMOVE AND FILL IN ##
 
+    def plan_path(self, start_point, end_point, map):
+        ## CODE FOR PATH PLANNING ##
+
+        # publish trajectory
+        self.traj_pub.publish(self.trajectory.toPoseArray())
+        
+        # visualize trajectory Markers
+        self.trajectory.publish_viz()
+
 
 if __name__=="__main__":
     rospy.init_node("path_planning")
