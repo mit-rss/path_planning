@@ -22,7 +22,7 @@ class PurePursuit(object):
         self.wheelbase_length = # FILL IN #
         self.trajectory  = utils.LineTrajectory("/followed_trajectory")
         self.traj_sub = rospy.Subscriber("/trajectory/current", PoseArray, self.trajectory_callback, queue_size=1)
-
+        self.drive_pub = rospy.Publisher("/drive", AckermannDriveStamped, queue_size=1)
 
     def trajectory_callback(self, msg):
         ''' Clears the currently followed trajectory, and loads the new one from the message
