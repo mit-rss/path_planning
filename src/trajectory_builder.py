@@ -6,13 +6,15 @@ from geometry_msgs.msg import PoseStamped, PointStamped, PoseArray, Point
 import time, os
 from utils import LineTrajectory
 from visualization_msgs.msg import Marker, MarkerArray
-
+import rospkg
 
 class BuildTrajectory(object):
     """ Listens for points published by RViz and uses them to build a trajectory. Saves the output to the file system.
     """
     def __init__(self):
-        self.save_path = os.path.join("trajectories/", time.strftime("%Y-%m-%d-%H-%M-%S") + ".traj") #%Y-%m-%d-%H-%M-%S
+        rospack = rospkg.RosPack()
+        lab6_path = rospack.get_path("lab6")
+        self.save_path = os.path.join(lab6_path+"/trajectories/", time.strftime("%Y-%m-%d-%H-%M-%S") + ".traj") #%Y-%m-%d-%H-%M-%S
         self.trajectory = LineTrajectory("/built_trajectory")
         self.data_points = []
         self.count = 0
