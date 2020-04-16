@@ -16,32 +16,20 @@ EPSILON = 0.00000000001
 ''' These data structures can be used in the search function
 '''
 
-def load_params_from_yaml(fp):
-    with open(fp, 'r') as infile:
-        yaml_data = load(infile)
-        for param in yaml_data:
-            print "param:", param, ":", yaml_data[param]
-            rospy.set_param("~"+param, yaml_data[param])
-
-
 class LineTrajectory(object):
     """ A class to wrap and work with piecewise linear trajectories. """
     def __init__(self, viz_namespace=None):
         self.points = []
-        self.np_points = None
         self.distances = []
-        self.speed_profile = []
         self.has_acceleration = False
         self.visualize = False
         self.viz_namespace = viz_namespace
-        self.speed_interpolater = None
 
         if viz_namespace:
             self.visualize = True
             self.start_pub = rospy.Publisher(viz_namespace + "/start_point", Marker, queue_size = 1)
             self.traj_pub  = rospy.Publisher(viz_namespace + "/path", Marker, queue_size = 1)
             self.end_pub   = rospy.Publisher(viz_namespace + "/end_pose", Marker, queue_size = 1)
-            self.speed_pub   = rospy.Publisher(viz_namespace + "/speeds", MarkerArray, queue_size = 1)
 
     # compute the distances along the path for all path segments beyond those already computed
     def update_distances(self):
@@ -87,8 +75,6 @@ class LineTrajectory(object):
     def clear(self):
         self.points = []
         self.distances = []
-        self.speed_profile = []
-        self.speed_interpolater = None
         self.mark_dirty()
 
     def empty(self):
@@ -119,18 +105,10 @@ class LineTrajectory(object):
         print "Loaded:", len(self.points), "points"
         self.mark_dirty()
 
-    # put the points into a KD tree for faster nearest neighbors queries
-    def make_np_array(self):
-        self.np_points = np.array(self.points)
-        self.np_distances = np.array(self.distances)
-        self.has_acceleration = True
-
     # build a trajectory class instance from a trajectory message
     def fromPoseArray(self, trajMsg):
         for p in trajMsg.poses:
             self.points.append((p.position.x, p.position.y))
-            if p.position.z >= 0:
-                self.speed_profile.append(p.position.z)
         self.update_distances()
         self.mark_dirty()
         print "Loaded new trajectory with:", len(self.points), "points"
@@ -138,23 +116,18 @@ class LineTrajectory(object):
     def toPoseArray(self):
         traj = PoseArray()
         traj.header = self.make_header("/map")
-        use_speed_profile = len(self.speed_profile) == len(self.points)
         for i in xrange(len(self.points)):
             p = self.points[i]
             pose = Pose()
             pose.position.x = p[0]
             pose.position.y = p[1]
-            if use_speed_profile:
-                pose.position.z = self.speed_profile[i]
-            else:
-                pose.position.z = -1
             traj.poses.append(pose)
         return traj
 
     def publish_start_point(self, duration=0.0, scale=0.1):
         should_publish = len(self.points) > 0
         if self.visualize and self.start_pub.get_num_connections() > 0:
-            print "Publishing speed profile"
+            print "Publishing start point"
             marker = Marker()
             marker.header = self.make_header("/map")
             marker.ns = self.viz_namespace + "/trajectory"
@@ -242,34 +215,6 @@ class LineTrajectory(object):
         elif self.traj_pub.get_num_connections() == 0:
             print "Not publishing trajectory, no subscribers"
 
-    def publish_speeds(self, duration=0.0, scale=0.7):
-        should_publish = len(self.speed_profile) > 1
-        if self.visualize and self.speed_pub.get_num_connections() > 0:
-            if self.dirty():
-                self.make_np_array()
-            markers = [marker_clear_all("/map")]
-            normed_speeds = np.array(self.speed_profile) / np.max(self.speed_profile)
-            last_speed = 0.0
-            for i, speed in enumerate(normed_speeds):
-                if speed >= last_speed * 0.99:
-                    color = ColorRGBA(0, 1, 0, 0.8)
-                else:
-                    color = ColorRGBA(1, 0, 0, 0.8)
-                last_speed = speed
-                markers.append(marker_from_point_radius(self.np_points[i,:], np.power(speed, 0.8) * scale,
-                    index=i, linewidth=0.05, color=color, lifetime=duration))
-
-            marker_array = MarkerArray(markers=markers)
-            self.speed_pub.publish(marker_array)
-
-    def speed_at_t(self, t):
-        if self.speed_interpolater == None:
-            self.xs = np.arange(len(self.speed_profile))
-            self.ys = self.speed_profile
-            self.speed_interpolater = lambda x: np.interp(x,  self.xs, self.ys)
-
-        return self.speed_interpolater(t)
-
     def publish_viz(self, duration=0):
         if not self.visualize:
             print "Cannot visualize path, not initialized with visualization enabled"
@@ -278,7 +223,6 @@ class LineTrajectory(object):
         self.publish_start_point(duration=duration)
         self.publish_trajectory(duration=duration)
         self.publish_end_point(duration=duration)
-        self.publish_speeds(duration=duration)
 
     def make_header(self, frame_id, stamp=None):
         if stamp == None:
