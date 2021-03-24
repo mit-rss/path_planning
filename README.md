@@ -32,9 +32,13 @@ Trajectory Utilities
 
 ## Introduction
 Now that you are able to localize the RACECAR within a map of the Stata basement tunnels, it is time to learn how to drive. This laboratory exercise involves two core parts of autonomous operation: planning and control. In other words, given a destination, you will determine the path to the destination and proceed to follow it.  
+
 This lab has the following objectives:
+
 Part A: Plan trajectories in a known occupancy grid map from the car’s current position to a goal pose using either a search-based or sample-based motion planning method.
+
 Part B: Program the car to follow a predefined trajectory in a known occupancy grid map using particle filter localization and pure pursuit control.
+
 Part C: Combine the above two goals to enable real-time path planning and execution.
 
 This lab has multiple parts. Furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to optimize your algorithms. This will take time. You will have two weeks to complete this lab, however you should start early.
@@ -52,41 +56,40 @@ We will be making the leaderboard public for this assignment, so teams can see h
 EDIT (4/15/20): In the interest of runtime, these tests will only run once each. It may take up to 20 minutes. You are free to resubmit as many times as you would like before the deadline.
 
 ### Part A: Path Planning (3 points)
-The car will be placed at a set pose in the stata basement map and given a goal pose.
-Grade
+*Initial Condition*: The car will be placed at a set pose in the stata basement map and given a goal pose.
+
 You will receive full credit if your path remains within delta_path of the entire TA solution path
+
 You will get 0 points if:
-A path is not found within plan_time_thresh
-Your path enters occluded space on the map
-Your cumulative distance from the TA path is greater than delta_path_max*path_length
+- A path is not found within plan_time_thresh
+- Your path enters occluded space on the map
+- Your cumulative distance from the TA path is greater than delta_path_max*path_length
 
 ### Part B: Pure Pursuit (3 points)
-Given: The car will be placed at the start point of a loaded trajectory (path_planning/trajectories/loop2.traj) in the stata basement map with the submitted particle filter running.
+*Initial Condition*: The car will be placed at the start point of a loaded trajectory (path_planning/trajectories/loop2.traj) in the stata basement map with the submitted particle filter running.
+
 Your score will be determined by what percentage of the given path you are able to follow before:
-Exceeding pursuit_time_thresh
-Entering occluded space on the map
-Driving further than delta_pursuit from the given path
+- Exceeding pursuit_time_thresh
+- Entering occluded space on the map
+- Driving further than delta_pursuit from the given path
 
 ### Part C: Integration (4 points)
-Given: The car will be placed at a set pose in the stata basement map and given a goal pose with the submitted particle filter running.
+*Initial Condition*: The car will be placed at a set pose in the stata basement map and given a goal pose with the submitted particle filter running.
 Grade
-The path planning score will be calculated the same as Part A, with a maximum score of 1.5 points.
-The pure pursuit score will be calculated the same as Part B with a maximum score of 1.5 points.
-If you receive a score greater than 2.5 from the path planning and pure pursuit, you are awarded another 1 point (with a maximum of 4 total points).
-Gradescope Parameters
 
-Name
-Value
-delta_path
-1.0 m
-delta_path_max
-2.0 m
-delta_pursuit
-1.0 m
-plan_time_thresh
-120 sec
-pursuit_time_thresh
-500 sec
+- The path planning score will be calculated the same as Part A, with a maximum score of 1.5 points.
+- The pure pursuit score will be calculated the same as Part B with a maximum score of 1.5 points.
+- If you receive a score greater than 2.5 from the path planning and pure pursuit, you are awarded another 1 point (with a maximum of 4 total points).
+
+Gradescope Parameters:
+
+Name | Value
+------------
+delta_path | 1.0 m
+delta_path_max | 2.0 m
+delta_pursuit | 1.0 m
+plan_time_thresh | 120 sec
+pursuit_time_thresh | 500 sec
 
 
 ### Briefing Evaluation (see technical briefing rubric for grading details)
