@@ -83,13 +83,13 @@ Grade
 
 Gradescope Parameters:
 
-Name | Value
-------------
-delta_path | 1.0 m
-delta_path_max | 2.0 m
-delta_pursuit | 1.0 m
-plan_time_thresh | 120 sec
-pursuit_time_thresh | 500 sec
+| Name | Value |
+|----|----|
+| delta_path | 1.0 m |
+| delta_path_max | 2.0 m |
+| delta_pursuit | 1.0 m |
+| plan_time_thresh | 120 sec |
+| pursuit_time_thresh | 500 sec |
 
 
 ### Briefing Evaluation (see technical briefing rubric for grading details)
