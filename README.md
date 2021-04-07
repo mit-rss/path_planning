@@ -43,7 +43,7 @@ Part C: Combine the above two goals to enable real-time path planning and execut
 
 This lab has multiple parts. Furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to optimize your algorithms. This will take time. You will have two weeks to complete this lab, however you should start early.
 
-Note: If you were unable to complete Lab 5, or your solution is not suitable for real-time usage, you may use the instructor solution for particle filter localization from Lab 5. It’s based on the same skeleton, so you should be able to download this and use it out of the box. You will not be penalized for using the staff solution for localization. Lab 5 solution code will be released after it is due on Friday, April 11th at 8am EST.
+Note: If you were unable to complete Lab 5, or your solution is not suitable for real-time usage, you may use the instructor solution for particle filter localization from Lab 5. It’s based on the same skeleton, so you should be able to download this and use it out of the box. You will not be penalized for using the staff solution for localization. Lab 5 solution code will be released after it is due.
 
 We are encouraging parallelization by breaking up the components of the lab into distinct parts. Parts A and B can be implemented separately, and then integrated together once they are working individually.
 
@@ -53,7 +53,7 @@ Looking ahead, there will be a final challenge where you will need to be able to
 Gradescope Evaluation (10 points)
 We will be making the leaderboard public for this assignment, so teams can see how they stack up!
 
-EDIT (4/15/20): In the interest of runtime, these tests will only run once each. It may take up to 20 minutes. You are free to resubmit as many times as you would like before the deadline.
+In the interest of runtime, each test will be run once per submission. It may take up to 10 minutes for the autograder to evaluate your code. You are free to resubmit as many times as you would like before the deadline.
 
 ### Part A: Path Planning (3 points)
 *Initial Condition*: The car will be placed at a set pose in the stata basement map and given a goal pose.
