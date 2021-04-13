@@ -2,56 +2,51 @@
 
 | Deliverable                        | Due Date |
 |------------------------------------|-------------------------------------|
-| Gradescope Code Submission         | Monday, April 26 at 12:59 PM EST |
-| Presentation                       | Monday, April 26 at 12:59 PM EST |
-| Lab Report                         | Friday, April 30 at 11:59PM EST     |
-| Pushed Code                        | Friday, April 30 at 11:59PM EST     |
-| Team Member Assessment             | Friday, April 30 at 11:59PM EST     |
+| Gradescope Code Submission         | Monday, April 26 at 12:59 PM EDT |
+| Presentation                       | Monday, April 26 at 12:59 PM EDT |
+| Lab Report                         | Friday, April 30 at 11:59PM EDT     |
+| Pushed Code                        | Friday, April 30 at 11:59PM EDT     |
+| Team Member Assessment             | Friday, April 30 at 11:59PM EDT     |
 
 # Lab 6: Path Planning
 
 Table of Contents
 
-1. Introduction
-2. Grading
-Gradescope Evaluation (10 points)
-Briefing Evaluation (see technical briefing rubric for grading details)
-Report Evaluation (see technical report rubric for grading details)
-3. Submission
-4. Logistics and Setup
-5. Path Planning
-5.1 Search-based Planning Algorithm
-5.2 Sample-based Planning Algorithm
-5.3 Tips and Tricks
-Search Domains
-Grid Space
-Circle Space
-Morphological Dilations
-Motion Heuristics
-6. Pure Pursuit
-6.1 Tips and Tricks
-Pure Pursuit
-Trajectory Utilities
-7. Integration
+* Introduction
+* Grading
+  * Gradescope Evaluation (10 points)
+  * Briefing Evaluation (see technical briefing rubric for grading details)
+  * Report Evaluation (see technical report rubric for grading details)
+* Submission
+* Logistics and Setup
+* Part A: Path Planning
+  * Search-based Planning Algorithm
+  * Sample-based Planning Algorithm
+  * Tips and Tricks
+  * Search Domains, Grid Space, Circle Space, Morphological Dilations, Motion Heuristics
+* Part B: Pure Pursuit
+  * Tips and Tricks
+  * Pure Pursuit Trajectory Utilities
+* Part C: Integration
 
 ## Introduction
-Now that you are able to localize the RACECAR within a map of the Stata basement tunnels, it is time to learn how to drive. This laboratory exercise involves two core parts of autonomous operation: planning and control. In other words, given a destination, you will determine the path to the destination and proceed to follow it.  
+Now that you are able to localize the your car in the TESSE simulator, it is time to learn how to drive. This laboratory exercise involves two core parts of autonomous operation: planning and control. In other words, given a destination, you will determine the path to the destination and proceed to drive along the path.  
 
 This lab has the following objectives:
 
 Part A: Plan trajectories in a known occupancy grid map from the car’s current position to a goal pose using either a search-based or sample-based motion planning method.
 
-Part B: Program the car to follow a predefined trajectory in a known occupancy grid map using particle filter localization and pure pursuit control.
+Part B: Program the car to follow a predefined trajectory in a known occupancy grid map using your particle filter and pure pursuit control.
 
-Part C: Combine the above two goals to enable real-time path planning and execution.
+Part C: Combine the above two goals to enable real-time path planning and execution in the TESSE simulator. Note: you will the ground truth pose in TESSE for this section (rather than running localization) in order to lessen variability caused by differing machine specs.
 
-This lab has multiple parts. Furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to optimize your algorithms. This will take time. You will have two weeks to complete this lab, however you should start early.
-
-Note: If you were unable to complete Lab 5, or your solution is not suitable for real-time usage, you may use the instructor solution for particle filter localization from Lab 5. It’s based on the same skeleton, so you should be able to download this and use it out of the box. You will not be penalized for using the staff solution for localization. Lab 5 solution code will be released after it is due.
+This lab has multiple parts. Furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to optimize your algorithms. This will take time. You will have two weeks to complete this lab; however, you should start early.
 
 We are encouraging parallelization by breaking up the components of the lab into distinct parts. Parts A and B can be implemented separately, and then integrated together once they are working individually.
 
 Looking ahead, there will be a final challenge where you will need to be able to quickly and accurately track your planned (and optimized) trajectories. Your team will likely be using the components from this lab with a couple of modifications and tuning, so it is to your advantage to write good algorithms for this lab.
+
+Note: If you were unable to complete Lab 5, or your solution is not suitable for real-time usage, you may use the instructor solution for particle filter localization from Lab 5. It’s based on the same skeleton, so you should be able to download this and use it out of the box. You will not be penalized for using the staff solution for localization. Lab 5 solution code will be released after it is due.
  
 ## Grading
 
@@ -71,22 +66,22 @@ We will be making the leaderboard public for this assignment, so teams can see h
 In the interest of runtime, each test will be run once per submission. It may take up to 10 minutes for the autograder to evaluate your code. You are free to resubmit as many times as you would like before the deadline.
 
 #### Part A: Path Planning (3 points)
-*Initial Condition*: The car will be placed at a set pose in the stata basement map and given a goal pose.
+*Initial Condition*: The car will be placed at a set pose in the Stata basement map and given a goal pose.
 
-You will receive full credit if your path remains within delta_path of the entire TA solution path
+You will receive full credit if your path remains within `delta_path` of the entire TA solution path.
 
 You will get 0 points if:
-- A path is not found within plan_time_thresh
+- A path is not found within `plan_time_thresh`
 - Your path enters occluded space on the map
-- Your cumulative distance from the TA path is greater than delta_path_max*path_length
+- Your cumulative distance from the TA path is greater than `delta_path_max`*`path_length`
 
 #### Part B: Pure Pursuit (3 points)
-*Initial Condition*: The car will be placed at the start point of a loaded trajectory (path_planning/trajectories/loop2.traj) in the stata basement map with the submitted particle filter running.
+*Initial Condition*: The car will be placed at the start point of a loaded trajectory (`path_planning/trajectories/loop2.traj`) in the Stata basement map with the submitted particle filter running.
 
 Your score will be determined by what percentage of the given path you are able to follow before:
-- Exceeding pursuit_time_thresh
+- Exceeding `pursuit_time_thresh`
 - Entering occluded space on the map
-- Driving further than delta_pursuit from the given path
+- Driving further than `delta_pursuit` from the given path
 
 #### Part C: TESSE Integration (4 points)
 *Initial Condition*: 
@@ -102,26 +97,24 @@ Grade
 
 | Name | Value |
 |----|----|
-| delta_path | 1.0 m |
-| delta_path_max | 2.0 m |
-| delta_pursuit | 1.0 m |
-| plan_time_thresh | 120 sec |
-| pursuit_time_thresh | 500 sec |
+| `delta_path` | 1.0 m |
+| `delta_path_max` | 2.0 m |
+| `delta_pursuit` | 1.0 m |
+| `plan_time_thresh` | 120 sec |
+| `pursuit_time_thresh` | 500 sec |
 
 
 ### Briefing Evaluation (see technical briefing rubric for grading details)
-When grading the Technical approach and Experimental evaluation portions of your briefing, we will be looking specifically for the following items.
-
-Illustrative videos of your car planning and tracking trajectories. Specifically, we would like videos highlighting
+When grading the Technical approach and Experimental evaluation portions of your briefing, we will be looking specifically for **illustrative videos of your car planning and tracking trajectories.** Specifically, we would like videos highlighting:
 - Start and end point markers (see Trajectory Utilities)
 - Visualization of the planned paths (see Trajectory Utilities) from implemented search-based or sample-based planning algorithms
 - Visualization of the car following the trajectories
 
 ### Report Evaluation (see technical report rubric for grading details)
-When grading the Technical approach and Experimental evaluation portions of your report, we will be looking specifically for the following items.
+When grading the Technical approach and Experimental evaluation portions of your report, we will be looking specifically for the following items:
 
 - Numerical evidence that your algorithm(s) work in the form of charts/data
-- Numerical evaluation of the success of your planning algorithm.
+- Numerical evaluation of the success of your planning algorithm
 - Numerical evidence evaluating the success of your pure pursuit algorithm for tracking hand-drawn and planned trajectories
 - Make sure you mention your method for tuning the controller to closely track trajectories. (Hint: include error plots from rqt_plot)
 - A discussion of any shortcomings of your integrated approach. For example, does your pursuit algorithm consistently do poorly in certain areas?
@@ -132,42 +125,45 @@ When grading the Technical approach and Experimental evaluation portions of your
 
 ## Submission
 You must submit your localization and path_planning packages together. If you chose to use the TA localization solution then include this in the submission, not your localization package. To ensure that your submission can be built and executed properly in the environment on the autograder, it is important you pay attention to the following:
-- Submission format: A .zip archive of your catkin workspace’s /src directory containing ONLY the /localization and /path_planning directories. If you get a ‘server error’ on Gradescope your submission may be too large. Try deleting the .git directories in your packages.
-ROS package: The nodes implementing your particle filter, path planner, and pure pursuit algorithm must be called particle_filter.py, path_planning.py, and pure_pursuit.py. Also be sure that trajectory_loader.py is in your /path_planning/src directory as we will use it to test your pure pursuit algorithm.
-- Node parameters: Our Gradescope evaluation is only able to see the ROS params that the template code comes with. If you add more parameters (and fail to give them default values) we will not be able to set them in the Gradescope evaluation and your tests will fail!
-- Topics: The “/trajectory/current” topic will be used to evaluate the path found during path planning, and to send a path to the pure pursuit algorithm. The template code should already be set up this way, but just be aware.
+- Submission format: 
+  - A .zip archive of your catkin workspace’s /src directory containing ONLY the /localization and /path_planning directories. If you get a ‘server error’ on Gradescope, your submission may be too large. Try deleting the .git directories in your packages.
+   - ROS package: The nodes implementing your particle filter, path planner, and pure pursuit algorithm must be called particle_filter.py, path_planning.py, and pure_pursuit.py. Also be sure that trajectory_loader.py is in your /path_planning/src directory as we will use it to test your pure pursuit algorithm.
+- Node parameters: Our Gradescope evaluation is only able to see the ROS params that the template code comes with. If you add more parameters (and fail to give them default values), we will not be able to set them in the Gradescope evaluation, and your tests will fail!
+- Topics: The `/trajectory/current` topic will be used to evaluate the path found during path planning, and to send a path to the pure pursuit algorithm. The template code should already be set up this way, but just be aware.
 
 
 Apart from the usual ROS packages like rospy and tf2, the following Python packages will be installed in the autograder environment:
-- scan_simulator_2d
-- numpy
-- scipy
-- matplotlib
+- `scan_simulator_2d`
+- `numpy`
+- `scipy`
+- `matplotlib`
+
 Feel free to use these, but if you depend on other packages, be aware that your code will not run. Please let the staff know if there are any other packages you would like to see included. Please also keep in mind that the autograder will be running a stock installation of ROS Melodic on Ubuntu 18.04. Any hacks or modifications you may have performed on your personal installation of ROS will not be present in the autograder environment.
 
 ## Logistics and Setup
 Fork the skeleton code from here: https://github.com/mit-rss/path_planning
 
-Each node that needs to be implemented has a template python file and launch file. Each node has parameters set in the launch file and defined in the node code. If you add additional ROS parameters to your ROS nodes, be sure to give them default values. Our Gradescope evaluation is only able to see the parameters that the template code comes with. If you add more parameters (or fail to give them default values) we will not be able to set them in the Gradescope evaluation and your tests will fail!
+Each node that needs to be implemented has a template python file and launch file. Each node has parameters set in the launch file and defined in the node code. If you add additional ROS parameters to your ROS nodes, be sure to give them default values. Our Gradescope evaluation is only able to see the parameters that the template code comes with. If you add more parameters (or fail to give them default values), we will not be able to set them in the Gradescope evaluation and your tests will fail!
 
 The RViz buttons are set up to publish to the following topics:
-- “2D Nav Goal” → /move_base_simple/goal
-- “2D Pose Estimate” → /initialpose
-- “Publish Point” → /clicked_point
+- “2D Nav Goal” → `/move_base_simple/goal`
+- “2D Pose Estimate” → `/initialpose`
+- “Publish Point” → `/clicked_point`
 
-NOTE: The path_planning ROS package is called “lab6”, so all nodes should be launched/run with this name (eg. roslaunch lab6 build_trajectory.launch).
-## Path Planning
-In this section you will plan trajectories and display them in RViz. You will use RViz to publish a 2D pose specifying goal positions in your map. Then, your path planning algorithm will construct a collision free trajectory. To ease integration, make sure your inputs and outputs align between your path planning and pure pursuit modules.
+NOTE: The path_planning ROS package is called “`lab6`”, so all nodes should be launched/run with this name (eg. `roslaunch lab6 build_trajectory.launch`).
 
-Path Planning Requirements (path_planning/src/path_planning.py)
+## Part A: Path Planning
+In this section, you will plan trajectories and display them in RViz. You will use RViz to publish a 2D pose specifying goal positions in your map. Then, your path planning algorithm will construct a collision free trajectory. To ease integration, make sure your inputs and outputs align between your path planning and pure pursuit modules.
+
+**Path Planning Requirements** (`path_planning/src/path_planning.py`)
 
 - This node must use the car’s current position as the starting point for the path planner. When testing and developing, feel free to use the ground truth pose of the car published to “/odom”. Remember, you can move the car around the map using the “2D Pose Estimate” button in RViz.
 - The goal position must be set using the “2D Nav Goal” button in RViz.
-- Create a simple path planner that will find collision-free paths in the current map. The code is set up to handle paths as geometry_msgs/PoseArray messages.
-Once a trajectory is generated, you can visualize the path, start, and goal positions on the “\planned_trajectory\path”, “\planned_trajectory\start_point”, and “\planned_trajectory\end_pose” topics in RViz.
+- Create a simple path planner that will find collision-free paths in the current map. The code is set up to handle paths as `geometry_msgs/PoseArray` messages.
+Once a trajectory is generated, you can visualize the path, start, and goal positions on the “`\planned_trajectory\path`”, “`\planned_trajectory\start_point`”, and “`\planned_trajectory\end_pose`” topics in RViz.
 - (OPTIONAL) Implement both a sample-based and search-based planning algorithm.
 
-The planner should take as input a map, start location, and goal location. The output of the planner should be a trajectory. The trajectory should be specified in the map coordinate frame​. Your team will decide how to design your trajectory. The choice of trajectory representation is up to you. Make sure that you discuss your trajectory representation as a team when you split up tasks! 
+The planner should take as input a map, start location, and goal location. The output of the planner should be a trajectory. The trajectory should be specified in the map coordinate frame. Your team will decide how to design your trajectory. The choice of trajectory representation is up to you. Make sure that you discuss your trajectory representation as a team when you split up tasks! 
 
 Here are a few options for representation of a trajectory:
 
@@ -178,37 +174,43 @@ Here are a few options for representation of a trajectory:
 Note that Pure Pursuit can follow rough trajectories, so don’t worry too much if your planned trajectories are not particularly smooth. However, smoother trajectories will perform better overall. 
 
 The biggest difference between search-based planning and sampling-based planning are speed and optimality: search-based methods can guarantee optimal solutions, but usually does so at the expense of computation time.
+
 ### Search-based Planning
 
 Search-based planning is a motion planning problem which uses graph search methods to compute paths or trajectories over a discrete representation of the problem. Because a graph is inherently discrete, all graph-search algorithms require a discrete representation.  Search-based planning can then be seen as two problems: how to turn the problem into a graph, and how to search the graph to find the best solution. See the tips and tricks section for some pointers on how to discretize your search space.
 
-A complete solution to the path planning problem will ensure that the best solution can be found, and that the algorithm can detect when no solution exists. Search based algorithms are an example of complete algorithms. 
+A complete solution to the path planning problem will ensure that the best solution can be found, and that the algorithm can detect when no solution exists. Search based algorithms are examples of complete algorithms. 
 
 Some search-based planning algorithms are:
 - A*
 - Djikstra’s
 - BFS/DFS
 
-This source includes a friendly introduction and comparison between A*, Djikstra’s, and BFS. 
+[This source](https://www.redblobgames.com/pathfinding/a-star/introduction.html) includes a friendly introduction and comparison between A*, Djikstra’s, and BFS. 
+
 ### Sample-based Planning
 Complete solutions, which are what search-based planning algorithms can guarantee, are often infeasible for the real life robotics system or inefficient when the possible state space is large. An example is the case for robots with multiple degrees of freedom such as arms. In practice, most algorithms are only resolution complete as the state-space needs to be somewhat discretized for them to operate (e.g., into a grid) and some solutions might be missed as a function of the resolution of the discretization.
 
-Sample-based planning methods are able to solve problems in continuous space without a graph representation (though certain sampling-based methods do discretize the space). These planners create possible paths by randomly adding points to a tree until some solution is found or time expires. As the probability to find a path approaches 1 when times go to infinity, sampling-based path planners are probabilistic complete. Sample-based planners run fast, but can sometimes result in unusual looking and possibly inefficient paths.
+Sample-based planning methods are able to solve problems in continuous space without a graph representation (though certain sampling-based methods do discretize the space). These planners create possible paths by randomly adding points to a tree until some solution is found or time expires. As the probability to find a path approaches 1 when time goes to infinity, sampling-based path planners are probabilistic complete. Sample-based planners are fast, but can sometimes result in unusual-looking and possibly inefficient paths.
 
 Some examples of sampling-based planners are:
-Rapidly-exploring Random Trees (RRT and RRT*) 
-Probabilistic Roadmaps (PRM)
+- [Rapidly-exploring Random Trees (RRT and RRT*)](https://arxiv.org/pdf/1105.1186.pdf)
+- [Probabilistic Roadmaps (PRM)](http://www.staff.science.uu.nl/~gerae101/pdf/compare.pdf)
 
-More information about sampling-based planning can be found here. 
+More information about sampling-based planning can be found [here](http://correll.cs.colorado.edu/?p=2012). 
 
-Remember, for this lab we are requiring you to implement ONLY ONE search-based algorithm OR sample-based algorithm. You can choose which explicit algorithm you want to implement. Optionally, you can choose to implement one of each (one search-based AND one sample-based algorithm), for extra credit.
+**Remember, for this lab we are requiring you to implement ONLY ONE search-based algorithm OR sample-based algorithm. You can choose which explicit algorithm you want to implement. Optionally, you can choose to implement one of each (one search-based AND one sample-based algorithm), for extra credit.**
+
 ### Tips and Tricks
-This lab is very open ended. There’s many possible correct solutions. We encourage you to get creative, and do what makes sense for your team, but here we provide a few pointers to kick off your research phase.
+This lab is very open ended. There are many possible correct solutions. We encourage you to get creative, and do what makes sense for your team, but here we provide a few pointers to kick off your research phase.
 
-Here is a good resource for dubins curves. You definitely don’t need to implement these by hand, but make sure you understand how they work if you want to use them for generating your paths!
-Search Domains
+Here is a good resource for [dubins curves](https://github.com/AndrewWalker/pydubins). You definitely don’t need to implement these by hand, but make sure you understand how they work if you want to use them for generating your paths!
+
+**Search Domains**
+
 The choice of search domain is very important when implementing search-based algorithms such as A* search.
-Grid Space
+
+**Grid Space**
 One obvious choice is to use some discretized grid of possible states, similar to what you may have seen in 6.01. The upside of this approach is that the state space is reasonably small in 2D, so the search has a good chance of terminating even with a poor heuristic/cost function. The downside is that the paths:
 Do not consider driving feasibility
 Are potentially made up of many small line segments
