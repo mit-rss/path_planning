@@ -32,6 +32,7 @@ Table of Contents
   * [Tips and Tricks](https://github.com/mit-rss/path_planning#tips-and-tricks-1)
   * [Pure Pursuit Trajectory Utilities](https://github.com/mit-rss/path_planning#trajectory-utilities)
 * [Part C: Integration](https://github.com/mit-rss/path_planning#part-c-integration)
+* [Part D: TESSE Deployment](https://github.com/mit-rss/path_planning#part-d-tesse-deployment)
 
 ## Introduction
 Now that you are able to localize the your car in the TESSE simulator, it is time to learn how to drive. This laboratory exercise involves two core parts of autonomous operation: planning and control. In other words, given a destination, you will determine the path to the destination and proceed to drive along the path.  
@@ -42,7 +43,9 @@ This lab has the following objectives:
 
 - **Part B:** Program the car to follow a predefined trajectory in a known occupancy grid map using your particle filter and pure pursuit control.
 
-- **Part C:** Combine the above two goals to enable real-time path planning and execution in the TESSE simulator. Note: you will the ground truth pose in TESSE for this section (rather than running localization) in order to lessen variability caused by differing machine specs.
+- **Part C:** Combine the above two goals to enable real-time path planning and execution in the simple `racecar_simulator`. For this part, you will be required also to localize the car by running the particle filter and subscribing to the estimate on `/pf/pose/odom` rather than the ground-truth pose.
+
+- **Part D:** Demonstrate the deployment of your path planning and following in the TESSE simulator. Note: you will use the ground truth pose in TESSE for this section (rather than running localization) in order to lessen variability caused by differing machine specs.
 
 You will have two weeks to complete this lab; however, you should start early! This lab has multiple parts, and furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to optimize your algorithms. This will take time! 
 
@@ -61,7 +64,7 @@ This section details the grading scheme for Lab 6.
 |------------------------------------|-------------------------------------|
 | briefing grade (out of 10)         | 30% |
 | report grade (out of 10)           | 40% |
-| gradescope submission (+ TESSE) (out of 10)  | 30% |
+| gradescope submission (out of 10)  | 30% |
 
 
 ### Gradescope Evaluation (10 points)
@@ -87,15 +90,14 @@ Your score will be determined by what percentage of the given path you are able 
 - Entering occluded space on the map
 - Driving further than `delta_pursuit` from the given path
 
-#### Part C: TESSE Integration (4 points)
+#### Part C: Integration with Localization (4 points)
 
+*Initial Condition*: The car will be placed at a set pose in the stata basement map and given a goal pose with the submitted particle filter running.
 
-Grade
-
+Grading will be determined as follows:
 - The path planning score will be calculated the same as Part A, with a maximum score of 1.5 points.
 - The pure pursuit score will be calculated the same as Part B with a maximum score of 1.5 points.
 - If you receive a score greater than 2.5 from the path planning and pure pursuit, you are awarded another 1 point (with a maximum of 4 total points).
-- You should include quantitative information in your report sufficient to compute these grades.
 
 *Gradescope Parameters:*
 
@@ -113,6 +115,7 @@ When grading the Technical approach and Experimental evaluation portions of your
 - Start and end point markers (see Trajectory Utilities)
 - Visualization of the planned paths (see Trajectory Utilities) from implemented search-based or sample-based planning algorithms
 - Visualization of the car following the trajectories
+- Deployment behavior of the system in TESSE
 
 ### Report Evaluation (see technical report rubric for grading details)
 When grading the Technical approach and Experimental evaluation portions of your report, we will be looking specifically for the following items:
@@ -121,13 +124,13 @@ When grading the Technical approach and Experimental evaluation portions of your
   - Numerical evaluation of the success of your planning algorithm
   - Numerical evidence evaluating the success of your pure pursuit algorithm for tracking hand-drawn and planned trajectories
   - Make sure you mention your method for tuning the controller to closely track trajectories. (Hint: include error plots from `rqt_plot`)
-  - A discussion of any shortcomings of your integrated approach. For example, does your pursuit algorithm consistently do poorly in certain areas?
+  - A discussion of any shortcomings of your integrated approach. For example, does your pursuit algorithm consistently do poorly in certain areas? Did you need to adjust your path planning algorithm to succeed in the TESSE map?
 - **Detailed comparison of motion planning algorithms**
   - Explain path planning algorithms, and the strengths and weaknesses of sample-based versus search-based methods. Which algorithm should work better for the purposes of planning trajectories for your car? What different cost functions would you use? How would you ensure the car would not choose paths close to the wall?
     - Specifically, please discuss the following properties of planning algorithms, along with any others you considered: asymptotic optimality, single- vs multi-query, incorporating dynamics, complexity, and necessity of search after construction. Note that some of these are only applicable to search-based planners and some are only applicable to sampling-based planners.
   - **(Bonus +3 points):** Implement both a sample-based and a search-based path planning algorithm, and numerically compare the strengths and weaknesses of each. Demonstrate your pure pursuit controller on paths generated by ONE algorithm.
 
-## Submission
+## Gradescope Submission
 You must submit your localization and path_planning packages together. If you chose to use the TA localization solution then include this in the submission, not your localization package. To ensure that your submission can be built and executed properly in the environment on the autograder, it is important you pay attention to the following:
 - **Submission format:** A `.zip` archive of **your catkin workspace’s `/src` directory** containing ONLY the `/localization` and `/path_planning directories`. If you get a ‘server error’ on Gradescope, your submission may be too large. Try deleting the `.git` directories in your packages.
 - **ROS package:** The nodes implementing your particle filter, path planner, and pure pursuit algorithm must be called `particle_filter.py`, `path_planning.py`, and `pure_pursuit.py`. Also be sure that `trajectory_loader.py` is in your `/path_planning/src` directory, as we will use it to test your pure pursuit algorithm.
@@ -144,9 +147,9 @@ Apart from the usual ROS packages like `rospy` and `tf2`, the following Python p
 Feel free to use these, but if you depend on other packages, be aware that your code will not run. Please let the staff know if there are any other packages you would like to see included. Please also keep in mind that the autograder will be running a stock installation of ROS Melodic on Ubuntu 18.04. Any hacks or modifications you may have performed on your personal installation of ROS will not be present in the autograder environment.
 
 ## Logistics and Setup
-Fork the skeleton code from here: https://github.com/mit-rss/path_planning
+Fork the skeleton code from this repository (https://github.com/mit-rss/path_planning).
 
-Each node that needs to be implemented has a template python file and launch file. Each node has parameters set in the launch file and defined in the node code. If you add additional ROS parameters to your ROS nodes, be sure to give them default values. Our Gradescope evaluation is only able to see the parameters that the template code comes with. If you add more parameters (or fail to give them default values), we will not be able to set them in the Gradescope evaluation and your tests will fail!
+Each node that needs to be implemented has a template python file and launch file. Each node has parameters set in the launch file and defined in the node code. If you add additional ROS parameters to your ROS nodes, be sure to give them default values. Our Gradescope evaluation is only able to provide the parameters that the template code comes with. If you add more parameters (or fail to give them default values), we will not be able to set them in the Gradescope evaluation and your tests will fail!
 
 The RViz buttons are set up to publish to the following topics:
 - “2D Nav Goal” → `/move_base_simple/goal`
@@ -289,7 +292,7 @@ Once you have completed both path planning and pure pursuit, you should combine 
 
 
 
-**TESSE Integration**
+## Part D: TESSE Deployment
 
 Once you have gotten your pipeline set up and working correctly, it's time to move to TESSE simulation. Again, **you do not need to run localization in TESSE simulation!!!** You can use the ground-truth pose from the `/tesse/odom` topic (assigned for you in `plan_trajectory_tesse.launch` and `follow_trajectory_tesse.launch`).
 
