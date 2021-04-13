@@ -312,7 +312,7 @@ Unlike the stata basement, the TESSE environment contains small unmapped obstacl
 
 ### Experimental Evaluation
 
-Finally, note that the provided visualization tools are not exhaustive. There may be other things that are useful to visualize when developing your planning and pursuit code! Apply the experimental robotics skills you've acquired in previous labs to formulate and report a set of tasks and metrics in TESSE which demonstrate your system's capabilities and limitations to their fullest extent. At a minimum, you should demonstrate that you can plan and follow a path which rounds at least two consecutive corners of the road network. **Start out at a slow speed -- going fast makes the task more challenging**
+Finally, note that the provided visualization tools are not exhaustive. There may be other things that are useful to visualize when developing your planning and pursuit code! Apply the experimental robotics skills you've acquired in previous labs to formulate and report a set of tasks and metrics in TESSE which demonstrate your system's capabilities and limitations to their fullest extent. At a minimum, you should demonstrate that you can plan and follow a path which rounds at least two consecutive corners of the road network. **Start out at a slow speed -- going fast makes the task more challenging.**
 
 For inspiration, here is the route followed during the 2020 RSS final race:
 
