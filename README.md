@@ -62,7 +62,7 @@ This section details the grading scheme for Lab 6.
 |------------------------------------|-------------------------------------|
 | briefing grade (out of 10)         | 40% |
 | report grade (out of 10)           | 40% |
-| gradescope submission (out of 10)  | 20% |
+| gradescope submission (+ TESSE) (out of 10)  | 20% |
 
 
 ### Gradescope Evaluation (10 points)
@@ -88,13 +88,15 @@ Your score will be determined by what percentage of the given path you are able 
 - Entering occluded space on the map
 - Driving further than delta_pursuit from the given path
 
-#### Part C: Integration (4 points)
-*Initial Condition*: The car will be placed at a set pose in the stata basement map and given a goal pose with the submitted particle filter running.
+#### Part C: TESSE Integration (4 points)
+*Initial Condition*: 
+
 Grade
 
 - The path planning score will be calculated the same as Part A, with a maximum score of 1.5 points.
 - The pure pursuit score will be calculated the same as Part B with a maximum score of 1.5 points.
 - If you receive a score greater than 2.5 from the path planning and pure pursuit, you are awarded another 1 point (with a maximum of 4 total points).
+- You should include quantitative information in your report sufficient to compute these grades.
 
 *Gradescope Parameters:*
 
