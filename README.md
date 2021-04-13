@@ -294,7 +294,7 @@ Once you have completed both path planning and pure pursuit, you should combine 
 
 ## Part D: TESSE Deployment
 
-Once you have gotten your pipeline set up and working correctly, it's time to move to TESSE simulation. Again, **you do not need to run localization in TESSE!!!** You can use the ground-truth pose from the `/tesse/odom` topic (the parameter is set appropriately in `plan_trajectory_tesse.launch` and `follow_trajectory_tesse.launch`).
+Once you have gotten your pipeline set up and working correctly, it's time to move to TESSE simulation. Again, **you do not need to run localization in TESSE!!!** You can use the ground-truth pose from the `/tesse/odom` topic (this is set for you in `plan_trajectory_tesse.launch` and `follow_trajectory_tesse.launch`).
 
 When TESSE is running, a map of the environment is published to the `/map` topic, just as in the simple `racecar_simulator`. However, because it must represent a larger area, the map for TESSE is scaled differently and uses a different coordinate frame than the stata basement map. In the [maps](https://github.com/mit-rss/path_planning/tree/master/maps) folder of this repository, you may find *copies* of the source files which define the occupancy grid and scaling parameters for the map of each environment. 
 
