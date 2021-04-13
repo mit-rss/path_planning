@@ -304,4 +304,4 @@ Finally, note that the provided visualization tools are not exhaustive. There ma
 
 For inspiration, here is the route followed during the 2020 RSS final race:
 
-![2020 Final Challenge Path](https://github.com/mit-rss/path_planning/blob/master/media/2020_path.jpg)
+![2020 Final Challenge Path](https://github.com/mit-rss/path_planning/blob/master/media/2020_path.png)
