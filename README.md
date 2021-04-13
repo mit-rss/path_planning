@@ -12,22 +12,26 @@
 
 Table of Contents
 
-* Introduction
-* Grading
-  * Gradescope Evaluation (10 points)
-  * Briefing Evaluation (see technical briefing rubric for grading details)
-  * Report Evaluation (see technical report rubric for grading details)
-* Submission
-* Logistics and Setup
-* Part A: Path Planning
-  * Search-based Planning Algorithm
-  * Sample-based Planning Algorithm
-  * Tips and Tricks
-  * Search Domains, Grid Space, Circle Space, Morphological Dilations, Motion Heuristics
-* Part B: Pure Pursuit
-  * Tips and Tricks
-  * Pure Pursuit Trajectory Utilities
-* Part C: Integration
+* [Introduction](https://github.com/mit-rss/path_planning#introduction)
+* [Grading](https://github.com/mit-rss/path_planning#introduction)
+  * [Gradescope Evaluation](https://github.com/mit-rss/path_planning#gradescope-evaluation-10-points) (10 points)
+  * [Briefing Evaluation](https://github.com/mit-rss/path_planning#briefing-evaluation-see-technical-briefing-rubric-for-grading-details) (see technical briefing rubric for grading details)
+  * [Report Evaluation](https://github.com/mit-rss/path_planning#report-evaluation-see-technical-report-rubric-for-grading-details) (see technical report rubric for grading details)
+* [Submission](https://github.com/mit-rss/path_planning#submission)
+* [Logistics and Setup](https://github.com/mit-rss/path_planning#logistics-and-setup)
+* [Part A: Path Planning](https://github.com/mit-rss/path_planning#part-a-path-planning)
+  * [Search-based Planning Algorithm](https://github.com/mit-rss/path_planning#search-based-planning)
+  * [Sample-based Planning Algorithm](https://github.com/mit-rss/path_planning#sample-based-planning)
+  * [Tips and Tricks](https://github.com/mit-rss/path_planning#tips-and-tricks)
+    * Search Domains
+    * Grid Space
+    * Circle Space
+    * Morphological Dilations
+    * Motion Heuristics
+* [Part B: Pure Pursuit](https://github.com/mit-rss/path_planning#tips-and-tricks)
+  * [Tips and Tricks](https://github.com/mit-rss/path_planning#tips-and-tricks-1)
+  * [Pure Pursuit Trajectory Utilities](https://github.com/mit-rss/path_planning#trajectory-utilities)
+* [Part C: Integration](https://github.com/mit-rss/path_planning#part-c-integration)
 
 ## Introduction
 Now that you are able to localize the your car in the TESSE simulator, it is time to learn how to drive. This laboratory exercise involves two core parts of autonomous operation: planning and control. In other words, given a destination, you will determine the path to the destination and proceed to drive along the path.  
@@ -227,7 +231,8 @@ The primary problem with using non-grid search spaces is that the algorithm can 
 
 Search algorithms often tend to cut corners close since they are attempting to minimize distance or time. Sometimes the path it chooses will be collision free in your domain space representation, however, in real life, the path is infeasible for the car because of its dimensions (a car is not a point mass). Additionally, the close-cut corners of the path can be problematic for the pure pursuit controller, which also will attempt to cut corners.  
 
-![alt text](https://github.mit.edu/rss/path-planning-solution/blob/master/MorphDilationLab6.jpg "Stata Map Morphological Dilation")
+![Stata Basement Dilated](https://github.com/mit-rss/path_planning/blob/master/MorphDilationLab6.jpg)
+
 Provided basement map (left) and dilated map (right). Disk element, 10px radius.
 
 To avoid all of these potentially very bad collisions, one method is to “dilate” the obstacles so that nearby states are considered off-limits to the planning algorithm even though they technically are collision-free. Checkout these possible functions: [disks](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=disk#disk) and [dilations](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=dilation#dilation). You can do these processes offline and just use the adjusted map for your planning algorithms. 
@@ -273,7 +278,7 @@ Like tuning gains for a PID to change the behavior, you may want to change your 
 - Long lookaheads while following long, low-curvature sections
 - Short lookaheads while following paths with tight curvature
 
-**Trajectory Utilities**
+### Trajectory Utilities
 
 We have provided utility functions to help build and load trajectories (piecewise linear segments; see `utils.py` to understand the `LineTrajectory` Class further) so that your team can parallelize and test pure pursuit without relying on trajectory outputs from path planning. These utilities are RViz-based.
 
