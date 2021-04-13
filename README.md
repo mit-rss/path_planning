@@ -211,19 +211,15 @@ Here is a good resource for [dubins curves](https://github.com/AndrewWalker/pydu
 
 #### Search Domains
 
-The choice of search domain is very important when implementing search-based algorithms such as A* search.
+The choice of search domain is very important when implementing search-based algorithms such as A* search. Here we present a few possible selections of search domain:
 
-**Grid Space**
-
-One obvious choice is to use some discretized grid of possible states, similar to what you may have seen in 6.01. The upside of this approach is that the state space is reasonably small in 2D, so the search has a good chance of terminating even with a poor heuristic/cost function. The downside is that the paths:
+*Grid Space* One obvious choice is to use some discretized grid of possible states, similar to what you may have seen in 6.01. The upside of this approach is that the state space is reasonably small in 2D, so the search has a good chance of terminating even with a poor heuristic/cost function. The downside is that the paths:
 - Do not consider driving feasibility
 - Are potentially made up of many small line segments
 
 [Here](http://movingai.com/astar-var.html) are a few search variants on grid space.
 
-**Circle Space**
-
-Another option is to use a search space which is not confined to a grid. One example is the circle-based method demonstrated in [kinodynamic motion](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7353741), [non-holonomic motion](https://mediatum.ub.tum.de/doc/1283837/826052.pdf). This approach is interesting because it generates sparse piecewise linear paths which can be made to (at least approximately) honor nonholonomic driving constraints.
+*Circle Space* Another option is to use a search space which is not confined to a grid. One example is the circle-based method demonstrated in [kinodynamic motion](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7353741), [non-holonomic motion](https://mediatum.ub.tum.de/doc/1283837/826052.pdf). This approach is interesting because it generates sparse piecewise linear paths which can be made to (at least approximately) honor nonholonomic driving constraints.
 
 The primary problem with using non-grid search spaces is that the algorithm can easily get stuck in dead ends expanding thousands of nodes without making progress towards the goal. The approach in these papers uses a hack which forces the circles to avoid already explored regions of space. This makes it quickly explore, at the expense of optimality guarantees.
 
