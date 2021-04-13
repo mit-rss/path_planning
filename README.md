@@ -304,8 +304,8 @@ When TESSE is running, a map of the environment is published to the `/map` topic
 Unlike the stata basement, the TESSE environment contains small unmapped obstacles, which could be ignored for localization but may impede an apparently unoccupied path. To help you overcome this, you will also find in this repository an extra map [maps/city_roads.png](https://github.com/mit-rss/path_planning/blob/master/maps/city_roads.png), which marks unoccupied road space, rather than wall locations, in the TESSE environment. You may find this more useful than the built-in `/map` topic for planning collision-free paths. You are welcome to experiment with generating your own modified versions of these maps (see the above section on *Morphological Dilations*).
 
 <div class="row">
-<img src="https://github.com/mit-rss/path_planning/blob/master/maps/city.png" width="300">
-<img src="https://github.com/mit-rss/path_planning/blob/master/maps/city_roads.png" width="300">
+<img src="https://github.com/mit-rss/path_planning/blob/master/maps/city.png" width="400">
+<img src="https://github.com/mit-rss/path_planning/blob/master/maps/city_roads.png" width="400">
 </div>
 
 *(Left: map broadcast to the `/map` topic. Right: map of free road space (`city_roads.png`).)* 
@@ -316,4 +316,4 @@ Finally, note that the provided visualization tools are not exhaustive. There ma
 
 For inspiration, here is the route followed during the 2020 RSS final race:
 
-<img src="https://github.com/mit-rss/path_planning/blob/master/media/2020_path.png" width="300">
+<img src="https://github.com/mit-rss/path_planning/blob/master/media/2020_path.png" width="400">
