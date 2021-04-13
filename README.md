@@ -211,58 +211,86 @@ Here is a good resource for [dubins curves](https://github.com/AndrewWalker/pydu
 The choice of search domain is very important when implementing search-based algorithms such as A* search.
 
 **Grid Space**
-One obvious choice is to use some discretized grid of possible states, similar to what you may have seen in 6.01. The upside of this approach is that the state space is reasonably small in 2D, so the search has a good chance of terminating even with a poor heuristic/cost function. The downside is that the paths:
-Do not consider driving feasibility
-Are potentially made up of many small line segments
-Here’s a few search variants on grid space: http://movingai.com/astar-var.html
-Circle Space
-Another option is to use a search space which is not confined to a grid. One example is the circle-based method demonstrated in [kinodynamic motion, non-holonomic motion]. This approach is interesting because it generates sparse piecewise linear paths which can be made to  (at least approximately) honor nonholonomic driving constraints.
-The primary problem with using non-grid search spaces is that the algorithm can easily get stuck in dead ends expanding thousands of nodes without making progress towards the goal. The approach in these papers uses a hack which forces the circles to avoid already explored regions of space. This makes it quickly explore, at the expense of optimality guarantees.
-Morphological Dilations
-Search algorithms often tend to cut corners close since they are attempting to minimize distance or time. Sometimes the path it chooses will be collision free in your domain space representation, however, in real life, the path is infeasible for the car because of its dimensions (a car is not a point mass). Additionally, the close cut corners of the path can be problematic for the pure pursuit controller, which also will attempt to cut corners.  
 
+One obvious choice is to use some discretized grid of possible states, similar to what you may have seen in 6.01. The upside of this approach is that the state space is reasonably small in 2D, so the search has a good chance of terminating even with a poor heuristic/cost function. The downside is that the paths:
+- Do not consider driving feasibility
+- Are potentially made up of many small line segments
+
+[Here](http://movingai.com/astar-var.html) are a few search variants on grid space.
+
+**Circle Space**
+
+Another option is to use a search space which is not confined to a grid. One example is the circle-based method demonstrated in [kinodynamic motion](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7353741), [non-holonomic motion](https://mediatum.ub.tum.de/doc/1283837/826052.pdf). This approach is interesting because it generates sparse piecewise linear paths which can be made to (at least approximately) honor nonholonomic driving constraints.
+
+The primary problem with using non-grid search spaces is that the algorithm can easily get stuck in dead ends expanding thousands of nodes without making progress towards the goal. The approach in these papers uses a hack which forces the circles to avoid already explored regions of space. This makes it quickly explore, at the expense of optimality guarantees.
+
+**Morphological Dilations**
+
+Search algorithms often tend to cut corners close since they are attempting to minimize distance or time. Sometimes the path it chooses will be collision free in your domain space representation, however, in real life, the path is infeasible for the car because of its dimensions (a car is not a point mass). Additionally, the close-cut corners of the path can be problematic for the pure pursuit controller, which also will attempt to cut corners.  
+
+![alt text](https://github.mit.edu/rss/path-planning-solution/blob/master/MorphDilationLab6.jpg "Stata Map Morphological Dilation")
 Provided basement map (left) and dilated map (right). Disk element, 10px radius.
-To avoid all of these potentially very bad collisions, one method is to “dilate” the obstacles so that nearby states are considered off-limits to the planning algorithm even though they technically are collision-free. Checkout these possible functions: disks and dilations. You can do these processes offline and just use the adjusted map for your planning algorithms. 
-Motion Heuristics
-The most obvious and simplest heuristic is Euclidean distance between pairs of start and end states, however this can cause issues since it does not consider the vehicle dynamics or any possible collisions in between the start/end states. 
-A different possible heuristic is dubins curves, which more accurately estimates nonholonomic motion (other sources: 1, 2), helping make paths more accurate to the vehicle dynamics. Performing a lower dimensional search such as Dijkstra’s algorithm on the grid map can help avoid finding paths that don’t consider obstacles, but this introduces some computational complexity (source: 3).
+
+To avoid all of these potentially very bad collisions, one method is to “dilate” the obstacles so that nearby states are considered off-limits to the planning algorithm even though they technically are collision-free. Checkout these possible functions: [disks](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=disk#disk) and [dilations](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=dilation#dilation). You can do these processes offline and just use the adjusted map for your planning algorithms. 
+
+**Motion Heuristics**
+
+The most obvious and simplest heuristic is Euclidean distance between pairs of start and end states. However, this can cause issues since it does not consider the vehicle dynamics or any possible collisions in between the start/end states. 
+
+A different possible heuristic is [dubins curves](https://en.wikipedia.org/wiki/Dubins_path), which more accurately estimates nonholonomic motion (other sources: [1](http://planning.cs.uiuc.edu/node821.html), [2](https://pypi.org/project/dubins/), helping make paths more accurate to the vehicle dynamics. Performing a lower dimensional search such as Dijkstra’s algorithm on the grid map can help avoid finding paths that don’t consider obstacles, but this introduces some computational complexity (source: [3](http://ai.stanford.edu/~ddolgov/papers/dolgov_gpp_stair08.pdf)).
+
 ## Pure Pursuit
-In this section, first you will take a manually defined path and implement a pure pursuit controller to follow it. A sample path is provided in the skeleton code, but you are afforded the freedom to create your own trajectories and, if desired, trajectory representations.
-Pure Pursuit Requirements (path_planning/src/pure_pursuit.py)
-Manually define or load a saved path. We have provided a framework to create these with clicks on the Rviz map (described below in Trajectory Utilities). See how to do this with the load_trajectry.launch file. You can visualize the loaded trajectory path, start point, and end pose on the “/loaded_trajectory/path”, “/loaded_trajectory/start_point”, “loaded_trajectory/end_pose” topics in RViz.
-Implement a pure pursuit algorithm.
-Visualize a simulated car following the path.
-(OPTIONAL) If you choose to implement two types of path planning algorithms for extra credit, you only need to show your car tracking the trajectory for one of the implemented algorithms. You can choose based on your analysis which planning algorithm and trajectory you want to ultimately use to complete integration, but you need to be able to justify your choice with some quantitative data. 
+
+In this section, you will first take a manually-defined path and implement a pure pursuit controller to follow it. A sample path is provided in the skeleton code, but you are afforded the freedom to create your own trajectories and, if desired, trajectory representations.
+
+**Pure Pursuit Requirements (`path_planning/src/pure_pursuit.py`)**
+
+1. Manually define or load a saved path. We have provided a framework to create these with clicks on the Rviz map (described below in Trajectory Utilities). See how to do this with the load_trajectry.launch file. You can visualize the loaded trajectory path, start point, and end pose on the “/loaded_trajectory/path”, “/loaded_trajectory/start_point”, “loaded_trajectory/end_pose” topics in RViz.
+2. Implement a pure pursuit algorithm.
+3. Visualize a simulated car following the path.
+4. (OPTIONAL) If you choose to implement two types of path planning algorithms for extra credit, you only need to show your car tracking the trajectory for one of the implemented algorithms. You can choose based on your analysis which planning algorithm and trajectory you want to ultimately use to complete integration, but you need to be able to justify your choice with some quantitative data. 
 
 Once you have a path, the next step is to determine the necessary control to follow that path. In pure pursuit, the primary challenge is to find the lookahead point - the intersection between the circle defined by your lookahead distance, and the path (and handle associated edge cases!). In general this problem has many possible solutions which may result in different behavior in the various edge cases. See the Tips and Tricks section below for one fairly simple method which has proven to work well in practice. 
 
-Since the path’s coordinates are in the map frame, functional localization is a prerequisite to solving this part of the lab - feel free to either use your solution to Lab 5 or the instructor solution. You will not be penalized for using the staff solution for localization.
+Since the path’s coordinates are in the map frame, functional localization is a prerequisite to solving this part of the lab (but not the TESSE integration) - feel free to either use your solution to Lab 5 or the instructor solution. You will not be penalized for using the staff solution for localization.
+
 ### Tips and Tricks
-Pure Pursuit 
-Pure pursuit for trajectory tracking is a tried and true method -- here (and here) is one paper discussing its implementation using piecewise linear segments for a trajectory. The proposed method of determining the lookahead point is fairly robust and handles various edge cases nicely - there are two main steps.
-Find the point on the trajectory nearest to the car 
-Here is a stack overflow post walking through the math of computing this for a single segment.
-You will need to find the closest point for every trajectory segment on every timestep, so the process should be efficient. Once you have an initial implementation working, try changing it to use vectorized numpy commands to simultaneously compute the nearest point on each segment of your path to the car very efficiently for 100,000s of line segments. Then you can find the numpy argmin function to get the closest point (and segment) for that time step.
-Once you have the closest trajectory segment, you need to find the goal/lookahead point.
-Find the intersection between the circle around the car (using radius = lookahead distance, circle center = car’s position) and your piecewise linear trajectory that is forwards along the path with respect to the point found in step (1). 
-This algorithm finds an intersection between a circle and line segment.
-Your search for the lookahead point that lies on a trajectory segment should start at the segment containing the nearest point from part (1), that way you only have to iterate through a couple of path segments before finding the nearest intersection.
 
-Watch out for different edge cases (for example, when a segment has two intersection points on your circle!! These edge cases can be discovered intuitively, and should also be apparent in implementing the above steps. 
-Like tuning gains for a PID to change the behavior, you may want to change your lookahead distance based on the path you are following to adjust its behavior. This is a common practice, especially if the robot’s speed is also varying.
-Long lookaheads while following long, low curvature sections
-Short lookaheads while following paths which tight curvature
-Trajectory Utilities
-We have provided utility functions to help build and load trajectories (piecewise linear segments; see utils.py to understand the LineTrajectory Class further) so that your team can parallelize and test pure pursuit without relying on trajectory outputs from path planning. These utilities are Rviz based.
+**Pure Pursuit**
 
-Trajectory Builder: Run roslaunch lab6 build_trajectory.launch to build the trajectory. You can build trajectories using the “Publish Point” button in RViz. The .traj file will be saved in the /trajectories folder with a timestamp (so they won’t overwrite each other). A trajectory will not be saved/published unless it has >= 3 points. You can visualize this trajectory in RViz under the “/built_trajectory/path” topic.
+Pure pursuit for trajectory tracking is a tried and true method -- [this](https://www.ri.cmu.edu/pub_files/pub3/coulter_r_craig_1992_1/coulter_r_craig_1992_1.pdf) (and [this](https://www.researchgate.net/publication/319714221_Pathfinder_-_Development_of_Automated_Guided_Vehicle_for_Hospital_Logistics/download)) discusses its implementation using piecewise linear segments for a trajectory. The proposed method of determining the lookahead point is fairly robust and handles various edge cases nicely - there are two main steps.
 
-Trajectory Loader: Run roslaunch lab6 load_trajectory.launch to load the trajectory. This will visualize and publish (to “/loaded_trajectory/path” topic, which you can listen to in pure pursuit). A default trajectory for the Stata basement map has been provided in the /trajectories folder. Edit the load_trajectory launch file to load specific trajectories you built with the trajectory builder. Note, there is some uniqueness to this utility in that it publishes exactly once, so make sure you add the visualization topics and save them after running load_trajectory the first time, then for all successive runs you should be able to see the visualization. 
+- Find the point on the trajectory nearest to the car 
+  - Here is a [stack overflow](https://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment/1501725#1501725) post that walks through the math of computing this for a single segment.
+  - You will need to find the closest point for every trajectory segment on every timestep, so the process should be efficient. Once you have an initial implementation working, try changing it to use vectorized numpy commands to simultaneously compute the nearest point on each segment of your path to the car very efficiently for 100,000s of line segments. Then you can find the numpy argmin function to get the closest point (and segment) for that time step.
+- Once you have the closest trajectory segment, you need to find the goal/lookahead point.
+  - Find the intersection between the circle around the car (using radius = lookahead distance, circle center = car’s position) and your piecewise linear trajectory that is forwards along the path with respect to the point found in step (1). 
+    - [This](https://codereview.stackexchange.com/questions/86421/line-segment-to-circle-collision-algorithm/86428#86428) algorithm finds an intersection between a circle and line segment.
+  - Your search for the lookahead point that lies on a trajectory segment should start at the segment containing the nearest point from part (1), that way you only have to iterate through a couple of path segments before finding the nearest intersection.
 
-The information published to the “/loaded_trajectory/path”, “/built_trajectory/path”, “/planned_trajectory/path” namespace topics are simply to ease visualization. Your pure pursuit code should follow trajectories published to the “/trajectory/current” topic which take PoseArray messages. The LineTrajectory.toPoseArray() and LineTrajectory.fromPoseArray() functions have been provided to allow you to convert between these types.
+Watch out for different edge cases (for example, when a segment has two intersection points on your circle!!) These edge cases can be discovered intuitively, and should also be apparent in implementing the above steps. 
+
+Like tuning gains for a PID to change the behavior, you may want to change your lookahead distance based on the path you are following to adjust its behavior. This is a common practice, especially if the robot’s speed is also varying. Consider using:
+- Long lookaheads while following long, low-curvature sections
+- Short lookaheads while following paths with tight curvature
+
+**Trajectory Utilities**
+
+We have provided utility functions to help build and load trajectories (piecewise linear segments; see `utils.py` to understand the `LineTrajectory` Class further) so that your team can parallelize and test pure pursuit without relying on trajectory outputs from path planning. These utilities are RViz-based.
+
+*Trajectory Builder*: Run `roslaunch lab6 build_trajectory.launch` to build the trajectory. You can build trajectories using the “Publish Point” button in RViz. The `.traj` file will be saved in the `/trajectories` folder with a timestamp (so they won’t overwrite each other). A trajectory will not be saved/published unless it has >= 3 points. You can visualize this trajectory in RViz under the “`/built_trajectory/path`” topic.
+
+*Trajectory Loader*: Run `roslaunch lab6 load_trajectory.launch` to load the trajectory. This will visualize and publish (to “`/loaded_trajectory/path`” topic, which you can listen to in pure pursuit). A default trajectory for the Stata basement map has been provided in the `/trajectories` folder. Edit the `load_trajectory` launch file to load specific trajectories you built with the trajectory builder. Note, there is some uniqueness to this utility in that it publishes exactly once, so make sure you add the visualization topics and save them after running `load_trajectory` the first time, then for all successive runs you should be able to see the visualization. 
+
+The information published to the “`/loaded_trajectory/path`”, “`/built_trajectory/path`”, “`/planned_trajectory/path`” namespace topics are simply to ease visualization. Your pure pursuit code should follow trajectories published to the “`/trajectory/current`” topic, which takes PoseArray messages. The `LineTrajectory.toPoseArray()` and `LineTrajectory.fromPoseArray()` functions have been provided to allow you to convert between these types.
+
 ## Integration
-Once you have completed both path planning and pure pursuit, you should combine them so that you can plan and follow paths in real time with localization. Run your particle filter to get the start-point of your paths (/pf/pose/odom), and specify the end-point manually with the “2D Nav Goal” button in RViz.
+Once you have completed both path planning and pure pursuit, you should combine them so that you can plan and follow paths in real time. First, test this in RViz simulation: run your particle filter to get the start-point of your paths (`/pf/pose/odom`), and specify the end-point manually with the “2D Nav Goal” button in RViz. You should be able to reliably drive your car around the stata basement by clicking points in RViz to specify trajectories and by planning your own algorithms to get to the goal point on the map.
+
+Once you have gotten your pipeline set up and working correctly, it's time to move to TESSE simulation. Again, **you should not be running localization in TESSE simulation!!!** The skeleton code provided should already be set up to use TODO: INSERT CORRECT TOPIC NAME.
+
+**TESSE Integration**
+TODO: add info
 
 The provided visualization tools are not exhaustive. There may be other things that are useful to visualize when developing your planning and pursuit code!
 
-Once you have completed the lab, you should be able to reliably drive your car around the stata basement by clicking points in RViz to specify trajectories and by planning your own algorithms to get to the goal point on the map.
