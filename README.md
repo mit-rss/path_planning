@@ -287,7 +287,7 @@ The information published to the “`/loaded_trajectory/path`”, “`/built_tra
 ## Part C: Integration
 Once you have completed both path planning and pure pursuit, you should combine them so that you can plan and follow paths in real time. First, test this in RViz simulation: run your particle filter to get the start-point of your paths (`/pf/pose/odom`), and specify the end-point manually with the “2D Nav Goal” button in RViz. You should be able to reliably drive your car around the stata basement by clicking points in RViz to specify trajectories and by planning your own algorithms to get to the goal point on the map.
 
-Once you have gotten your pipeline set up and working correctly, it's time to move to TESSE simulation. Again, **you should not be running localization in TESSE simulation!!!** The skeleton code provided should already be set up to use TODO: INSERT CORRECT TOPIC NAME.
+Once you have gotten your pipeline set up and working correctly, it's time to move to TESSE simulation. Again, **you do not need to run localization in TESSE simulation!!!** You can use the ground-truth pose from the `/tesse/odom` topic (assigned for you in `plan_trajectory_tesse.launch` and `follow_trajectory_tesse.launch`).
 
 **TESSE Integration**
 TODO: add info
