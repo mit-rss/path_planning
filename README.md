@@ -1,4 +1,4 @@
-# Lab 6: Path Planning
+
 
 | Deliverable                        | Due Date |
 |------------------------------------|-------------------------------------|
@@ -8,6 +8,7 @@
 | Pushed Code                        | Friday, April 30 at 11:59PM EST     |
 | Team Member Assessment             | Friday, April 30 at 11:59PM EST     |
 
+# Lab 6: Path Planning
 
 Table of Contents
 
@@ -53,6 +54,17 @@ We are encouraging parallelization by breaking up the components of the lab into
 Looking ahead, there will be a final challenge where you will need to be able to quickly and accurately track your planned (and optimized) trajectories. Your team will likely be using the components from this lab with a couple of modifications and tuning, so it is to your advantage to write good algorithms for this lab.
  
 ## Grading
+
+This section details the grading scheme for Lab 6. 
+
+
+| Deliverable Grade                        | Weighting |
+|------------------------------------|-------------------------------------|
+| briefing grade (out of 10)         | 40% |
+| report grade (out of 10)           | 40% |
+| gradescope submission (out of 10)  | 20% |
+
+
 Gradescope Evaluation (10 points)
 We will be making the leaderboard public for this assignment, so teams can see how they stack up!
 
