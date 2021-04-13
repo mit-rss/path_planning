@@ -230,7 +230,7 @@ The primary problem with using non-grid search spaces is that the algorithm can 
 
 Search algorithms often tend to cut corners close since they are attempting to minimize distance or time. Sometimes the path it chooses will be collision free in your domain space representation, however, in real life, the path is infeasible for the car because of its dimensions (a car is not a point mass). Additionally, the close-cut corners of the path can be problematic for the pure pursuit controller, which also will attempt to cut corners.  
 
-![Stata Basement Dilated](https://github.com/mit-rss/path_planning/blob/master/MorphDilationLab6.jpg)
+![Stata Basement Dilated](https://github.com/mit-rss/path_planning/blob/master/media/MorphDilationLab6.jpg)
 
 Provided basement map (left) and dilated map (right). Disk element, 10px radius.
 
@@ -300,4 +300,8 @@ When TESSE is running, a map of the environment is published to the `/map` topic
 
 Unlike the stata basement, the TESSE environment contains small unmapped obstacles, which could be ignored for localization but may impede an apparently unoccupied path. To help you overcome this, you will also find in this repository an extra map [maps/city_roads.png](https://github.com/mit-rss/path_planning/blob/master/maps/city_roads.png), which marks unoccupied road space, rather than wall locations, in the TESSE environment. You may find this more useful than the built-in `/map` topic for planning collision-free paths. You are welcome to experiment with generating your own modified versions of these maps (see the above section on *Morphological Dilations*).
 
-Finally, note that the provided visualization tools are not exhaustive. There may be other things that are useful to visualize when developing your planning and pursuit code! Apply the experimental robotics skills you've acquired in previous labs to formulate and report a set of tasks and metrics in TESSE which demonstrate your system's capabilities and limitations to their fullest extent.
+Finally, note that the provided visualization tools are not exhaustive. There may be other things that are useful to visualize when developing your planning and pursuit code! Apply the experimental robotics skills you've acquired in previous labs to formulate and report a set of tasks and metrics in TESSE which demonstrate your system's capabilities and limitations to their fullest extent. At a minimum, you should demonstrate that you can plan and follow a path which rounds at least two consecutive corners of the road network.
+
+For inspiration, here is the route followed during the 2020 RSS final race:
+
+![2020 Final Challenge Path](https://github.com/mit-rss/path_planning/blob/master/media/2020_path.jpg)
