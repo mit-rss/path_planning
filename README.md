@@ -1,9 +1,12 @@
 # Lab 6: Path Planning
 
-| Gradescope Code Submission         | Wednesday, April 22 at 11:59 PM EST |
+| Deliverable                        | Due Date |
 |------------------------------------|-------------------------------------|
-| Presentation Due Date              | Wednesday, April 22 at 11:59 PM EST |
-| Lab Report Due Date                | Friday, April 24 at 11:59PM EST     |
+| Gradescope Code Submission         | Monday, April 26 at 12:59 PM EST |
+| Presentation                       | Monday, April 26 at 12:59 PM EST |
+| Lab Report                         | Friday, April 30 at 11:59PM EST     |
+| Pushed Code                        | Friday, April 30 at 11:59PM EST     |
+| Team Member Assessment             | Friday, April 30 at 11:59PM EST     |
 
 
 Table of Contents
