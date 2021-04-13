@@ -307,9 +307,9 @@ Unlike the stata basement, the TESSE environment contains small unmapped obstacl
 <img src="https://github.com/mit-rss/path_planning/blob/master/maps/city.png" width="300">
 <img src="https://github.com/mit-rss/path_planning/blob/master/maps/city_roads.png" width="300">
 </div>
-*Left: map broadcast to the `/map` topic. Right: map of free road space (`city_roads.png`).* 
 
- 
+*(Left: map broadcast to the `/map` topic. Right: map of free road space (`city_roads.png`).)* 
+
 
 Finally, note that the provided visualization tools are not exhaustive. There may be other things that are useful to visualize when developing your planning and pursuit code! Apply the experimental robotics skills you've acquired in previous labs to formulate and report a set of tasks and metrics in TESSE which demonstrate your system's capabilities and limitations to their fullest extent. At a minimum, you should demonstrate that you can plan and follow a path which rounds at least two consecutive corners of the road network.
 
