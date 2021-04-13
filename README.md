@@ -88,7 +88,7 @@ Your score will be determined by what percentage of the given path you are able 
 - Driving further than `delta_pursuit` from the given path
 
 #### Part C: TESSE Integration (4 points)
-*Initial Condition*: 
+
 
 Grade
 
@@ -285,12 +285,15 @@ We have provided utility functions to help build and load trajectories (piecewis
 The information published to the “`/loaded_trajectory/path`”, “`/built_trajectory/path`”, “`/planned_trajectory/path`” namespace topics are simply to ease visualization. Your pure pursuit code should follow trajectories published to the “`/trajectory/current`” topic, which takes PoseArray messages. The `LineTrajectory.toPoseArray()` and `LineTrajectory.fromPoseArray()` functions have been provided to allow you to convert between these types.
 
 ## Part C: Integration
-Once you have completed both path planning and pure pursuit, you should combine them so that you can plan and follow paths in real time. First, test this in RViz simulation: run your particle filter to get the start-point of your paths (`/pf/pose/odom`), and specify the end-point manually with the “2D Nav Goal” button in RViz. You should be able to reliably drive your car around the stata basement by clicking points in RViz to specify trajectories and by planning your own algorithms to get to the goal point on the map.
+Once you have completed both path planning and pure pursuit, you should combine them so that you can plan and follow paths in real time. First, test this in RViz simulation: run your particle filter to get the start-point of your paths (`/pf/pose/odom`), and specify the end-point manually with the “2D Nav Goal” button in RViz. You should be able to reliably drive your car around the stata basement by clicking points in RViz to specify trajectories and by planning your own algorithms to get to the goal point on the map. Once you have demonstrated this capability in the simple simulator, it's time to deploy your system in TESSE!
+
+
+
+**TESSE Integration**
 
 Once you have gotten your pipeline set up and working correctly, it's time to move to TESSE simulation. Again, **you do not need to run localization in TESSE simulation!!!** You can use the ground-truth pose from the `/tesse/odom` topic (assigned for you in `plan_trajectory_tesse.launch` and `follow_trajectory_tesse.launch`).
 
-**TESSE Integration**
-TODO: add info
+When TESSE is running, a map of the environment is published to the `/map` topic, just as in the simple `racecar_simulator`. However, because it must represent a larger area, the map for TESSE is scaled differently and uses a different coordinate frame than the stata basement map. In the `maps` folder of this repository, you may find *copies* of the source files which define the occupancy grid and scaling parameters for the map of each environment. In addition, the TESSE environment contains small unmapped obstacles, which could be ignored for localization but may impede successful path planning. To overcome this issue, you will also find in this repository an extra map `maps/city_roads.png`, which marks unoccupied road space, rather than wall locations, in the TESSE environment. You may find this more useful than the built-in `/map` topic for planning collision-free paths. You are welcome to experiment with generating adjusted versions of these maps (see the above section on *Morphological Dilations*).
 
 The provided visualization tools are not exhaustive. There may be other things that are useful to visualize when developing your planning and pursuit code!
 
