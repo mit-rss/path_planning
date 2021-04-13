@@ -301,7 +301,8 @@ When TESSE is running, a map of the environment is published to the `/map` topic
 
 Unlike the stata basement, the TESSE environment contains small unmapped obstacles, which could be ignored for localization but may impede an apparently unoccupied path. To help you overcome this, you will also find in this repository an extra map [maps/city_roads.png](https://github.com/mit-rss/path_planning/blob/master/maps/city_roads.png), which marks unoccupied road space, rather than wall locations, in the TESSE environment. You may find this more useful than the built-in `/map` topic for planning collision-free paths. You are welcome to experiment with generating your own modified versions of these maps (see the above section on *Morphological Dilations*).
 
-![TESSE Free-Space Map](https://github.com/mit-rss/path_planning/blob/master/maps/city_roads.png)
+<img src="https://github.com/mit-rss/path_planning/blob/master/maps/city.png" width="300">
+<img src="https://github.com/mit-rss/path_planning/blob/master/maps/city_roads.png" width="300">
 
 Finally, note that the provided visualization tools are not exhaustive. There may be other things that are useful to visualize when developing your planning and pursuit code! Apply the experimental robotics skills you've acquired in previous labs to formulate and report a set of tasks and metrics in TESSE which demonstrate your system's capabilities and limitations to their fullest extent. At a minimum, you should demonstrate that you can plan and follow a path which rounds at least two consecutive corners of the road network.
 
