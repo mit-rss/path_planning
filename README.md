@@ -60,9 +60,9 @@ This section details the grading scheme for Lab 6.
 
 | Deliverable Grade                        | Weighting |
 |------------------------------------|-------------------------------------|
-| briefing grade (out of 10)         | 40% |
+| briefing grade (out of 10)         | 30% |
 | report grade (out of 10)           | 40% |
-| gradescope submission (+ TESSE) (out of 10)  | 20% |
+| gradescope submission (+ TESSE) (out of 10)  | 30% |
 
 
 ### Gradescope Evaluation (10 points)
