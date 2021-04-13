@@ -67,7 +67,7 @@ This section details the grading scheme for Lab 6.
 ### Gradescope Evaluation (10 points)
 *We will be making the leaderboard public for this assignment, so teams can see how they stack up!*
 
-In the interest of runtime, each test will be run once per submission. It may take up to 10 minutes for the autograder to evaluate your code. You are free to resubmit as many times as you would like before the deadline.
+In the interest of runtime, each test will be run once per submission. It may take up to 15 minutes for the autograder to evaluate your code. You are free to resubmit as many times as you would like before the deadline.
 
 #### Part A: Path Planning (3 points)
 *Initial Condition*: The car will be placed at a set pose in the Stata basement map and given a goal pose.
