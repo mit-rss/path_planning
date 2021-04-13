@@ -209,7 +209,7 @@ This lab is very open ended. There are many possible correct solutions. We encou
 
 Here is a good resource for [dubins curves](https://github.com/AndrewWalker/pydubins). You definitely don’t need to implement these by hand, but make sure you understand how they work if you want to use them for generating your paths!
 
-**Search Domains**
+#### Search Domains
 
 The choice of search domain is very important when implementing search-based algorithms such as A* search.
 
@@ -227,7 +227,7 @@ Another option is to use a search space which is not confined to a grid. One exa
 
 The primary problem with using non-grid search spaces is that the algorithm can easily get stuck in dead ends expanding thousands of nodes without making progress towards the goal. The approach in these papers uses a hack which forces the circles to avoid already explored regions of space. This makes it quickly explore, at the expense of optimality guarantees.
 
-**Morphological Dilations**
+#### Morphological Dilations
 
 Search algorithms often tend to cut corners close since they are attempting to minimize distance or time. Sometimes the path it chooses will be collision free in your domain space representation, however, in real life, the path is infeasible for the car because of its dimensions (a car is not a point mass). Additionally, the close-cut corners of the path can be problematic for the pure pursuit controller, which also will attempt to cut corners.  
 
@@ -237,7 +237,7 @@ Provided basement map (left) and dilated map (right). Disk element, 10px radius.
 
 To avoid all of these potentially very bad collisions, one method is to “dilate” the obstacles so that nearby states are considered off-limits to the planning algorithm even though they technically are collision-free. Checkout these possible functions: [disks](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=disk#disk) and [dilations](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=dilation#dilation). You can do these processes offline and just use the adjusted map for your planning algorithms. 
 
-**Motion Heuristics**
+#### Motion Heuristics
 
 The most obvious and simplest heuristic is Euclidean distance between pairs of start and end states. However, this can cause issues since it does not consider the vehicle dynamics or any possible collisions in between the start/end states. 
 
