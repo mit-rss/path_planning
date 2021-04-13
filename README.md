@@ -34,19 +34,19 @@ Now that you are able to localize the your car in the TESSE simulator, it is tim
 
 This lab has the following objectives:
 
-Part A: Plan trajectories in a known occupancy grid map from the car’s current position to a goal pose using either a search-based or sample-based motion planning method.
+- **Part A:** Plan trajectories in a known occupancy grid map from the car’s current position to a goal pose using either a search-based or sample-based motion planning method.
 
-Part B: Program the car to follow a predefined trajectory in a known occupancy grid map using your particle filter and pure pursuit control.
+- **Part B:** Program the car to follow a predefined trajectory in a known occupancy grid map using your particle filter and pure pursuit control.
 
-Part C: Combine the above two goals to enable real-time path planning and execution in the TESSE simulator. Note: you will the ground truth pose in TESSE for this section (rather than running localization) in order to lessen variability caused by differing machine specs.
+- **Part C:** Combine the above two goals to enable real-time path planning and execution in the TESSE simulator. Note: you will the ground truth pose in TESSE for this section (rather than running localization) in order to lessen variability caused by differing machine specs.
 
-This lab has multiple parts. Furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to optimize your algorithms. This will take time. You will have two weeks to complete this lab; however, you should start early.
+You will have two weeks to complete this lab; however, you should start early! This lab has multiple parts, and furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to optimize your algorithms. This will take time! 
 
 We are encouraging parallelization by breaking up the components of the lab into distinct parts. Parts A and B can be implemented separately, and then integrated together once they are working individually.
 
 Looking ahead, there will be a final challenge where you will need to be able to quickly and accurately track your planned (and optimized) trajectories. Your team will likely be using the components from this lab with a couple of modifications and tuning, so it is to your advantage to write good algorithms for this lab.
 
-Note: If you were unable to complete Lab 5, or your solution is not suitable for real-time usage, you may use the instructor solution for particle filter localization from Lab 5. It’s based on the same skeleton, so you should be able to download this and use it out of the box. You will not be penalized for using the staff solution for localization. Lab 5 solution code will be released after it is due.
+*Note: If you were unable to complete Lab 5, or your solution is not suitable for real-time usage, you may use the instructor solution for particle filter localization from Lab 5. It’s based on the same skeleton, so you should be able to download this and use it out of the box. You will not be penalized for using the staff solution for localization. Lab 5 solution code will be released after it is due.*
  
 ## Grading
 
@@ -61,7 +61,7 @@ This section details the grading scheme for Lab 6.
 
 
 ### Gradescope Evaluation (10 points)
-We will be making the leaderboard public for this assignment, so teams can see how they stack up!
+*We will be making the leaderboard public for this assignment, so teams can see how they stack up!*
 
 In the interest of runtime, each test will be run once per submission. It may take up to 10 minutes for the autograder to evaluate your code. You are free to resubmit as many times as you would like before the deadline.
 
@@ -113,26 +113,25 @@ When grading the Technical approach and Experimental evaluation portions of your
 ### Report Evaluation (see technical report rubric for grading details)
 When grading the Technical approach and Experimental evaluation portions of your report, we will be looking specifically for the following items:
 
-- Numerical evidence that your algorithm(s) work in the form of charts/data
-- Numerical evaluation of the success of your planning algorithm
-- Numerical evidence evaluating the success of your pure pursuit algorithm for tracking hand-drawn and planned trajectories
-- Make sure you mention your method for tuning the controller to closely track trajectories. (Hint: include error plots from rqt_plot)
-- A discussion of any shortcomings of your integrated approach. For example, does your pursuit algorithm consistently do poorly in certain areas?
-- Detailed comparison of motion planning algorithms
-- Explain path planning algorithms, and the strengths and weaknesses of sample-based versus search-based methods. Which algorithm should work better for the purposes of planning trajectories for your car? What different cost functions would you use? How would you ensure the car would not choose paths close to the wall?
-- Specifically, please discuss the following properties of planning algorithms, along with any others you considered: asymptotic optimality, single- vs multi-query, incorporating dynamics, complexity, and necessity of search after construction. Note that some of these are only applicable to search-based planners and some are only applicable to sampling-based planners.
-- (Bonus +3 points): Implement both a sample-based and a search-based path planning algorithm, and numerically compare the strengths and weaknesses of each. Demonstrate your pure pursuit controller on paths generated by ONE algorithm.
+- **Numerical evidence that your algorithm(s) work in the form of charts/data**
+  - Numerical evaluation of the success of your planning algorithm
+  - Numerical evidence evaluating the success of your pure pursuit algorithm for tracking hand-drawn and planned trajectories
+  - Make sure you mention your method for tuning the controller to closely track trajectories. (Hint: include error plots from `rqt_plot`)
+  - A discussion of any shortcomings of your integrated approach. For example, does your pursuit algorithm consistently do poorly in certain areas?
+- **Detailed comparison of motion planning algorithms**
+  - Explain path planning algorithms, and the strengths and weaknesses of sample-based versus search-based methods. Which algorithm should work better for the purposes of planning trajectories for your car? What different cost functions would you use? How would you ensure the car would not choose paths close to the wall?
+    - Specifically, please discuss the following properties of planning algorithms, along with any others you considered: asymptotic optimality, single- vs multi-query, incorporating dynamics, complexity, and necessity of search after construction. Note that some of these are only applicable to search-based planners and some are only applicable to sampling-based planners.
+  - **(Bonus +3 points):** Implement both a sample-based and a search-based path planning algorithm, and numerically compare the strengths and weaknesses of each. Demonstrate your pure pursuit controller on paths generated by ONE algorithm.
 
 ## Submission
 You must submit your localization and path_planning packages together. If you chose to use the TA localization solution then include this in the submission, not your localization package. To ensure that your submission can be built and executed properly in the environment on the autograder, it is important you pay attention to the following:
-- Submission format: 
-  - A .zip archive of your catkin workspace’s /src directory containing ONLY the /localization and /path_planning directories. If you get a ‘server error’ on Gradescope, your submission may be too large. Try deleting the .git directories in your packages.
-   - ROS package: The nodes implementing your particle filter, path planner, and pure pursuit algorithm must be called particle_filter.py, path_planning.py, and pure_pursuit.py. Also be sure that trajectory_loader.py is in your /path_planning/src directory as we will use it to test your pure pursuit algorithm.
-- Node parameters: Our Gradescope evaluation is only able to see the ROS params that the template code comes with. If you add more parameters (and fail to give them default values), we will not be able to set them in the Gradescope evaluation, and your tests will fail!
-- Topics: The `/trajectory/current` topic will be used to evaluate the path found during path planning, and to send a path to the pure pursuit algorithm. The template code should already be set up this way, but just be aware.
+- **Submission format: ** A `.zip` archive of **your catkin workspace’s `/src` directory** containing ONLY the `/localization` and `/path_planning directories`. If you get a ‘server error’ on Gradescope, your submission may be too large. Try deleting the `.git` directories in your packages.
+- **ROS package:** The nodes implementing your particle filter, path planner, and pure pursuit algorithm must be called `particle_filter.py`, `path_planning.py`, and `pure_pursuit.py`. Also be sure that `trajectory_loader.py` is in your `/path_planning/src` directory, as we will use it to test your pure pursuit algorithm.
+- **Node parameters:** Our Gradescope evaluation is only able to see the ROS params that the template code comes with. If you add more parameters (and fail to give them default values), we will not be able to set them in the Gradescope evaluation, and your tests will fail!
+- **Topics:** The `/trajectory/current` topic will be used to evaluate the path found during path planning, and to send a path to the pure pursuit algorithm. The template code should already be set up this way, but just be aware.
 
 
-Apart from the usual ROS packages like rospy and tf2, the following Python packages will be installed in the autograder environment:
+Apart from the usual ROS packages like `rospy` and `tf2`, the following Python packages will be installed in the autograder environment:
 - `scan_simulator_2d`
 - `numpy`
 - `scipy`
@@ -239,7 +238,7 @@ The most obvious and simplest heuristic is Euclidean distance between pairs of s
 
 A different possible heuristic is [dubins curves](https://en.wikipedia.org/wiki/Dubins_path), which more accurately estimates nonholonomic motion (other sources: [1](http://planning.cs.uiuc.edu/node821.html), [2](https://pypi.org/project/dubins/), helping make paths more accurate to the vehicle dynamics. Performing a lower dimensional search such as Dijkstra’s algorithm on the grid map can help avoid finding paths that don’t consider obstacles, but this introduces some computational complexity (source: [3](http://ai.stanford.edu/~ddolgov/papers/dolgov_gpp_stair08.pdf)).
 
-## Pure Pursuit
+## Part B: Pure Pursuit
 
 In this section, you will first take a manually-defined path and implement a pure pursuit controller to follow it. A sample path is provided in the skeleton code, but you are afforded the freedom to create your own trajectories and, if desired, trajectory representations.
 
@@ -284,7 +283,7 @@ We have provided utility functions to help build and load trajectories (piecewis
 
 The information published to the “`/loaded_trajectory/path`”, “`/built_trajectory/path`”, “`/planned_trajectory/path`” namespace topics are simply to ease visualization. Your pure pursuit code should follow trajectories published to the “`/trajectory/current`” topic, which takes PoseArray messages. The `LineTrajectory.toPoseArray()` and `LineTrajectory.fromPoseArray()` functions have been provided to allow you to convert between these types.
 
-## Integration
+## Part C: Integration
 Once you have completed both path planning and pure pursuit, you should combine them so that you can plan and follow paths in real time. First, test this in RViz simulation: run your particle filter to get the start-point of your paths (`/pf/pose/odom`), and specify the end-point manually with the “2D Nav Goal” button in RViz. You should be able to reliably drive your car around the stata basement by clicking points in RViz to specify trajectories and by planning your own algorithms to get to the goal point on the map.
 
 Once you have gotten your pipeline set up and working correctly, it's time to move to TESSE simulation. Again, **you should not be running localization in TESSE simulation!!!** The skeleton code provided should already be set up to use TODO: INSERT CORRECT TOPIC NAME.
