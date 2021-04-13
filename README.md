@@ -65,12 +65,12 @@ This section details the grading scheme for Lab 6.
 | gradescope submission (out of 10)  | 20% |
 
 
-Gradescope Evaluation (10 points)
+### Gradescope Evaluation (10 points)
 We will be making the leaderboard public for this assignment, so teams can see how they stack up!
 
 In the interest of runtime, each test will be run once per submission. It may take up to 10 minutes for the autograder to evaluate your code. You are free to resubmit as many times as you would like before the deadline.
 
-### Part A: Path Planning (3 points)
+#### Part A: Path Planning (3 points)
 *Initial Condition*: The car will be placed at a set pose in the stata basement map and given a goal pose.
 
 You will receive full credit if your path remains within delta_path of the entire TA solution path
@@ -80,7 +80,7 @@ You will get 0 points if:
 - Your path enters occluded space on the map
 - Your cumulative distance from the TA path is greater than delta_path_max*path_length
 
-### Part B: Pure Pursuit (3 points)
+#### Part B: Pure Pursuit (3 points)
 *Initial Condition*: The car will be placed at the start point of a loaded trajectory (path_planning/trajectories/loop2.traj) in the stata basement map with the submitted particle filter running.
 
 Your score will be determined by what percentage of the given path you are able to follow before:
@@ -88,7 +88,7 @@ Your score will be determined by what percentage of the given path you are able 
 - Entering occluded space on the map
 - Driving further than delta_pursuit from the given path
 
-### Part C: Integration (4 points)
+#### Part C: Integration (4 points)
 *Initial Condition*: The car will be placed at a set pose in the stata basement map and given a goal pose with the submitted particle filter running.
 Grade
 
