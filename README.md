@@ -21,7 +21,7 @@ Table of Contents
 * [Logistics and Setup](https://github.com/mit-rss/path_planning#logistics-and-setup)
 * [Part A: Path Planning](https://github.com/mit-rss/path_planning#part-a-path-planning)
   * [Search-based Planning Algorithm](https://github.com/mit-rss/path_planning#search-based-planning)
-  * [Sample-based Planning Algorithm](https://github.com/mit-rss/path_planning#sample-based-planning)
+  * [Sampling-based Planning Algorithm](https://github.com/mit-rss/path_planning#sampling-based-planning)
   * [Tips and Tricks](https://github.com/mit-rss/path_planning#tips-and-tricks)
     * Search Domains
     * Grid Space
@@ -198,17 +198,17 @@ Some search-based planning algorithms are:
 
 [This source](https://www.redblobgames.com/pathfinding/a-star/introduction.html) includes a friendly introduction and comparison between A*, Djikstra’s, and BFS. 
 
-### Sample-based Planning
+### Sampling-based Planning
 Complete solutions, which are what search-based planning algorithms can guarantee, are often infeasible for the real life robotics system or inefficient when the possible state space is large. An example is the case for robots with multiple degrees of freedom such as arms. In practice, most algorithms are only resolution complete as the state-space needs to be somewhat discretized for them to operate (e.g., into a grid) and some solutions might be missed as a function of the resolution of the discretization.
 
-Sample-based planning methods are able to solve problems in continuous space without a graph representation (though certain sampling-based methods do discretize the space). These planners create possible paths by randomly adding points to a tree until some solution is found or time expires. As the probability to find a path approaches 1 when time goes to infinity, sampling-based path planners are probabilistic complete. Sample-based planners are fast, but can sometimes result in unusual-looking and possibly inefficient paths.
+Sampling-based planning methods are able to solve problems in continuous space without a graph representation (though certain sampling-based methods do discretize the space). These planners create possible paths by randomly adding points to a tree until some solution is found or time expires. As the probability to find a path approaches 1 when time goes to infinity, sampling-based path planners are probabilistic complete. Sampling-based planners are fast, but can sometimes result in unusual-looking and possibly inefficient paths.
 
 Optional reading for examples of sampling-based planners:
 - [Rapidly-exploring Random Trees (RRT and RRT*)](https://arxiv.org/pdf/1105.1186.pdf)
 - [Probabilistic Roadmaps (PRM)](http://www.staff.science.uu.nl/~gerae101/pdf/compare.pdf)
 - More information about sampling-based planning can be found [here](http://correll.cs.colorado.edu/?p=2012). 
 
-**Remember, for this lab we are requiring you to implement ONLY ONE search-based algorithm OR sample-based algorithm. You can choose which explicit algorithm you want to implement. Optionally, you can choose to implement one of each (one search-based AND one sample-based algorithm), for extra credit.**
+**Remember, for this lab we are requiring you to implement ONLY ONE search-based algorithm OR sampling-based algorithm. You can choose which explicit algorithm you want to implement. Optionally, you can choose to implement one of each (one search-based AND one sampling-based algorithm), for extra credit.**
 
 ### Tips and Tricks
 This lab is very open ended. There are many possible correct solutions. We encourage you to get creative, and do what makes sense for your team, but here we provide a few pointers to kick off your research phase. This section contains many links to outside resources; please note that **these are all optional readings** for your team to use as you wish.
