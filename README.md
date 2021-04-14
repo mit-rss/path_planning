@@ -2,9 +2,9 @@
 
 | Deliverable                        | Due Date |
 |------------------------------------|-------------------------------------|
-| Gradescope Code Submission         | Monday, April 26 at 12:59 PM EDT |
-| Briefing (8 min presentation + 3 min Q&A) (slides on  [github pages](https://github.mit.edu/rss/website2021))                      | Monday, April 26 at 12:59 PM EDT |
+| Briefing (8 min presentation + 3 min Q&A) (slides on  [github pages](https://github.mit.edu/rss/website2021))                      | Monday, April 26 at 12:59PM EDT |
 | Report (on [team github pages website](https://github.mit.edu/rss/website2021))                         | Friday, April 30 at 11:59PM EDT     |
+| Gradescope Code Submission         | Friday, April 30 at 11:59PM EDT |
 | Pushed Code                        | Friday, April 30 at 11:59PM EDT     |
 | [Team Member Assessment](https://forms.gle/pqzn9hnBvi791FELA)             | Friday, April 30 at 11:59PM EDT     |
 
