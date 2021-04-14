@@ -20,8 +20,8 @@ Table of Contents
 * [Submission](https://github.com/mit-rss/path_planning#submission)
 * [Logistics and Setup](https://github.com/mit-rss/path_planning#logistics-and-setup)
 * [Part A: Path Planning](https://github.com/mit-rss/path_planning#part-a-path-planning)
-  * [Search-based Planning Algorithm](https://github.com/mit-rss/path_planning#search-based-planning)
-  * [Sampling-based Planning Algorithm](https://github.com/mit-rss/path_planning#sampling-based-planning)
+  * [Search-based Path Planning](https://github.com/mit-rss/path_planning#search-based-planning)
+  * [Sampling-based Path Planning](https://github.com/mit-rss/path_planning#sampling-based-planning)
   * [Tips and Tricks](https://github.com/mit-rss/path_planning#tips-and-tricks)
     * Search Domains
     * Grid Space
