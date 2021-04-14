@@ -6,7 +6,7 @@
 | Briefing (8 min presentation + 3 min Q&A) (slides on  [github pages](https://github.mit.edu/rss/website2021))                      | Monday, April 26 at 12:59 PM EDT |
 | Report (on [team github pages website](https://github.mit.edu/rss/website2021))                         | Friday, April 30 at 11:59PM EDT     |
 | Pushed Code                        | Friday, April 30 at 11:59PM EDT     |
-| Team Member Assessment             | Friday, April 30 at 11:59PM EDT     |
+| [Team Member Assessment](https://forms.gle/pqzn9hnBvi791FELA)             | Friday, April 30 at 11:59PM EDT     |
 
 # Lab 6: Path Planning
 
@@ -35,11 +35,11 @@ Table of Contents
 * [Part D: TESSE Deployment](https://github.com/mit-rss/path_planning#part-d-tesse-deployment)
 
 ## Introduction
-Now that you are able to localize the your car in the TESSE simulator, it is time to learn how to drive. This laboratory exercise involves two core parts of autonomous operation: planning and control. In other words, given a destination, you will determine the path to the destination and proceed to drive along the path.  
+Now that you are able to localize your car in the TESSE simulator, it is time to learn how to drive. This laboratory exercise involves two core parts of autonomous operation: planning and control. In other words, given a destination, you will determine the path to the destination and proceed to drive along the path.  
 
 This lab has the following objectives:
 
-- **Part A:** Plan trajectories in a known occupancy grid map from the car’s current position to a goal pose using either a search-based or sample-based motion planning method.
+- **Part A:** Plan trajectories in a known occupancy grid map from the car’s current position to a goal pose using either a search-based or sampling-based motion planning method.
 
 - **Part B:** Program the car to follow a predefined trajectory in a known occupancy grid map using your particle filter and pure pursuit control.
 
@@ -47,13 +47,11 @@ This lab has the following objectives:
 
 - **Part D:** Demonstrate the deployment of your path planning and following in the TESSE simulator. Note: you will use the ground truth pose in TESSE for this section (rather than running localization) in order to lessen variability caused by differing machine specs.
 
-You will have two weeks to complete this lab; however, you should start early! This lab has multiple parts, and furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to optimize your algorithms. This will take time! 
+You will have **one and a half** weeks to complete this lab (longer for the report); you should start early! This lab has multiple parts, and furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to optimize your algorithms. This will take time! 
 
 We are encouraging parallelization by breaking up the components of the lab into distinct parts. Parts A and B can be implemented separately, and then integrated together once they are working individually.
 
 Looking ahead, there will be a final challenge where you will need to be able to quickly and accurately track your planned (and optimized) trajectories. Your team will likely be using the components from this lab with a couple of modifications and tuning, so it is to your advantage to write good algorithms for this lab.
-
-*Note: If you were unable to complete Lab 5, or your solution is not suitable for real-time usage, you may use the instructor solution for particle filter localization from Lab 5. It’s based on the same skeleton, so you should be able to download this and use it out of the box. You will not be penalized for using the staff solution for localization. Lab 5 solution code will be released after it is due.*
  
 ## Grading
 
@@ -62,13 +60,13 @@ This section details the grading scheme for Lab 6.
 
 | Deliverable Grade                        | Weighting |
 |------------------------------------|-------------------------------------|
-| briefing grade (out of 10)         | 30% |
+| briefing grade (out of 10)         | 20% |
 | report grade (out of 10)           | 40% |
-| gradescope submission (out of 10)  | 30% |
+| gradescope submission (out of 10)  | 40% |
 
 
 ### Gradescope Evaluation (10 points)
-*We will be making the leaderboard public for this assignment, so teams can see how they stack up!*
+*We will be making the [leaderboard](https://www.gradescope.com/courses/244521/assignments/1150126/leaderboard) public for this assignment, so teams can see how they stack up!*
 
 In the interest of runtime, each test will be run once per submission. It may take up to 15 minutes for the autograder to evaluate your code. You are free to resubmit as many times as you would like before the deadline.
 
@@ -90,7 +88,7 @@ Your score will be determined by what percentage of the given path you are able 
 - Entering occluded space on the map
 - Driving further than `delta_pursuit` from the given path
 
-#### Part C: Integration and Part D: TESSE Deployment (4 points)
+#### Part C: Integration (4 points)
 
 *Initial Condition*: The car will be placed at a set pose in the stata basement map and given a goal pose with the submitted particle filter running.
 
@@ -110,14 +108,14 @@ Grading will be determined as follows:
 | `pursuit_time_thresh` | 500 sec |
 
 
-### Briefing Evaluation (see technical briefing rubric for grading details)
+### Briefing Evaluation (see [technical briefing rubric](https://docs.google.com/document/d/1NmqQP7n1omI9bIshF1Y-MP70gfDkgEeoMjpWv8hjfsY/edit?usp=sharing) for grading details)
 When grading the Technical approach and Experimental evaluation portions of your briefing, we will be looking specifically for **illustrative videos of your car planning and tracking trajectories.** Specifically, we would like videos highlighting:
 - Start and end point markers (see Trajectory Utilities)
 - Visualization of the planned paths (see Trajectory Utilities) from implemented search-based or sample-based planning algorithms
 - Visualization of the car following the trajectories
 - Deployment behavior of the system in TESSE
 
-### Report Evaluation (see technical report rubric for grading details)
+### Report Evaluation (see [technical report rubric](https://docs.google.com/document/d/1B6l7vKJFN3CPPcMn8cKKArHUU_Bq_YUZ5KxKoP6qMk0/edit?usp=sharing) for grading details)
 When grading the Technical approach and Experimental evaluation portions of your report, we will be looking specifically for the following items:
 
 - **Numerical evidence that your algorithm(s) work in the form of charts/data**
@@ -147,7 +145,7 @@ Apart from the usual ROS packages like `rospy` and `tf2`, the following Python p
 Feel free to use these, but if you depend on other packages, be aware that your code will not run. Please let the staff know if there are any other packages you would like to see included. Please also keep in mind that the autograder will be running a stock installation of ROS Melodic on Ubuntu 18.04. Any hacks or modifications you may have performed on your personal installation of ROS will not be present in the autograder environment.
 
 ## Logistics and Setup
-Fork the skeleton code from this repository (https://github.com/mit-rss/path_planning).
+Fork the skeleton code from this repository (https://github.com/mit-rss/path_planning_tesse).
 
 Each node that needs to be implemented has a template python file and launch file. Each node has parameters set in the launch file and defined in the node code. If you add additional ROS parameters to your ROS nodes, be sure to give them default values. Our Gradescope evaluation is only able to provide the parameters that the template code comes with. If you add more parameters (or fail to give them default values), we will not be able to set them in the Gradescope evaluation and your tests will fail!
 
@@ -205,16 +203,15 @@ Complete solutions, which are what search-based planning algorithms can guarante
 
 Sample-based planning methods are able to solve problems in continuous space without a graph representation (though certain sampling-based methods do discretize the space). These planners create possible paths by randomly adding points to a tree until some solution is found or time expires. As the probability to find a path approaches 1 when time goes to infinity, sampling-based path planners are probabilistic complete. Sample-based planners are fast, but can sometimes result in unusual-looking and possibly inefficient paths.
 
-Some examples of sampling-based planners are:
+Optional reading for examples of sampling-based planners:
 - [Rapidly-exploring Random Trees (RRT and RRT*)](https://arxiv.org/pdf/1105.1186.pdf)
 - [Probabilistic Roadmaps (PRM)](http://www.staff.science.uu.nl/~gerae101/pdf/compare.pdf)
-
-More information about sampling-based planning can be found [here](http://correll.cs.colorado.edu/?p=2012). 
+- More information about sampling-based planning can be found [here](http://correll.cs.colorado.edu/?p=2012). 
 
 **Remember, for this lab we are requiring you to implement ONLY ONE search-based algorithm OR sample-based algorithm. You can choose which explicit algorithm you want to implement. Optionally, you can choose to implement one of each (one search-based AND one sample-based algorithm), for extra credit.**
 
 ### Tips and Tricks
-This lab is very open ended. There are many possible correct solutions. We encourage you to get creative, and do what makes sense for your team, but here we provide a few pointers to kick off your research phase.
+This lab is very open ended. There are many possible correct solutions. We encourage you to get creative, and do what makes sense for your team, but here we provide a few pointers to kick off your research phase. This section contains many links to outside resources; please note that **these are all optional readings** for your team to use as you wish.
 
 Here is a good resource for [dubins curves](https://github.com/AndrewWalker/pydubins). You definitely don’t need to implement these by hand, but make sure you understand how they work if you want to use them for generating your paths!
 
@@ -241,7 +238,7 @@ Search algorithms often tend to cut corners close since they are attempting to m
 
 Provided basement map (left) and dilated map (right). Disk element, 10px radius.
 
-To avoid all of these potentially very bad collisions, one method is to “dilate” the obstacles so that nearby states are considered off-limits to the planning algorithm even though they technically are collision-free. Checkout these possible functions: [disks](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=disk#disk) and [dilations](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=dilation#dilation). You can do these processes offline and just use the adjusted map for your planning algorithms. 
+To avoid all of these potentially very bad collisions, one method is to “dilate” the obstacles so that nearby states are considered off-limits to the planning algorithm even though they technically are collision-free. You may choose to check out these possible functions: [disks](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=disk#disk) and [dilations](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=dilation#dilation). You can do these processes offline and just use the adjusted map for your planning algorithms. 
 
 #### Motion Heuristics
 
@@ -268,7 +265,7 @@ Since the path’s coordinates are in the map frame, functional localization is 
 
 **Pure Pursuit**
 
-Pure pursuit for trajectory tracking is a tried and true method -- [this](https://www.ri.cmu.edu/pub_files/pub3/coulter_r_craig_1992_1/coulter_r_craig_1992_1.pdf) (and [this](https://www.researchgate.net/publication/319714221_Pathfinder_-_Development_of_Automated_Guided_Vehicle_for_Hospital_Logistics/download)) discusses its implementation using piecewise linear segments for a trajectory. The proposed method of determining the lookahead point is fairly robust and handles various edge cases nicely - there are two main steps.
+Pure pursuit for trajectory tracking is a tried and true method (if you're interested in learning more, [this](https://www.ri.cmu.edu/pub_files/pub3/coulter_r_craig_1992_1/coulter_r_craig_1992_1.pdf) and [this](https://www.researchgate.net/publication/319714221_Pathfinder_-_Development_of_Automated_Guided_Vehicle_for_Hospital_Logistics/download) discus its implementation using piecewise linear segments for a trajectory). The proposed method of determining the lookahead point is fairly robust and handles various edge cases nicely - there are two main steps.
 
 - Find the point on the trajectory nearest to the car 
   - Here is a [stack overflow](https://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment/1501725#1501725) post that walks through the math of computing this for a single segment.
