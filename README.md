@@ -321,3 +321,7 @@ Finally, note that the provided visualization tools are not exhaustive. There ma
 For inspiration, here is the route followed during the 2020 RSS final race:
 
 <img src="https://github.com/mit-rss/path_planning/blob/master/media/2020_path.png" width="400">
+
+### Troubleshooting
+
+**Depending on your machine's specs, you may get different behavior on your machine than a teammate does on theirs.** Check the publish rate of your drive commands (you should be publishing to `/tesse/drive`) with `rostopic hz /tesse/drive`. If you are getting a rate of less than 20 hz, your drive commands will not be updating quickly enough-- considider switching to VDI, and check in with a TA for help! You would be able to get pure pursuit to run and your car to not crash by tuning waypoints and other parameters, but these parameters will likely need to be different for you vs. the rest of your team. 
