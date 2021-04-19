@@ -145,7 +145,7 @@ Apart from the usual ROS packages like `rospy` and `tf2`, the following Python p
 Feel free to use these, but if you depend on other packages, be aware that your code will not run. Please let the staff know if there are any other packages you would like to see included. Please also keep in mind that the autograder will be running a stock installation of ROS Melodic on Ubuntu 18.04. Any hacks or modifications you may have performed on your personal installation of ROS will not be present in the autograder environment.
 
 ## Logistics and Setup
-Fork the skeleton code from this repository (https://github.com/mit-rss/path_planning_tesse).
+Fork the skeleton code from this repository (https://github.com/mit-rss/path_planning_tesse). Also, please pull the latest version of tesse-ros-bridge (https://github.mit.edu/rss/tesse-ros-bridge).
 
 Each node that needs to be implemented has a template python file and launch file. Each node has parameters set in the launch file and defined in the node code. If you add additional ROS parameters to your ROS nodes, be sure to give them default values. Our Gradescope evaluation is only able to provide the parameters that the template code comes with. If you add more parameters (or fail to give them default values), we will not be able to set them in the Gradescope evaluation and your tests will fail!
 
@@ -298,7 +298,7 @@ Once you have completed both path planning and pure pursuit, you should combine 
 
 ### Integration with TESSE
 
-Once you have gotten your pipeline set up and working correctly, it's time to move to TESSE simulation. Use the executable from Lab 4 ([link](https://drive.google.com/drive/u/0/folders/1n7ij3FpRSNwqV4pUSIgsSelsMNCJYk4z)). Again, **you do not need to run localization in TESSE!!!** You can use the ground-truth pose from the `/tesse/odom` topic (this is set for you in `plan_trajectory_tesse.launch` and `follow_trajectory_tesse.launch`).
+Once you have gotten your pipeline set up and working correctly, it's time to move to TESSE simulation. Use the executable from Lab 4 ([link](https://drive.google.com/drive/u/0/folders/1n7ij3FpRSNwqV4pUSIgsSelsMNCJYk4z)). Also, make sure you've pulled the latest version of tesse-ros-bridge ([link]https://github.mit.edu/rss/tesse-ros-bridge)). Again, **you do not need to run localization in TESSE!!!** You can use the ground-truth pose from the `/tesse/odom` topic (this is set for you in `plan_trajectory_tesse.launch` and `follow_trajectory_tesse.launch`). Remember from lab 5 that you should take care to transform the pose on this topic into the approriate coordinate frame (reference [Piazza @309](https://piazza.com/class/kkvsdmaisb51g6?cid=309) for an example of such a transformation).
 
 When TESSE is running, a map of the environment is published to the `/map` topic, just as in the simple `racecar_simulator`. However, because it must represent a larger area, the map for TESSE is scaled differently and uses a different coordinate frame than the Stata basement map. In the [maps](https://github.com/mit-rss/path_planning/tree/master/maps) folder of this repository, you may find *copies* of the source `[map_name].yaml` files which define the occupancy grid and scaling parameters for the map of each environment. These parameters should also be accessible via the metadata of messages on `/map`, e.g. the location of the origin is `map_msg.info.origin`. Pay attention to the `resolution` parameter to make sure you are scaling the map correctly!
 
