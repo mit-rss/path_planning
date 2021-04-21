@@ -238,7 +238,7 @@ Search algorithms often tend to cut corners close since they are attempting to m
 
 Provided basement map (left) and dilated map (right). Disk element, 10px radius.
 
-To avoid all of these potentially very bad collisions, one method is to “dilate” the obstacles so that nearby states are considered off-limits to the planning algorithm even though they technically are collision-free. You may choose to check out these possible functions: [disks](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=disk#disk) and [dilations](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=dilation#dilation). You can do these processes offline and just use the adjusted map for your planning algorithms. 
+To avoid all of these potentially very bad collisions, one method is to “dilate” the obstacles so that nearby states are considered off-limits to the planning algorithm even though they technically are collision-free. You may choose to check out these possible functions: [disks](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=disk#disk), [dilations](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=dilation#dilation), and [erosions](https://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=erosion#skimage.morphology.erosion). You can do these processes offline and just use the adjusted map for your planning algorithms. 
 
 #### Motion Heuristics
 
