@@ -259,7 +259,7 @@ In this section, you will first take a manually-defined path and implement a pur
 
 Once you have a path, the next step is to determine the necessary control to follow that path. In pure pursuit, the primary challenge is to find the lookahead point - the intersection between the circle defined by your lookahead distance, and the path (and handle associated edge cases!). In general this problem has many possible solutions which may result in different behavior in the various edge cases. See the Tips and Tricks section below for one fairly simple method which has proven to work well in practice. 
 
-Since the path’s coordinates are in the map frame, functional localization is a prerequisite to solving this part of the lab (but not the TESSE integration) - you will need to run solution to Lab 5 and subscribe to its output in the simple racecar simulator.
+Since the path’s coordinates are in the map frame, functional localization is a prerequisite to solving this part of the lab (but not the TESSE integration) - you will need to run your team's solution to Lab 5 and subscribe to its output in the simple racecar simulator.
 
 ### Tips and Tricks
 
