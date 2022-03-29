@@ -44,7 +44,7 @@ This lab has the following objectives:
 
 - **Part C:** Combine the above two goals to enable real-time path planning and execution in the simple `racecar_simulator`. For this part, you will be required also to localize the car by running the particle filter and subscribing to the estimate on `/pf/pose/odom` rather than the ground-truth pose. Finally, you will deploy the integrated system on your physical racecar!
 
-You will have **one and a half** weeks to complete this lab (longer for the report); you should start early! This lab has multiple parts, and furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to optimize your algorithms. This will take time! 
+You will have **two** weeks to complete this lab (longer for the report); you should start early! This lab has multiple parts, and furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to optimize your algorithms. This will take time! 
 
 We are encouraging parallelization by breaking up the components of the lab into distinct parts. Parts A and B can be implemented separately, and then integrated together once they are working individually.
 
