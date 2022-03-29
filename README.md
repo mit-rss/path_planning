@@ -113,6 +113,7 @@ When grading the Technical approach and Experimental evaluation portions of your
 - Visualization of the planned paths (see Trajectory Utilities) from implemented search-based or sample-based planning algorithms
 - Visualization of the car following the trajectories
 - Deployment behavior of the system in real life
+- **(Bonus +3 points):** The top 3 teams with the fastest demonstrated (real world) implementations on a marked segment of the stata basement loop will receive bonus points (+3 for first, +2 for second, +1 for third). **Be careful not to break your robots** 
 
 ### Report Evaluation (see [technical report rubric](https://docs.google.com/document/d/1B6l7vKJFN3CPPcMn8cKKArHUU_Bq_YUZ5KxKoP6qMk0/edit?usp=sharing) for grading details)
 When grading the Technical approach and Experimental evaluation portions of your report, we will be looking specifically for the following items:
@@ -303,4 +304,4 @@ Once you have completed both path planning and pure pursuit, you should combine 
 - “Publish Point” → /clicked_point
 
 Once you have demonstrated this capability in the simple simulator, it's time to deploy your system in real life!
-
+You should be able to reliably drive your car around the stata basement by clicking points in RViz to specify trajectories and by planning your own algorithms between two clicked points on the map. In our experience, this is one of the coolest and most rewarding parts of the class!
