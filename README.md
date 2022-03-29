@@ -265,6 +265,8 @@ Once you have a path, the next step is to determine the necessary control to fol
 
 Since the path’s coordinates are in the map frame, functional localization is a prerequisite to solving this part of the lab (but not the TESSE integration) - you will need to run your team's solution to Lab 5 and subscribe to its output in the simple racecar simulator.
 
+Your safety controller should at the very least prevent the car from crashing head first into unmapped obstacles (people, doors, etc). Ideally, it should also prevent the car from clipping corners too closely and hitting the wheels. To reiterate - you must use a safety controller. You will also want to detect failure conditions (like if the particle filter is not running, or you’re very far from the pre-planned trajectory) and act intelligently to avoid bad behavior. If your car hits walls and breaks, we will put a speed limit on your car for the check-off and the raceday. We do not have enough spare parts to support massive breaks; if your car is sufficiently damaged, you will be forced to complete this lab only in simulation.
+
 ### Tips and Tricks
 
 **Pure Pursuit**
@@ -296,36 +298,10 @@ We have provided utility functions to help build and load trajectories (piecewis
 The information published to the “`/loaded_trajectory/path`”, “`/built_trajectory/path`”, “`/planned_trajectory/path`” namespace topics are simply to ease visualization. Your pure pursuit code should follow trajectories published to the “`/trajectory/current`” topic, which takes PoseArray messages. The `LineTrajectory.toPoseArray()` and `LineTrajectory.fromPoseArray()` functions have been provided to allow you to convert between these types.
 
 ## Part C: Integration
-Once you have completed both path planning and pure pursuit, you should combine them so that you can plan and follow paths in real time. First, test this in RViz simulation: run your particle filter to get the start-point of your paths (`/pf/pose/odom`), and specify the end-point manually with the “2D Nav Goal” button in RViz. You should be able to reliably drive your car around the stata basement by clicking points in RViz to specify trajectories and by planning your own algorithms to get to the goal point on the map. Once you have demonstrated this capability in the simple simulator, it's time to deploy your system in TESSE!
+Once you have completed both path planning and pure pursuit, you should combine them so that you can plan and follow paths in real time. First, test this in RViz simulation: run your particle filter to get the start-point of your paths (`/pf/pose/odom`), and specify the end-point manually with the “2D Nav Goal” button in RViz. You should be able to reliably drive your car around the stata basement by clicking points in RViz to specify trajectories and by planning your own algorithms to get to the goal point on the map. Check out these RViz functions and associated topics:
+- “2D Nav Goal” → /move_base_simple/goal
+- “2D Pose Estimate” → /initialpose
+- “Publish Point” → /clicked_point
 
-## Part D: TESSE Deployment
+Once you have demonstrated this capability in the simple simulator, it's time to deploy your system in real life!
 
-### Integration with TESSE
-
-Once you have gotten your pipeline set up and working correctly, it's time to move to TESSE simulation. Use the executable from Lab 4 ([link](https://drive.google.com/drive/u/0/folders/1n7ij3FpRSNwqV4pUSIgsSelsMNCJYk4z)). Also, make sure you've pulled the latest version of tesse-ros-bridge ([link](https://github.mit.edu/rss/tesse-ros-bridge)). Again, **you do not need to run localization in TESSE!!!** You can use the ground-truth pose from the `/tesse/odom` topic (this is set for you in `plan_trajectory_tesse.launch` and `follow_trajectory_tesse.launch`). Remember from lab 5 that you should take care to transform the pose on this topic into the appropriate coordinate frame (reference [Piazza @309](https://piazza.com/class/kkvsdmaisb51g6?cid=309) for an example of such a transformation).
-
-When TESSE is running, a map of the environment is published to the `/map` topic, just as in the simple `racecar_simulator`. However, because it must represent a larger area, the map for TESSE is scaled differently and uses a different coordinate frame than the Stata basement map. In the [maps](https://github.com/mit-rss/path_planning/tree/master/maps) folder of this repository, you may find *copies* of the source `[map_name].yaml` files which define the occupancy grid and scaling parameters for the map of each environment. These parameters should also be accessible via the metadata of messages on `/map`, e.g. the position and rotation of the origin are defined by `map_msg.info.origin`. Pay attention also to the `map_msg.info.resolution` parameter to make sure you are scaling the map correctly!
-
-Unlike the Stata basement, the TESSE environment contains small unmapped obstacles, which could be ignored for localization but may impede an apparently unoccupied path. To help you overcome this, you will also find in this repository an extra map [maps/city_roads.png](https://github.com/mit-rss/path_planning/blob/master/maps/city_roads.png), which marks unoccupied road space, rather than wall locations, in the TESSE environment. You may find this more useful than the built-in `/map` topic for planning collision-free paths. You are welcome to experiment with generating your own modified versions of these maps (see the above section on *Morphological Dilations*).
-
-<div class="row">
-<img src="https://github.com/mit-rss/path_planning/blob/master/maps/city.png" width="400">
-<img src="https://github.com/mit-rss/path_planning/blob/master/maps/city_roads.png" width="400">
-</div>
-
-*(Left: map broadcast to the `/map` topic. Right: map of free road space (`city_roads.png`).)* 
-
-
-### Experimental Evaluation
-
-Your goal for Part D is to get your path planning and pure pursuit algorithm working in TESSE such that you are able to plan a path from point A to point B, then follow it with your car. How you choose to demonstrate your working code (and the starting and ending points you use) is up to you! For example, you might look to Part A: Path Planning -- [Logistics and Setup](https://github.com/mit-rss/path_planning_tesse/edit/master/README.md) for some information on RViz topics that may be helpful.
-
-Finally, note that the provided visualization tools are not exhaustive. There may be other things that are useful to visualize when developing your planning and pursuit code! Apply the experimental robotics skills you've acquired in previous labs to formulate and report a set of tasks and metrics in TESSE which demonstrate your system's capabilities and limitations to their fullest extent. At a minimum, you should demonstrate that you can plan and follow a path which rounds at least two consecutive corners of the road network. **Start out at a slow speed -- going fast makes the task more challenging.**
-
-For inspiration, here is the route followed during the 2020 RSS final race:
-
-<img src="https://github.com/mit-rss/path_planning/blob/master/media/2020_path.png" width="400">
-
-### Troubleshooting
-
-**Depending on your machine's specs, you may get different behavior on your machine than a teammate does on theirs.** Check the publish rate of your drive commands (you should be publishing to `/tesse/drive`) with `rostopic hz /tesse/drive`. If you are getting a rate of less than 20 hz, your drive commands will not be updating quickly enough-- considider switching to VDI (more info to come), and check in with a TA for help! You would be able to get pure pursuit to run and your car to not crash by tuning waypoints and other parameters, but these parameters will likely need to be different for you vs. the rest of your team. 
