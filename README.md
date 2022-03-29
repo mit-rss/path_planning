@@ -67,6 +67,8 @@ This section details the grading scheme for Lab 6.
 
 In the interest of runtime, each test will be run once per submission. It may take up to 15 minutes for the autograder to evaluate your code. You are free to resubmit as many times as you would like before the deadline.
 
+**NOTE**: Because the gradescope autograder uses non-deterministic initializations, you may want to re-submit your code 2-3 times before deciding there is an issue with it.  
+
 #### Part A: Path Planning (3 points)
 *Initial Condition*: The car will be placed at a set pose in the Stata basement map and given a goal pose.
 
