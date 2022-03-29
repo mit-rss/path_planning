@@ -234,7 +234,7 @@ You will receive information about the location of obstacles in the form of an _
 
 Search algorithms often tend to cut corners close since they are attempting to minimize distance or time. Sometimes the path it chooses will be collision free in your domain space representation, however, in real life, the path is infeasible for the car because of its dimensions (a car is not a point mass). Additionally, the close-cut corners of the path can be problematic for the pure pursuit controller, which also will attempt to cut corners.  
 
-![Stata Basement Dilated](https://github.com/mit-rss/path_planning/media/MorphDilationLab6.jpg)
+![Stata Basement Dilated](https://github.com/mit-rss/path_planning/tree/main/media/MorphDilationLab6.jpg)
 
 
 Provided basement map (left) and eroded map (right). Disk element, 10px radius.
