@@ -3,7 +3,7 @@
 | Deliverable                        | Due Date |
 |------------------------------------|-------------------------------------|
 | Briefing (8 min presentation + 3 min Q&A) (slides on  [github pages](https://github.mit.edu/rss/website2022))                      | Wednesday, April 13 at 1:00PM EDT |
-| Gradescope Code Submission         | Friday, April 15 at 11:59PM EDT |
+| [Gradescope Code Submission](https://www.gradescope.com/courses/362909/assignments/1956806)         | Friday, April 15 at 11:59PM EDT |
 | Report (on [team github pages website](https://github.mit.edu/rss/website2021))                         | Friday, April 15 at 11:59PM EDT     |
 | Pushed Code                        | Friday, April 15 at 11:59PM EDT     |
 | [Team Member Assessment](https://forms.gle/UnmnkUPqe4bYAB1q7)             | Friday, April 15 at 11:59PM EDT     |
