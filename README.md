@@ -6,7 +6,7 @@
 | Gradescope Code Submission         | Friday, April 15 at 11:59PM EDT |
 | Report (on [team github pages website](https://github.mit.edu/rss/website2021))                         | Friday, April 15 at 11:59PM EDT     |
 | Pushed Code                        | Friday, April 15 at 11:59PM EDT     |
-| [Team Member Assessment](google.com)             | Friday, April 15 at 11:59PM EDT     |
+| [Team Member Assessment](https://forms.gle/UnmnkUPqe4bYAB1q7)             | Friday, April 15 at 11:59PM EDT     |
 
 # Lab 6: Path Planning
 
