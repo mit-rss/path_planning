@@ -206,7 +206,6 @@ Sampling-based planning methods are able to solve problems in continuous space w
 Optional reading for examples of sampling-based planners:
 - [Rapidly-exploring Random Trees (RRT and RRT*)](https://arxiv.org/pdf/1105.1186.pdf)
 - [Probabilistic Roadmaps (PRM)](http://www.staff.science.uu.nl/~gerae101/pdf/compare.pdf)
-- More information about sampling-based planning can be found [here](http://correll.cs.colorado.edu/?p=2012). 
 
 **Remember, for this lab we are requiring you to implement ONLY ONE search-based algorithm OR sampling-based algorithm. You can choose which explicit algorithm you want to implement. Optionally, you can choose to implement one of each (one search-based AND one sampling-based algorithm), for extra credit.**
 
