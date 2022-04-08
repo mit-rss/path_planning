@@ -36,19 +36,21 @@ class PurePursuit(object):
         #How many segments to search ahead of the nearest
         self.segment_lookahead = 3
         
+        self.segments = None
         self.segment_index = None
         self.goal_point = None
         
     def trajectory_callback(self, msg):
         ''' Clears the currently followed trajectory, and loads the new one from the message
         '''
-        print "Receiving new trajectory:", len(msg.poses), "points"
+        print("Receiving new trajectory:", len(msg.poses), "points")
     
         self.trajectory.clear()
         self.trajectory.fromPoseArray(msg)
         self.trajectory.publish_viz(duration=0.0)
+        self.segments = np.array(self.trajectory.points())
         
-        if robot_pose is not None:
+        if self.robot_pose is not None:
             self.segment_index = self.find_nearest_segment()
             self.goal_point = self.find_circle_interesection()
         
@@ -62,15 +64,15 @@ class PurePursuit(object):
         # Start at nearest segment and search next three segments
         #
         search_end_index = self.segment_index+self.segment_lookahead
-        if search_end_index >  segments.shape[0]-1:
-            search_end_index = segments.shape[0]-1
+        if search_end_index >  self.segments.shape[0]-1:
+            search_end_index = self.segments.shape[0]-1
         
         goal_point = None
         
         #Check nearest segment as well as a couple segments up. Choose the furthest goal point
-        for i in xrange(self.segment_index,search_end_index)
-            P1 = segments[segment_index]
-            P2 = segments[segment_index+1]
+        for i in xrange(self.segment_index,search_end_index):
+            P1 = self.segments[self.segment_index]
+            P2 = self.segments[self.segment_index+1]
             Q = self.robot_pose[:2]
             r = self.lookahead
             V = P2-P1
@@ -112,12 +114,11 @@ class PurePursuit(object):
         #
         # Find nearest line segment
         #
-        segments = np.array(self.trajectory.points())
-        num_segments = segments.shape[0]
+        num_segments = self.segments.shape[0]
         robot_point = np.tile(self.robot_pose[:2],(num_segments-1,1))
         
-        segment_start = segments[:-1,:]
-        segment_end = segments[1:,:]
+        segment_start = self.segments[:-1,:]
+        segment_end = self.segments[1:,:]
         
         #Vectorize
         robot_vector = robot_point-segment_start
@@ -148,14 +149,14 @@ class PurePursuit(object):
         #Grab relevant segment
         return(np.argmin(shortest_distance))
         
-     def pose_callback(self, msg):
-         ''' Clears the currently followed trajectory, and loads the new one from the message
-         '''
-         pose = [msg.pose.pose.position.x+self.base_link_offset,msg.pose.pose.position.y]
-         r = R.from_quat([msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, msg.pose.pose.orientation.z, msg.pose.pose.orientation.w])
-         theta = r.as_euler('XYZ')[2]
-         pose.append(theta)
-         self.robot_pose = np.array(pose)
+    def pose_callback(self, msg):
+        ''' Clears the currently followed trajectory, and loads the new one from the message
+        '''
+        pose = [msg.pose.pose.position.x+self.base_link_offset,msg.pose.pose.position.y]
+        r = R.from_quat([msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, msg.pose.pose.orientation.z, msg.pose.pose.orientation.w])
+        theta = r.as_euler('XYZ')[2]
+        pose.append(theta)
+        self.robot_pose = np.array(pose)
         
 
 if __name__=="__main__":
