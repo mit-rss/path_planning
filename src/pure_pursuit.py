@@ -29,6 +29,9 @@ class PurePursuit(object):
         self.odom_sub  = rospy.Subscriber("/pf/pose/odom", Odometry, self.pose_callback, queue_size = 1)
         self.drive_pub = rospy.Publisher("/drive", AckermannDriveStamped, queue_size=1)
 
+        self.segment_index = None
+        self.goal_point = None
+        
     def trajectory_callback(self, msg):
         ''' Clears the currently followed trajectory, and loads the new one from the message
         '''
@@ -38,6 +41,67 @@ class PurePursuit(object):
         self.trajectory.fromPoseArray(msg)
         self.trajectory.publish_viz(duration=0.0)
         
+        if robot_pose is not None:
+            self.segment_index = self.find_nearest_segment()
+            self.goal_point = self.find_circle_interesection()
+        
+        if self.goal_point is None:
+            #Case 3 no intersections. What do
+            pass
+        
+    def find_circle_interesection(self):
+        #
+        # Find Circle Intersection
+        # Start at nearest segment and search next three segments
+        #
+        search_end_index = self.segment_index+3
+        if search_end_index >  segments.shape[0]-1:
+            search_end_index = segments.shape[0]-1
+        
+        goal_point = None
+        
+        #Check nearest segment as well as a couple segments up. Choose the furthest goal point
+        for i in xrange(self.segment_index,search_end_index)
+            P1 = segments[segment_index]
+            P2 = segments[segment_index+1]
+            Q = self.robot_pose[:2]
+            r = self.lookahead
+            V = P2-P1
+
+            a = V.dot(V)
+            b = 2.*V.dot(P1-Q)
+            c = P1.dot(P1)+Q.dot(Q)-2.*P1.dot(Q)-r**2.
+
+            disc = b**2.-4.*a*c
+            
+            if disc < 0.:
+                #No intersection at all
+                pass
+            else:
+                #Two solutions
+                sqrt_disc = np.sqrt(disc)
+                t1 = (-b + sqrt_disc) / (2. * a)
+                t2 = (-b - sqrt_disc) / (2. * a)
+               
+                #Choose the solution that is actually on the line segmnet (0 <= t <= 1)
+                if ((t1 < 0. or t1 > 1.) and (t2 < 0. or t2 > 1.)):
+                    #No intersection on segment
+                    pass
+                elif ((t1 >= 0. or t1 <= 1.) and (t2 < 0. or t2 > 1.)):
+                    goal_point = P1+t1*V
+                elif ((t1 < 0. or t1 > 1.) and (t2 >= 0. or t2 <= 1.)):
+                    goal_point = P1+t2*V
+                #Otherwise choose the one closest to the next point
+                else:
+                    intersects = [P1+t1*V,P1+t2*V]
+                    
+                    dist_P2_intersects = np.array([np.linalg.norm(P2-intersects[0]),np.linalg.norm(P2-intersects[1])])
+                    goal_point = intersects[np.argmin(dist_P2_intersects)]
+        
+        #Return intersection. (None if no intersections)
+        return goal_point
+    
+    def find_nearest_segment(self):
         #
         # Find nearest line segment
         #
@@ -51,17 +115,17 @@ class PurePursuit(object):
         #Vectorize
         robot_vector = robot_point-segment_start
         segment_vector = segment_end-segment_start
-
+        
         #Normalize and Scale
         segment_length = np.linalg.norm(segment_vector, axis=1)
         segment_length = np.reshape(segment_length, (num_segments-1,1))
-
+        
         unit_segment = np.divide(segment_vector,segment_length)
         scaled_robot_point = np.divide(robot_vector,segment_length)
-
+        
         #Project
         scaled_dot_product = np.sum(unit_segment*scaled_robot_point, axis=1)
-
+        
         #Clip and Rescale
         scaled_dot_product = np.clip(scaled_dot_product,0.0,1.0)
         scaled_dot_product = np.reshape(scaled_dot_product, (num_segments-1,1))
@@ -75,9 +139,7 @@ class PurePursuit(object):
         shortest_distance = np.linalg.norm(shifted-robot_point, axis=1)
         
         #Grab relevant segment
-        segment_index = np.argmin(shortest_distance)
-        nearest_segment_start = segments[segment_index]
-        nearest_segment_end = segments[segment_index+1]
+        return(np.argmin(shortest_distance))
         
      def pose_callback(self, msg):
          ''' Clears the currently followed trajectory, and loads the new one from the message
