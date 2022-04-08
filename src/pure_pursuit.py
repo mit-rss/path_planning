@@ -17,18 +17,25 @@ class PurePursuit(object):
     """ Implements Pure Pursuit trajectory tracking with a fixed lookahead and speed.
     """
     def __init__(self):
-        self.odom_topic       = rospy.get_param("~odom_topic")
+        
         self.lookahead        = rospy.get_param("lookahead",0.5)
         self.speed            = rospy.get_param("speed",1.0)
-        #self.wrap             = # FILL IN #
-        self.wheelbase_length = 0.568
         self.base_link_offset = rospy.get_param("base_link_offset",0.1)
-        self.robot_pose = None
+        self.wheelbase_length = 0.568
+        #self.wrap             = # FILL IN #
+        
         self.trajectory  = utils.LineTrajectory("/followed_trajectory")
         self.traj_sub = rospy.Subscriber("/trajectory/current", PoseArray, self.trajectory_callback, queue_size=1)
-        self.odom_sub  = rospy.Subscriber("/pf/pose/odom", Odometry, self.pose_callback, queue_size = 1)
+        
+        self.robot_pose = None
+        self.odom_topic = rospy.get_param("~odom_topic")
+        self.odom_sub  = rospy.Subscriber(self.odom_topic, Odometry, self.pose_callback, queue_size = 1)
+        
         self.drive_pub = rospy.Publisher("/drive", AckermannDriveStamped, queue_size=1)
-
+        
+        #How many segments to search ahead of the nearest
+        self.segment_lookahead = 3
+        
         self.segment_index = None
         self.goal_point = None
         
@@ -54,7 +61,7 @@ class PurePursuit(object):
         # Find Circle Intersection
         # Start at nearest segment and search next three segments
         #
-        search_end_index = self.segment_index+3
+        search_end_index = self.segment_index+self.segment_lookahead
         if search_end_index >  segments.shape[0]-1:
             search_end_index = segments.shape[0]-1
         
