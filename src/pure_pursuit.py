@@ -10,7 +10,6 @@ from geometry_msgs.msg import PoseArray, PoseStamped
 from visualization_msgs.msg import Marker
 from ackermann_msgs.msg import AckermannDriveStamped
 from nav_msgs.msg import Odometry
-
 from scipy.spatial.transform import Rotation as R
 
 class PurePursuit(object):
@@ -18,24 +17,22 @@ class PurePursuit(object):
     """
     def __init__(self):
         
-        self.lookahead        = rospy.get_param("lookahead",0.5)
-        self.speed            = rospy.get_param("speed",1.0)
-        self.base_link_offset = rospy.get_param("base_link_offset",0.1)
+        self.lookahead        = rospy.get_param("lookahead", 0.5)
+        self.speed            = rospy.get_param("speed", 1.0)
+        self.base_link_offset = rospy.get_param("base_link_offset", 0.1)
         self.wheelbase_length = 0.568
-        #self.wrap             = # FILL IN #
         
         self.trajectory  = utils.LineTrajectory("/followed_trajectory")
-        self.traj_sub = rospy.Subscriber("/trajectory/current", PoseArray, self.trajectory_callback, queue_size=1)
-        
+        # self.traj_sub = rospy.Subscriber("/trajectory/current", PoseArray, self.trajectory_callback, queue_size=1)
+        self.traj_sub = rospy.Subscriber("/loaded_trajectory/path", PoseArray, self.trajectory_callback, queue_size=1) # for simulation i tink...
+
         self.robot_pose = None
         self.odom_topic = rospy.get_param("~odom_topic")
         self.odom_sub  = rospy.Subscriber(self.odom_topic, Odometry, self.pose_callback, queue_size = 1)
-        
         self.drive_pub = rospy.Publisher("/drive", AckermannDriveStamped, queue_size=1)
         
         #How many segments to search ahead of the nearest
         self.segment_lookahead = 3
-        
         self.segments = None
         self.segment_index = None
         self.goal_point = None
@@ -53,10 +50,29 @@ class PurePursuit(object):
         if self.robot_pose is not None:
             self.segment_index = self.find_nearest_segment()
             self.goal_point = self.find_circle_interesection()
+
+        x1, y1 = self.robot_pose
+        x2, y2 = self.goal_point # ok this is actually in map frame so find distance using robot pose 
+        x = abs(x2-x1)
+        y = abs(y2-y1)
+        theta = np.arctan(y/x) # bearing
+        d = np.sqrt(x**2 + y**2) # euclidean distance
+        delta = np.arctan((2*self.wheelbase_length*np.sin(theta))/d) # steering angle 
         
         if self.goal_point is None:
             #Case 3 no intersections. What do
+            # maybe increase lookahead circle until goal_point exists?
+            # might not be very safe though for avoidance of obstacles, etc.
             pass
+
+        # Drive to goal point
+        drive_msg = AckermannDriveStamped()
+        drive_msg.drive.steering_angle = delta
+        drive_msg.drive.steering_angle_velocity = 0
+        drive_msg.drive.speed = self.speed
+        drive_msg.drive.acceleration = 0
+        drive_msg.drive.jerk = 0
+        self.drive_pub.publish(drive_msg)
         
     def find_circle_interesection(self):
         #
@@ -70,7 +86,7 @@ class PurePursuit(object):
         goal_point = None
         
         #Check nearest segment as well as a couple segments up. Choose the furthest goal point
-        for i in xrange(self.segment_index,search_end_index):
+        for i in range(self.segment_index,search_end_index):
             P1 = self.segments[self.segment_index]
             P2 = self.segments[self.segment_index+1]
             Q = self.robot_pose[:2]
