@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from tokenize import String
 import rospy
 import numpy as np
 import time
@@ -11,25 +12,28 @@ from visualization_msgs.msg import Marker
 from ackermann_msgs.msg import AckermannDriveStamped
 from nav_msgs.msg import Odometry
 from scipy.spatial.transform import Rotation as R
+from visualization_tools import *
+
 
 class PurePursuit(object):
     """ Implements Pure Pursuit trajectory tracking with a fixed lookahead and speed.
     """
     def __init__(self):
         
-        self.lookahead        = rospy.get_param("lookahead", 0.5)
+        self.lookahead        = rospy.get_param("lookahead", 0.8)
         self.speed            = rospy.get_param("speed", 1.0)
-        self.base_link_offset = rospy.get_param("base_link_offset", 0.1)
+        self.base_link_offset = rospy.get_param("base_link_offset", 0.0)
         self.wheelbase_length = 0.568
         
         self.trajectory  = utils.LineTrajectory("/followed_trajectory")
-        # self.traj_sub = rospy.Subscriber("/trajectory/current", PoseArray, self.trajectory_callback, queue_size=1)
-        self.traj_sub = rospy.Subscriber("/loaded_trajectory/path", PoseArray, self.trajectory_callback, queue_size=1) # for simulation i tink...
+        self.traj_sub    = rospy.Subscriber("/trajectory/current", PoseArray, self.trajectory_callback, queue_size=1)
+        # self.traj_sub = rospy.Subscriber("/loaded_trajectory/path", PoseArray, self.trajectory_callback, queue_size=1) # for simulation i tink...
+        self.robot_pose  = None
+        self.odom_topic  = rospy.get_param("~odom_topic")
+        self.odom_sub    = rospy.Subscriber(self.odom_topic, Odometry, self.pose_callback, queue_size = 1)
+        self.drive_pub   = rospy.Publisher("/drive", AckermannDriveStamped, queue_size=1)
 
-        self.robot_pose = None
-        self.odom_topic = rospy.get_param("~odom_topic")
-        self.odom_sub  = rospy.Subscriber(self.odom_topic, Odometry, self.pose_callback, queue_size = 1)
-        self.drive_pub = rospy.Publisher("/drive", AckermannDriveStamped, queue_size=1)
+        self.goal_pub = rospy.Publisher("/goal", Marker, queue_size=1)
         
         #How many segments to search ahead of the nearest
         self.segment_lookahead = 3
@@ -41,38 +45,10 @@ class PurePursuit(object):
         ''' Clears the currently followed trajectory, and loads the new one from the message
         '''
         print("Receiving new trajectory:", len(msg.poses), "points")
-    
         self.trajectory.clear()
         self.trajectory.fromPoseArray(msg)
         self.trajectory.publish_viz(duration=0.0)
-        self.segments = np.array(self.trajectory.points())
-        
-        if self.robot_pose is not None:
-            self.segment_index = self.find_nearest_segment()
-            self.goal_point = self.find_circle_interesection()
-
-        x1, y1 = self.robot_pose
-        x2, y2 = self.goal_point # ok this is actually in map frame so find distance using robot pose 
-        x = abs(x2-x1)
-        y = abs(y2-y1)
-        theta = np.arctan(y/x) # bearing
-        d = np.sqrt(x**2 + y**2) # euclidean distance
-        delta = np.arctan((2*self.wheelbase_length*np.sin(theta))/d) # steering angle 
-        
-        if self.goal_point is None:
-            #Case 3 no intersections. What do
-            # maybe increase lookahead circle until goal_point exists?
-            # might not be very safe though for avoidance of obstacles, etc.
-            pass
-
-        # Drive to goal point
-        drive_msg = AckermannDriveStamped()
-        drive_msg.drive.steering_angle = delta
-        drive_msg.drive.steering_angle_velocity = 0
-        drive_msg.drive.speed = self.speed
-        drive_msg.drive.acceleration = 0
-        drive_msg.drive.jerk = 0
-        self.drive_pub.publish(drive_msg)
+        self.segments = np.array(self.trajectory.points)
         
     def find_circle_interesection(self):
         #
@@ -168,11 +144,56 @@ class PurePursuit(object):
     def pose_callback(self, msg):
         ''' Clears the currently followed trajectory, and loads the new one from the message
         '''
-        pose = [msg.pose.pose.position.x+self.base_link_offset,msg.pose.pose.position.y]
+        pose = [msg.pose.pose.position.x+self.base_link_offset, msg.pose.pose.position.y]
         r = R.from_quat([msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, msg.pose.pose.orientation.z, msg.pose.pose.orientation.w])
         theta = r.as_euler('XYZ')[2]
         pose.append(theta)
         self.robot_pose = np.array(pose)
+
+        if self.segments is not None:
+            self.segment_index = self.find_nearest_segment()
+            self.goal_point = self.find_circle_interesection()
+
+            if self.goal_point is None:
+                self.goal_point = self.segments[self.segment_index + 1]
+            VisualizationTools.plot_line([self.goal_point[0], self.goal_point[0] + .01], [self.goal_point[1], self.goal_point[1] + .01], self.goal_pub, frame="/map")
+
+
+        x_c, y_c, theta_c = self.robot_pose
+        x_g, y_g = self.goal_point
+        T_R_W = np.array([[ np.cos(theta_c), -np.sin(theta_c), x_c ],
+                          [ np.sin(theta_c),  np.cos(theta_c), y_c ],
+                          [ 0,                0,               1   ]])
+
+        T_G_W = np.array([[ np.cos(0), -np.sin(0), x_g ],
+                          [ np.sin(0),  np.cos(0), y_g ],
+                          [ 0,          0,         1   ]])
+
+        T_G_R = np.dot(np.linalg.inv(T_R_W), T_G_W)
+
+        x = T_G_R[0][2]
+        y = T_G_R[1][2]
+
+        theta = np.arctan(y/x) # bearing
+        d = np.sqrt(x**2 + y**2) # euclidean distance
+        delta = np.arctan((2*self.wheelbase_length*np.sin(theta))/d) # steering angle 
+        
+        if self.goal_point is None:
+            pass
+
+        # Drive to goal point
+        drive_msg = AckermannDriveStamped()
+        drive_msg.header.stamp = rospy.get_rostime()
+        drive_msg.header.frame_id = "base_link"
+        drive_msg.drive.steering_angle = delta
+        drive_msg.drive.steering_angle_velocity = 0
+        if self.segments is None:
+            drive_msg.drive.speed = 0
+        else:
+            drive_msg.drive.speed = self.speed
+        drive_msg.drive.acceleration = 0
+        drive_msg.drive.jerk = 0
+        self.drive_pub.publish(drive_msg)
         
 
 if __name__=="__main__":
