@@ -19,7 +19,6 @@ class PurePursuit(object):
     """ Implements Pure Pursuit trajectory tracking with a fixed lookahead and speed.
     """
     def __init__(self):
-        
         self.lookahead        = rospy.get_param("lookahead", 0.8)
         self.speed            = rospy.get_param("speed", 1.0)
         self.base_link_offset = rospy.get_param("base_link_offset", 0.0)
