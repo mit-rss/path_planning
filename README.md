@@ -141,8 +141,12 @@ Apart from the usual ROS packages like `rospy` and `tf2`, the following Python p
 - `numpy`
 - `scipy`
 - `matplotlib`
+- `opencv`
+- `scikit-image`
+- `heapdict`
+- `python-rtree`
 
-Feel free to use these, but if you depend on other packages, be aware that your code will not run. Please let the staff know if there are any other packages you would like to see included. Please also keep in mind that the autograder will be running a stock installation of ROS Melodic on Ubuntu 18.04. Any hacks or modifications you may have performed on your personal installation of ROS will not be present in the autograder environment.
+Feel free to use these, but if you depend on other packages, be aware that your code will not run. Please let the staff know if there are any other packages you would like to see included, though we cannot guarantee that we will be able to add it. Please also keep in mind that the autograder will be running a stock installation of ROS Melodic on Ubuntu 18.04. Any hacks or modifications you may have performed on your personal installation of ROS will not be present in the autograder environment.
 
 ## Logistics and Setup
 Fork the skeleton code from this repository.
