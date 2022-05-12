@@ -57,8 +57,8 @@ This section details the grading scheme for Lab 6.
 
 | Deliverable Grade                        | Weighting |
 |------------------------------------|-------------------------------------|
-| gradescope submission (out of 10)  | 20% |
-| briefing grade (out of 10)         | 30% |
+| gradescope submission (out of 10)  | 25% |
+| briefing grade (out of 10)         | 35% |
 | report grade (out of 10)           | 40% |
 
 
