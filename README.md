@@ -1,12 +1,12 @@
 
 
-| Deliverable                        | Due Date |
-|------------------------------------|-------------------------------------|
-| Briefing (8 min presentation + 3 min Q&A) (slides on  [github pages](https://github.mit.edu/rss/website2022))                      | Wednesday, April 13 at 1:00PM EDT |
-| [Gradescope Code Submission](https://www.gradescope.com/courses/362909/assignments/1956806)         | Friday, April 15 at 11:59PM EDT |
-| Report (on [team github pages website](https://github.mit.edu/rss/website2021))                         | Friday, April 15 at 11:59PM EDT     |
-| Pushed Code                        | Friday, April 15 at 11:59PM EDT     |
-| [Team Member Assessment](https://forms.gle/UnmnkUPqe4bYAB1q7)             | Friday, April 15 at 11:59PM EDT     |
+| Deliverable   | Due Date  |
+|-------------------------|------------------------------------|
+| Slide Draft (draft due on [github pages](https://github.com/mit-rss/website2022)) | Friday, April 14th at 1:00PM EST |
+| Briefing (8 min presentation + 3 min Q&A) (slides due on [github pages](https://github.com/mit-rss/website2022))   | Wednesday, April 14th at 1:00 PM EST  |
+| Report (on [team github pages website](https://github.com/mit-rss/website2022))     | Friday, April 21st at 11:59PM EST    |
+| Pushed code to Git | Friday, April 21st at 11:59PM EST |
+| [Team Member Assessment](https://docs.google.com/forms/d/e/1FAIpQLSfVmCl-P34-fgGah68jwiGykjxOs0J9KozlKG6ozLmOd5gsmA/viewform?usp=sf_link)  | Wednesday, April 21st at 11:59PM EST |
 
 # Lab 6: Path Planning
 
