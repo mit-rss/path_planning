@@ -4,9 +4,9 @@
 |-------------------------|------------------------------------|
 | Slide Draft (draft due on [github pages](https://github.com/mit-rss/website2022)) | Friday, April 14th at 1:00PM EST |
 | Briefing (8 min presentation + 3 min Q&A) (slides due on [github pages](https://github.com/mit-rss/website2022))   | Wednesday, April 19th at 1:00 PM EST  |
-| Report (on [team github pages website](https://github.com/mit-rss/website2022))     | Friday, April 21st at 11:59PM EST    |
-| Pushed code to Git | Friday, April 21st at 11:59PM EST |
-| [Team Member Assessment](https://docs.google.com/forms/d/e/1FAIpQLSc20FhV9aidNvZlk5sr5uPR5zAObYsneDYGyHa197Q2iqbtMA/viewform?usp=sf_link)  | Friday, April 21st at 11:59PM EST |
+| Report (on [team github pages website](https://github.com/mit-rss/website2022))     | Wednesday, April 26th at 11:59PM EST    |
+| Pushed code to Git | Wednesday, April 26th at 11:59PM EST |
+| [Team Member Assessment](https://docs.google.com/forms/d/e/1FAIpQLSc20FhV9aidNvZlk5sr5uPR5zAObYsneDYGyHa197Q2iqbtMA/viewform?usp=sf_link)  | Wednesday, April 26th at 11:59PM EST |
 
 # Lab 6: Path Planning
 
