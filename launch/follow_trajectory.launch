@@ -1,5 +1,5 @@
 <launch>
-	<node pkg="lab6" type="pure_pursuit.py" name="Trajectory_follower">
+	<node pkg="lab6" type="pure_pursuit.py" name="Trajectory_follower" output="screen">
 		<param name="odom_topic" value="/pf/pose/odom"/>
 	</node>
 </launch>
