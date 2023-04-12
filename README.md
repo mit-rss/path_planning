@@ -162,7 +162,7 @@ NOTE: The path_planning ROS package is called “`lab6`”, so all nodes should 
 
 **Map selection**: In this lab, you are asked to plan paths in the Stata Basement environment. By default, running `roslaunch racecar_simulator simulate.launch` will load the old wall-following environment from lab 2 and 3. To change the map used by the `racecar_simulator`, follow these steps:
 
-1.  Open [~/racecar_ws/src/racecar_simulator/launch/simulate.launch](https://github.com/mit-racecar/racecar_simulator/blob/master/launch/simulate.launch). Line 6 reads: `<arg name="map" default="$(find racecar_simulator)/maps/building_31.yaml"/>`
+1.  Open [~/racecar_ws/src/racecar_simulator/launch/simulate.launch](https://github.com/mit-racecar/racecar_simulator/blob/master/launch/simulate.launch) (If you can't find this path, you can try `/opt/ros/sim_ws/src/racecar_simulator/launch/simulate.launch` I know it's a little confusing:) ). Line 6 reads: `<arg name="map" default="$(find racecar_simulator)/maps/building_31.yaml"/>`
 2.  Change line 6 to: `<arg name="map" default="$(find racecar_simulator)/maps/stata_basement.yaml"/>`
 3.  Alternatively, you can use this syntax to load a map of your choice in your own custom launchfiles.
 
