@@ -1,3 +1,0 @@
-<launch>
-	<node pkg="lab6" type="trajectory_builder.py" name="Trajectory_builder" output="screen"/>
-</launch>
