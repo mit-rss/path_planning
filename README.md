@@ -300,6 +300,9 @@ accurate to the vehicle dynamics. Performing a lower dimensional search such as 
 help avoid finding paths that don’t consider obstacles, but this introduces some computational complexity (
 source: [3](http://ai.stanford.edu/~ddolgov/papers/dolgov_gpp_stair08.pdf)).
 
+**Note:** although poses are defined as (x, y, theta), for this assignment, it is sufficient to plan only on (x, y) (i.e. you do not need any constraint on the start and ending yaws). 
+
+
 ## Part B: Pure Pursuit
 
 In this section, you will first take a manually-defined path and implement a pure pursuit controller to follow it. A
