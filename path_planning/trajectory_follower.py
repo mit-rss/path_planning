@@ -97,6 +97,17 @@ class PurePursuit(Node):
             dist_from_end = np.linalg.norm(car_xy_pos-p2)
             i_counter+=1
 
+        #if the car reaches the end stop
+        #self.get_logger().info(f'{dist_from_end}')
+        if (dist_from_end <= 0.05):
+            self.speed = 0.
+            steering_angle = 0.
+            drive_msg = AckermannDriveStamped()
+            drive_msg.drive.speed = self.speed 
+            drive_msg.drive.steering_angle = steering_angle
+            self.drive_pub.publish(drive_msg)
+            return  
+
         V = p2-p1
         r = self.lookahead
         Q = car_xy_pos
