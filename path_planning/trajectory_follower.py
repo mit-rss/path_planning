@@ -99,7 +99,7 @@ class PurePursuit(Node):
 
         #if the car reaches the end stop
         #self.get_logger().info(f'{dist_from_end}')
-        if (dist_from_end <= 0.05):
+        if (dist_from_end <= 0.05) and np.all(p2 == traj_points[-1]):
             self.speed = 0.
             steering_angle = 0.
             drive_msg = AckermannDriveStamped()
