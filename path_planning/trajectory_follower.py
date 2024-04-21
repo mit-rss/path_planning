@@ -7,6 +7,7 @@ from nav_msgs.msg import Odometry
 from tf_transformations import euler_from_quaternion, quaternion_from_euler
 import numpy as np
 import math
+import time
 
 from .utils import LineTrajectory
 
@@ -23,7 +24,8 @@ class PurePursuit(Node):
         self.odom_topic = self.get_parameter('odom_topic').get_parameter_value().string_value
         self.drive_topic = self.get_parameter('drive_topic').get_parameter_value().string_value
 
-        self.lookahead = 1.2  # FILL IN #
+        self.default_lookahead = 0.90  # FILL IN #
+        self.lookahead=self.default_lookahead
         self.get_logger().info(f'{self.lookahead}')
         self.speed = 1.  # FILL IN #
         self.wheelbase_length = 0.3  # FILL IN #
@@ -49,6 +51,7 @@ class PurePursuit(Node):
         self.viz_pubp2 = self.create_publisher(PoseArray, "/p2", 1)
 
 
+
     def pose_callback(self, odometry_msg):
         car_x = odometry_msg.pose.pose.position.x
         car_y = odometry_msg.pose.pose.position.y
@@ -69,6 +72,10 @@ class PurePursuit(Node):
             drive_msg.drive.speed = 0.0 
             drive_msg.drive.steering_angle = 0.0
             self.drive_pub.publish(drive_msg)
+            self.t0 = time.time()
+
+            #this stuff is just to help me with testing
+            #self.get_logger().info(f'{car_xy_pos}')
             return
 
         #find the segment that is nearest to the car
@@ -86,8 +93,17 @@ class PurePursuit(Node):
         #self.get_logger().info(f'nearest segment{nearest_segment}')
         p1 = nearest_segment[0,:]
         p2 = nearest_segment[1,:]
+
+        #find the centerline distance from the current segment for data
+        centerline_distance = self.find_centerline_dist(p1,p2,car_xy_pos)
+        self.lookahead = max(np.min(nrst_distances),self.default_lookahead)
+        # Open a file in write mode
+        # current_time = (time.time()-self.t0)
+        # with open("centerline_data.txt", "a") as file:
+        #     # Write each item from the data list to the file
+        #     file.write(f"{centerline_distance},{current_time}\n")
     
-        #if the car is so close to the end that it cant make a 90 degree turn start looking at the next segment
+        #if the car is so close to the end look to the next
         dist_from_end = np.linalg.norm(car_xy_pos-p2)
         i_counter = 0
         while (dist_from_end <= self.lookahead) and (min_index+i_counter+3) <= traj_points.shape[0]:
@@ -118,7 +134,6 @@ class PurePursuit(Node):
 
         disc = b**2 - 4 * a * c
         if disc < 0: #no solution
-            #self.get_logger().info(f'no soln')
             return None
         
         # if a solution exists find it
@@ -227,13 +242,26 @@ class PurePursuit(Node):
         norm_mag = np.sum((norm_vec*norm_vec),axis = 1)**.5
         # Parameter t for the projection of the point onto the line segment
         t = np.sum(qp*delta,axis=1)/np.sum(delta*delta,axis=1)
-        print(f't: {t}')
         #this is essentially doing the dot product, gives shortest distance to infinite line
         d = np.abs(np.sum(norm_vec*qp,axis=1))/norm_mag 
         #the edge case
         d = np.where(t>=1, np.linalg.norm(linepoint2-point, axis=1),d)
         d = np.where(t<=0, np.linalg.norm(linepoint1-point, axis=1),d)
         #self.get_logger().info(f'd: {d}')
+        return d
+    
+    def find_centerline_dist(self, linepoint1, linepoint2, point):
+        linepoint1 = np.array(linepoint1)
+        linepoint2 = np.array(linepoint2)
+        point = np.array(point)
+        delta = linepoint2-linepoint1
+        norm_vec = np.empty(delta.shape)
+        norm_vec[0] = -delta[1]
+        norm_vec[1] = delta[0]
+        qp = point-linepoint1
+        norm_mag = np.sum((norm_vec*norm_vec))**.5
+        #this is essentially doing the dot product, gives shortest distance to infinite line
+        d = (np.sum(norm_vec*qp))/norm_mag 
         return d
         
     @staticmethod
