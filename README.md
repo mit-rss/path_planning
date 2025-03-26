@@ -1,9 +1,9 @@
 | Deliverable                                                            | Due Date                             |
 |------------------------------------------------------------------------|--------------------------------------|
-| Briefing (8 min presentation + 3 min Q&A) (slides due on github pages) | Wednesday, April 24th at 1:00 PM EST |
-| Report (on github pages)                                               | Friday, April 26th at 11:59PM EST    |
-| Pushed code to Git                                                     | Friday, April 26th at 11:59PM EST    |
-| [Team Member Assessment](https://forms.gle/QMLaatrydFqXdXYF8)                            | Friday, April 26th at 11:59PM EST |
+| Briefing (8 min presentation + 3 min Q&A) (slides due on github pages) | Wednesday, April 16th at 1:00 PM EST |
+| Report (on github pages)                                               | Friday, April 18th at 11:59PM EST    |
+| Pushed code to Git                                                     | Friday, April 18th at 11:59PM EST    |
+| [Team Member Assessment](https://forms.gle/QMLaatrydFqXdXYF8)                            | Friday, April 18th at 11:59PM EST |
 
 # Lab 6: Path Planning
 
@@ -50,7 +50,7 @@ This lab has the following objectives:
   filter and subscribing to the estimate on `/pf/pose/odom` rather than the ground-truth pose. Finally, you will deploy
   the integrated system on your physical racecar!
 
-You will have **two** weeks to complete this lab (longer for the report); you should start early! This lab has multiple
+You will have **until Wednesday, April 16th** to complete this lab; you should start early! This lab has multiple
 parts, and furthermore, a simple implementation of a path planning algorithm may not suffice - you are expected to
 optimize your algorithms. This will take time!
 
@@ -74,7 +74,7 @@ This section details the grading scheme for Lab 6.
 ### TA Checkoff
 Before your briefing deadline, you should seek out a TA to check off your solution during lab hours or office hours. We want to see a working solution for both your trajectory planner and trajectory follower in simulation. At least one member of your team needs to be present for the checkoff and be ready to answer questions about your implementation.
 
-### Briefing Evaluation (see [technical briefing rubric](https://docs.google.com/document/d/1NmqQP7n1omI9bIshF1Y-MP70gfDkgEeoMjpWv8hjfsY/edit?usp=sharing) for grading details)
+### Briefing Evaluation (see [technical briefing rubric](https://docs.google.com/document/d/1dGBsSiT4_HnIwpF9Xghsw_nbOH6Ebm37/edit?usp=sharing&ouid=118318728245025819045&rtpof=true&sd=true) for grading details)
 
 When grading the Technical approach and Experimental evaluation portions of your briefing, we will be looking
 specifically for **illustrative videos of your car planning and tracking trajectories.** Specifically, we would like
@@ -89,7 +89,7 @@ videos highlighting:
   of the stata basement loop will receive bonus points (+3 for first, +2 for second, +1 for third). **Be careful not to
   break your robots!!**
 
-### Report Evaluation (see [technical report rubric](https://docs.google.com/document/d/1B6l7vKJFN3CPPcMn8cKKArHUU_Bq_YUZ5KxKoP6qMk0/edit?usp=sharing) for grading details)
+### Report Evaluation (see [technical report rubric](https://docs.google.com/document/d/1jBNWfzcvyJVGF9dx69imGzOkK_C6LvJl/edit?usp=sharing&ouid=118318728245025819045&rtpof=true&sd=true) for grading details)
 
 When grading the Technical approach and Experimental evaluation portions of your report, we will be looking specifically
 for the following items:
@@ -120,7 +120,7 @@ Clone the skeleton code from this repository.
 
 Each node that needs to be implemented has a template python file and launch file. Each node has parameters set in the
 launch file and defined in the node code. If you add additional ROS parameters to your ROS nodes, be sure to give them
-default values.
+default values **with the matching type of the parameter value you plan to pass in**.
 
 The RViz buttons are set up to publish to the following topics:
 
@@ -134,14 +134,13 @@ eg. `ros2 launch path_planning build_trajectory.launch.xml`).
 ## Part A: Path Planning
 
 In this section, you will plan trajectories and display them in RViz. You will use RViz to publish a 2D pose specifying
-goal positions in your map. Then, your path planning algorithm will construct a collision free trajectory. To ease
+an end goal position in the map. Then, your path planning algorithm will construct a collision free trajectory. To ease
 integration, make sure your inputs and outputs align between your path planning and pure pursuit modules.
 
 **Path Planning Requirements** (`path_planning/trajectory_planner.py`)
 
 - This node must use the car’s current position as the starting point for the path planner. When testing and developing,
-  feel free to use the ground truth pose of the car published to “/odom”. Remember, you can move the car around the map
-  using the “2D Pose Estimate” button in RViz.
+  feel free to use the ground truth pose of the car published to “/odom”. Remember, you can move the starting position of the car around the map, using the “2D Pose Estimate” button in RViz.
 - The goal position must be set using the “2D Nav Goal” button in RViz.
 - Create a simple path planner that will find collision-free paths in the current map. The code is set up to handle
   paths as `geometry_msgs/PoseArray` messages.
@@ -241,8 +240,7 @@ implement these by hand, but make sure you understand how they work if you want 
 The choice of search domain is very important when implementing search-based algorithms such as A* search. Here we
 present a few possible selections of search domain:
 
-*Grid Space*: One obvious choice is to use some discretized grid of possible states, similar to what you may have seen
-in 6.01. The upside of this approach is that the state space is reasonably small in 2D, so the search has a good chance
+*Grid Space*: One obvious choice is to use some discretized grid of possible states. The upside of this approach is that the state space is reasonably small in 2D, so the search has a good chance
 of terminating even with a poor heuristic/cost function. The downside is that the paths:
 
 - Do not consider driving feasibility
