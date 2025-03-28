@@ -140,12 +140,12 @@ integration, make sure your inputs and outputs align between your path planning 
 **Path Planning Requirements** (`path_planning/trajectory_planner.py`)
 
 - This node must use the car’s current position as the starting point for the path planner. When testing and developing,
-  feel free to use the ground truth pose of the car published to “/odom”. Remember, you can move the starting position of the car around the map, using the “2D Pose Estimate” button in RViz.
+  feel free to use the ground truth pose of the car published to `/odom`. Remember, you can move the starting position of the car around the map, using the “2D Pose Estimate” button in RViz.
 - The goal position must be set using the “2D Nav Goal” button in RViz.
 - Create a simple path planner that will find collision-free paths in the current map. The code is set up to handle
   paths as `geometry_msgs/PoseArray` messages.
   Once a trajectory is generated, you can visualize the path, start, and goal positions on
-  the “`/planned_trajectory/path`”, “`/planned_trajectory/start_point`”, and “`/planned_trajectory/end_pose`” topics in
+  the `/planned_trajectory/path`, `/planned_trajectory/start_point`, and `/planned_trajectory/end_pose` topics in
   RViz.
 - (OPTIONAL) Implement both a sample-based and search-based planning algorithm.
 
@@ -349,7 +349,7 @@ this lab only in simulation.
 Pure pursuit for trajectory tracking is a tried and true method (if you're interested in learning
 more, [this](https://www.ri.cmu.edu/pub_files/pub3/coulter_r_craig_1992_1/coulter_r_craig_1992_1.pdf)
 and [this](https://www.researchgate.net/publication/319714221_Pathfinder_-_Development_of_Automated_Guided_Vehicle_for_Hospital_Logistics/download)
-discus its implementation using piecewise linear segments for a trajectory). The proposed method of determining the
+discuss its implementation using piecewise linear segments for a trajectory). The proposed method of determining the
 lookahead point is fairly robust and handles various edge cases nicely - there are two main steps.
 
 - Find the point on the trajectory nearest to the car
@@ -392,20 +392,20 @@ build
 trajectories
 using the “Publish Point” button in RViz. The `.traj` file will be saved in `~/lab6_trajectories` folder with a
 timestamp (so they won’t overwrite each other). A trajectory will not be saved/published unless it has >= 3 points. You
-can visualize this trajectory in RViz under the “`/built_trajectory/path`” topic.
+can visualize this trajectory in RViz under the `/built_trajectory/path` topic.
 
 *Trajectory Loader*: Run `ros2 launch path_planning load_trajectory.launch.xml` to load the trajectory. Make sure to
 specify the path to the trajectory in the parameter within `launch/debug/load_trajectory.launch.xml`. This will
 visualize and
-publish (to “`/loaded_trajectory/path`” topic, which you can listen to in pure pursuit). A default trajectory for the
+publish (to `/loaded_trajectory/path` topic, which you can listen to in pure pursuit). A default trajectory for the
 Stata basement map has been provided in the `~/lab6_trajectories` folder. Note, there is some uniqueness to this utility
 in that it
 publishes exactly once, so make sure you add the visualization topics and save them after running `load_trajectory` the
 first time, then for all successive runs you should be able to see the visualization.
 
-The information published to the “`/loaded_trajectory/path`”, “`/built_trajectory/path`”, “`/planned_trajectory/path`”
+The information published to the `/loaded_trajectory/path`, `/built_trajectory/path`, `/planned_trajectory/path`
 namespace topics are simply to ease visualization. Your pure pursuit code should follow trajectories published to
-the “`/trajectory/current`” topic, which takes PoseArray messages. The `LineTrajectory.toPoseArray()`
+the `/trajectory/current` topic, which takes PoseArray messages. The `LineTrajectory.toPoseArray()`
 and `LineTrajectory.fromPoseArray()` functions have been provided to allow you to convert between these types.
 
 ## Part C: Integration
