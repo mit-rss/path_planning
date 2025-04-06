@@ -183,38 +183,32 @@ particularly smooth. However, smoother trajectories will perform better overall.
 The biggest difference between search-based planning and sampling-based planning are speed and optimality: search-based
 methods can guarantee optimal solutions, but usually does so at the expense of computation time.
 
-### Search-based Planning
+### Planning with regular discretisations 
 
-Search-based planning is a motion planning problem which uses graph search methods to compute paths or trajectories over
-a discrete representation of the problem. Because a graph is inherently discrete, all graph-search algorithms require a
-discrete representation. Search-based planning can then be seen as two problems: how to turn the problem into a graph,
-and how to search the graph to find the best solution. See the tips and tricks section for some pointers on how to
-discretize your search space.
+Recall from lecture that we first framed motion planning as the problem of turning the configuration space into a discrete 
+grid or graph, that we could then search through to find a feasible path from the start to the goal. There are a couple of 
+choices for how we construct the graph that give our motion planner different properties in terms of speed, optimality 
+and completeness. A common strategy is to use a regular grid to discretise the configuration space. If we then use a search 
+algorithm that can find the minimum cost path (such as A* or breadth-first search), then our planning strategy will be 
+resolution-complete and resolution-optimal, but the complexity of the grid representation grows exponentially with the number of 
+dimensions of your configuration space. 
 
-A complete solution to the path planning problem will ensure that the best solution can be found, and that the algorithm
-can detect when no solution exists. Search based algorithms are examples of complete algorithms.
-
-Some search-based planning algorithms are:
-
-- A*
-- Djikstra’s
-- BFS/DFS
+The tips and tricks section include pointers on how to discretize your search space, including alternatives to the regular grid.  
 
 [This source](https://www.redblobgames.com/pathfinding/a-star/introduction.html) includes a friendly introduction and
 comparison between A*, Djikstra’s, and BFS.
 
 ### Sampling-based Planning
 
-Complete solutions, which are what search-based planning algorithms can guarantee, are often infeasible for the real
-life robotics system or inefficient when the possible state space is large. An example is the case for robots with
-multiple degrees of freedom such as arms. In practice, most algorithms are only resolution complete as the state-space
-needs to be somewhat discretized for them to operate (e.g., into a grid) and some solutions might be missed as a
-function of the resolution of the discretization.
+Grid-based representations and other regular discretisations, while providing sme kinds of performance guarantees, are 
+often infeasible for the real-life robotics system or inefficient when the possible state space is large, such as robots with
+multiple degrees of freedom such as arms. 
 
-Sampling-based planning methods are able to solve problems in continuous space without a graph representation (though
-certain sampling-based methods do discretize the space). These planners create possible paths by randomly adding points
-to a tree until some solution is found or time expires. As the probability to find a path approaches 1 when time goes to
-infinity, sampling-based path planners are probabilistic complete. Sampling-based planners are fast, but can sometimes
+Sampling-based planning methods are able to solve problems more efficiently in many cases. 
+These planners create possible paths by randomly adding points until a solution is found or time expires. 
+As the probability to find a path approaches 1 when time goes to infinity, sampling-based path planners 
+are probabilistic complete. If the planner builds a tree of possible paths by randomly sampling and simulating controls, then the
+planner can even incorporate kinodynamic constraints of the kind your RC car can have. Sampling-based planners are fast, but can sometimes
 result in unusual-looking and possibly inefficient paths.
 
 Optional reading for examples of sampling-based planners:
@@ -235,10 +229,10 @@ many links to outside resources; please note that **these are all optional readi
 Here is a good resource for [dubins curves](https://github.com/AndrewWalker/pydubins). You definitely don’t need to
 implement these by hand, but make sure you understand how they work if you want to use them for generating your paths!
 
-#### Search Domains
+#### Representations
 
-The choice of search domain is very important when implementing search-based algorithms such as A* search. Here we
-present a few possible selections of search domain:
+The choice of representation (often referred to as the search domain) is critical to efficient planning. Here we
+present a few possible selections of representations:
 
 *Grid Space*: One obvious choice is to use some discretized grid of possible states. The upside of this approach is that the state space is reasonably small in 2D, so the search has a good chance
 of terminating even with a poor heuristic/cost function. The downside is that the paths:
@@ -255,7 +249,7 @@ This approach is interesting because it generates sparse piecewise linear paths 
 approximately) honor nonholonomic driving constraints.
 
 The primary problem with using non-grid search spaces is that the algorithm can easily get stuck in dead ends expanding
-thousands of nodes without making progress towards the goal. The approach in these papers uses a hack which forces the
+thousands of nodes without making progress towards the goal. The approach in these papers uses an ad hoc technique which forces the
 circles to avoid already explored regions of space. This makes it quickly explore, at the expense of optimality
 guarantees.
 
