@@ -183,7 +183,7 @@ particularly smooth. However, smoother trajectories will perform better overall.
 The biggest difference between search-based planning and sampling-based planning are speed and optimality: search-based
 methods can guarantee optimal solutions, but usually does so at the expense of computation time.
 
-### Regular discretisations 
+### Planning with regular discretisations 
 
 Recall from lecture that we first framed motion planning as the problem of turning the configuration space into a discrete 
 grid or graph, that we could then search through to find a feasible path from the start to the goal. There are a couple of 
@@ -229,9 +229,9 @@ many links to outside resources; please note that **these are all optional readi
 Here is a good resource for [dubins curves](https://github.com/AndrewWalker/pydubins). You definitely don’t need to
 implement these by hand, but make sure you understand how they work if you want to use them for generating your paths!
 
-#### Search Domains
+#### Representations
 
-The choice of representation is critical to efficient planning. Here we
+The choice of representation (often referred to as the search domain) is critical to efficient planning. Here we
 present a few possible selections of representations:
 
 *Grid Space*: One obvious choice is to use some discretized grid of possible states. The upside of this approach is that the state space is reasonably small in 2D, so the search has a good chance
