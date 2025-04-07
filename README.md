@@ -91,7 +91,8 @@ videos highlighting:
 
 ### Report Evaluation (see [technical report rubric](https://docs.google.com/document/d/1jBNWfzcvyJVGF9dx69imGzOkK_C6LvJl/edit?usp=sharing&ouid=118318728245025819045&rtpof=true&sd=true) for grading details)
 
-# IMPORTANT NOTE: This report is an extension / revision of your lab 5 report. Reusing intro text and other sections is completely within scope to explain your overall navigation stack development and experiments. Because this report will encompass planning, localization, and control, the word limit is increased to 3500 instead of the regular 2500. 
+## IMPORTANT NOTE ABOUT LAB 6 REPORT: 
+This report is an extension / revision of your lab 5 report. Reusing intro text and other sections is completely within scope to explain your overall navigation stack development and experiments. Because this report will encompass planning, localization, and control, the word limit is increased to 3500 instead of the regular 2500. 
 
 When grading the Technical approach and Experimental evaluation portions of your report, we will be looking specifically
 for the following items:
