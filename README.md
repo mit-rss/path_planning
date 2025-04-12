@@ -74,7 +74,7 @@ This section details the grading scheme for Lab 6.
 ### TA Checkoff
 Before your briefing deadline, you should seek out a TA to check off your solution during lab hours or office hours. We want to see a working solution for both your trajectory planner and trajectory follower in simulation. At least one member of your team needs to be present for the checkoff and be ready to answer questions about your implementation.
 
-### Briefing Evaluation (see [technical briefing rubric](https://canvas.mit.edu/courses/31106/assignments/385217) for grading details)
+### Briefing Evaluation (see [technical briefing rubric](https://canvas.mit.edu/courses/31106/assignments/385220) for grading details)
 
 When grading the Technical approach and Experimental evaluation portions of your briefing, we will be looking
 specifically for **illustrative videos of your car planning and tracking trajectories.** Specifically, we would like
