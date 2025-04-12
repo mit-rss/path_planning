@@ -74,7 +74,7 @@ This section details the grading scheme for Lab 6.
 ### TA Checkoff
 Before your briefing deadline, you should seek out a TA to check off your solution during lab hours or office hours. We want to see a working solution for both your trajectory planner and trajectory follower in simulation. At least one member of your team needs to be present for the checkoff and be ready to answer questions about your implementation.
 
-### Briefing Evaluation (see [technical briefing rubric](https://docs.google.com/document/d/1dGBsSiT4_HnIwpF9Xghsw_nbOH6Ebm37/edit?usp=sharing&ouid=118318728245025819045&rtpof=true&sd=true) for grading details)
+### Briefing Evaluation (see [technical briefing rubric](https://canvas.mit.edu/courses/31106/assignments/385217) for grading details)
 
 When grading the Technical approach and Experimental evaluation portions of your briefing, we will be looking
 specifically for **illustrative videos of your car planning and tracking trajectories.** Specifically, we would like
@@ -89,7 +89,7 @@ videos highlighting:
   of the stata basement loop will receive bonus points (+3 for first, +2 for second, +1 for third). **Be careful not to
   break your robots!!**
 
-### Report Evaluation (see [technical report rubric](https://docs.google.com/document/d/1jBNWfzcvyJVGF9dx69imGzOkK_C6LvJl/edit?usp=sharing&ouid=118318728245025819045&rtpof=true&sd=true) for grading details)
+### Report Evaluation (see [technical report rubric](https://canvas.mit.edu/courses/31106/assignments/385224) for grading details)
 
 ## IMPORTANT NOTE ABOUT LAB 6 REPORT: 
 This report is an extension / revision of your lab 5 report. Reusing intro text and other sections is completely within scope to explain your overall navigation stack development and experiments. Because this report will encompass planning, localization, and control, the word limit is increased to 3500 instead of the regular 2500. 
