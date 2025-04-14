@@ -282,8 +282,7 @@ Provided basement map (left) and eroded map (right). Disk element, 10px radius.
 To avoid all of these potentially very bad collisions, one method is to “dilate” the obstacles so that nearby states are
 considered off-limits to the planning algorithm even though they technically are collision-free. You may choose to check
 out these possible
-functions: [disks](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=disk#disk), [dilations](http://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=dilation#dilation),
-and [erosions](https://scikit-image.org/docs/dev/api/skimage.morphology.html?highlight=erosion#skimage.morphology.erosion).
+functions: [dilations and erosions](https://docs.opencv.org/3.4/db/df6/tutorial_erosion_dilatation.html).
 You can do these processes offline and just use the adjusted map for your planning algorithms.
 
 #### Motion Heuristics
