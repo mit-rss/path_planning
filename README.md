@@ -72,7 +72,7 @@ This section details the grading scheme for Lab 6.
 | report grade (out of 10)   | 40%       |
 
 ### TA Checkoff
-Before your briefing deadline, you should seek out a TA to check off your solution during lab hours or office hours. We want to see a working solution for both your trajectory planner and trajectory follower in simulation. At least one member of your team needs to be present for the checkoff and be ready to answer questions about your implementation.
+Before your briefing deadline, you should seek out a TA to check off your solution during lab hours or office hours. We want to see a working solution for both your trajectory planner and trajectory follower in simulation. Ideally all of your team needs to be present for the checkoff and be ready to answer questions about your implementation.
 
 ### Briefing Evaluation (see [technical briefing rubric](https://canvas.mit.edu/courses/31106/assignments/385220) for grading details)
 
@@ -198,7 +198,7 @@ dimensions of your configuration space.
 
 The tips and tricks section include pointers on how to discretize your search space, including alternatives to the regular grid.  
 
-[This source](https://www.redblobgames.com/pathfinding/a-star/introduction.html) includes a friendly introduction and
+[This source](https://www.redblobgames.com/pathfinding/a-star/introduction.html) includes a friendly introduction andatl
 comparison between A*, Djikstra’s, and BFS.
 
 ### Sampling-based Planning
