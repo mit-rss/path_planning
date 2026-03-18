@@ -67,7 +67,7 @@ This section details the grading scheme for Lab 6.
 
 | Deliverable Grade          | Weighting |
 |----------------------------|-----------|
-| Technical Completion       | 20%       |
+| Technical completion of lab       | 20%       |
 | Briefing grade (out of 10) | 40%       |
 | Report grade (out of 10)   | 40%       |
 
