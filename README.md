@@ -67,9 +67,9 @@ This section details the grading scheme for Lab 6.
 
 | Deliverable Grade          | Weighting |
 |----------------------------|-----------|
-| TA Checkoff                | 20%       |
-| briefing grade (out of 10) | 40%       |
-| report grade (out of 10)   | 40%       |
+| Technical Completion       | 20%       |
+| Briefing grade (out of 10) | 40%       |
+| Report grade (out of 10)   | 40%       |
 
 ### TA Checkoff
 Before your briefing deadline, you should seek out a TA to check off your solution during lab hours or office hours. We want to see a working solution for both your trajectory planner and trajectory follower in simulation. Ideally all of your team needs to be present for the checkoff and be ready to answer questions about your implementation.
