@@ -3,12 +3,12 @@
 import os
 import rclpy
 import time
-from geometry_msgs.msg import PointStamped, PoseArray, Point
+
+from geometry_msgs.msg import Point, PointStamped, PoseArray
+from path_planning.utils import LineTrajectory
 from rclpy.node import Node
 from typing import List, Tuple
 from visualization_msgs.msg import Marker
-
-from path_planning.utils import LineTrajectory
 
 
 class BuildTrajectory(Node):
@@ -35,8 +35,7 @@ class BuildTrajectory(Node):
         self.trajectory_points = self.create_publisher(Marker, "/traj_pts", 20)
         self.trajectory.publish_viz()
 
-        # save the built trajectory on shutdown
-        self.get_logger().info("Press Ctrl+C to save the trajectory and exit.")
+        self.get_logger().info("Press Ctrl+C to exit. Trajectory auto-saves after each new point.")
 
     def publish_trajectory(self):
         self.traj_pub.publish(self.trajectory.toPoseArray())

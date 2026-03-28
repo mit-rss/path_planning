@@ -1,12 +1,12 @@
+import json
+import numpy as np
+import os
 import rclpy
 
-import numpy as np
-from visualization_msgs.msg import Marker
-from geometry_msgs.msg import Pose, PoseArray, Point
+from geometry_msgs.msg import Point, Pose, PoseArray
 from std_msgs.msg import Header
-import os
 from typing import List, Tuple
-import json
+from visualization_msgs.msg import Marker
 
 EPSILON = 0.00000000001
 
@@ -50,7 +50,7 @@ class LineTrajectory:
             print(
                 "WARNING: Different number of distances and points, this should never happen! Expect incorrect results. See LineTrajectory class.")
         dat = self.distance_along_trajectory(t)
-        if dat == None:
+        if dat is None:
             return None
         else:
             return self.distances[-1] - dat
@@ -229,7 +229,7 @@ class LineTrajectory:
         self.publish_end_point(duration=duration)
 
     def make_header(self, frame_id, stamp=None):
-        if stamp == None:
+        if stamp is None:
             stamp = self.node.get_clock().now().to_msg()
         header = Header()
         header.stamp = stamp

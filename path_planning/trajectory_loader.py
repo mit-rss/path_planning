@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import rclpy
 import time
-from geometry_msgs.msg import PoseArray
-from rclpy.node import Node
 
+from geometry_msgs.msg import PoseArray
 from path_planning.utils import LineTrajectory
+from rclpy.node import Node
+from rclpy.qos import DurabilityPolicy, QoSProfile
 
 
 class LoadTrajectory(Node):
@@ -23,7 +24,8 @@ class LoadTrajectory(Node):
         self.trajectory.load(self.path)
 
         self.pub_topic = "/trajectory/current"
-        self.traj_pub = self.create_publisher(PoseArray, self.pub_topic, 1)
+        latched_qos = QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL)
+        self.traj_pub = self.create_publisher(PoseArray, self.pub_topic, latched_qos)
 
         # need to wait a short period of time before publishing the first message
         time.sleep(0.5)

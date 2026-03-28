@@ -1,8 +1,9 @@
 import rclpy
+
 from ackermann_msgs.msg import AckermannDriveStamped
 from geometry_msgs.msg import PoseArray
+from nav_msgs.msg import Odometry
 from rclpy.node import Node
-
 from .utils import LineTrajectory
 
 
@@ -22,8 +23,13 @@ class PurePursuit(Node):
         self.speed = 0  # FILL IN #
         self.wheelbase_length = 0  # FILL IN #
 
-        self.trajectory = LineTrajectory("/followed_trajectory")
+        self.initialized_traj = False
+        self.trajectory = LineTrajectory(self, "/followed_trajectory")
 
+        self.pose_sub = self.create_subscription(Odometry,
+                                                 self.odom_topic,
+                                                 self.pose_callback,
+                                                 1)
         self.traj_sub = self.create_subscription(PoseArray,
                                                  "/trajectory/current",
                                                  self.trajectory_callback,
