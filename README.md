@@ -1,10 +1,10 @@
 | Deliverable                                                                                                    | Due Date                             |
 |----------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| Briefing (8 min presentation + 3 min Q&A)                                                                      | Wednesday, April 15th at 1:00 PM EST |
+| Report (uploaded to your team's website and [Canvas](https://canvas.mit.edu/courses/36874/assignments/449561)) | Friday, April 17th at 11:59 PM EST   |
+| Pushed code to Git                                                                                             | Wednesday, April 15th at 11:59PM EST |
 | TA Checkoff                                                                                                    | Wednesday, April 15th at 1:00 PM EST |
-| Briefing (8 min presentation + 3 min Q&A) (slides due on github pages)                                         | Wednesday, April 15th at 1:00 PM EST |
-| Report (uploaded to your team's website and [Canvas](https://canvas.mit.edu/courses/36874/assignments/449561)) | Friday, April 24th at 11:59 PM EST   |
-| Pushed code to Git                                                                                             | Wednesday, April 23rd at 11:59PM EST |
-| [Team Member Assessment](https://forms.gle/zeuoLpq5Eg2v5W2JA)                                                  | Wednesday, April 23rd at 11:59PM EST |
+| [Team Member Assessment](https://forms.gle/zeuoLpq5Eg2v5W2JA)                                                  | Wednesday, April 15th at 11:59PM EST |
 
 # Lab 6: Path Planning
 
@@ -72,7 +72,7 @@ This section details the grading scheme for Lab 6.
 | Briefing grade (out of 10)  | 40%       |
 | Report grade (out of 10)    | 40%       |
 
-### Briefing Evaluation (see [technical briefing rubric](https://canvas.mit.edu/courses/31106/assignments/385220) for grading details)
+### Briefing Evaluation (see [technical briefing rubric](https://canvas.mit.edu/courses/36874/assignments/449557) for grading details)
 
 When grading the Technical Approach and Experimental Evaluation portions of your briefing, we will be looking
 specifically for **illustrative videos of your car planning and tracking trajectories.** Specifically, we would like
@@ -83,7 +83,7 @@ videos highlighting:
 - Visualization of the car following the trajectories
 - Deployment behavior of the system in real life
 
-### Report Evaluation (see [technical report rubric](https://canvas.mit.edu/courses/31106/assignments/385224) for grading details)
+### Report Evaluation (see [technical report rubric](https://canvas.mit.edu/courses/36874/assignments/449561) for grading details)
 
 ## IMPORTANT NOTE ABOUT LAB 6 REPORT: 
 
@@ -197,7 +197,7 @@ multiple degrees of freedom such as arms.
 Sampling-based planning methods are able to solve problems more efficiently in many cases. 
 These planners create possible paths by randomly adding points until a solution is found or time expires. 
 As the probability to find a path approaches 1 when time goes to infinity, sampling-based path planners 
-are probabilistically complete. If the planner builds a tree of possible paths by randomly sampling and simulating controls, then the
+are probabilistic complete. If the planner builds a tree of possible paths by randomly sampling and simulating controls, then the
 planner can even incorporate kinodynamic constraints of the kind your RC car can have. Sampling-based planners are fast, but can sometimes
 result in unusual-looking and possibly inefficient paths.
 
