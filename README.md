@@ -16,7 +16,7 @@
         (see technical briefing rubric for grading details)
     - [Report Evaluation](https://github.com/mit-rss/path_planning#report-evaluation-see-technical-report-rubric-for-grading-details)
         (see technical report rubric for grading details)
-- [Submission](https://github.com/mit-rss/path_planning#submission)
+- [Submission and Grading](https://github.com/mit-rss/path_planning#submission-and-grading)
 - [Logistics and Setup](https://github.com/mit-rss/path_planning#logistics-and-setup)
 - [Part A: Path Planning](https://github.com/mit-rss/path_planning#part-a-path-planning)
     - [Grid-based Path Planning](https://github.com/mit-rss/path_planning#grid-based-planning)
@@ -72,6 +72,15 @@ This section details the grading scheme for Lab 6.
 | Briefing grade (out of 10)  | 40%       |
 | Report grade (out of 10)    | 40%       |
 
+### TA Checkoff
+
+The "technical completion of lab" portion of your grade is determined by your checkoff. Before your briefing deadline,
+please meet with a TA during lab or office hours to have your solution checked off. You should demonstrate a working
+implementation of both your trajectory planner and trajectory follower on your racecar.
+
+**Importantly, we will verify that your path planner can compute a path between two arbitrary points we select within 30 seconds.**
+For reference, the TA code calculates a path between opposite ends of the map in approximately 7 seconds.
+
 ### Briefing Evaluation (see [technical briefing rubric](https://canvas.mit.edu/courses/36874/assignments/449557) for grading details)
 
 When grading the Technical Approach and Experimental Evaluation portions of your briefing, we will be looking
@@ -85,7 +94,7 @@ videos highlighting:
 
 ### Report Evaluation (see [technical report rubric](https://canvas.mit.edu/courses/36874/assignments/449561) for grading details)
 
-## IMPORTANT NOTE ABOUT LAB 6 REPORT: 
+## IMPORTANT NOTE ABOUT LAB 6 REPORT
 
 This report is an extension / revision of your lab 5 report. Reusing intro text and other sections is completely within scope to
 explain your overall navigation stack development and experiments. Because this report will encompass planning, localization, and control,
@@ -186,7 +195,11 @@ dimensions of your configuration space.
 
 The tips and tricks section includes pointers on how to discretize your search space, including alternatives to the regular grid.  
 
-[This source](https://www.redblobgames.com/pathfinding/a-star/introduction.html) includes a friendly introduction and comparison between A*, Dijkstra's, and BFS.
+[This source](https://www.redblobgames.com/pathfinding/a-star/introduction.html) includes a friendly introduction and comparison between A*,
+Dijkstra's, and BFS.
+
+If your team is planning on using a type of best-first search such as Dijkstra's or A\*, we highly recommend looking into using
+[priority queues](https://docs.python.org/3/library/heapq.html) to improve your runtime.
 
 ### Sampling-based Planning
 
