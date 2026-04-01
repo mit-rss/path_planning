@@ -74,7 +74,7 @@ This section details the grading scheme for Lab 6.
 
 ### TA Checkoff
 
-The "technical completion of lab" portion of your grade is determined by your checkoff. Before your briefing deadline,
+The "technical completion of lab" portion of your grade is determined by your checkoff. Before your report deadline,
 please meet with a TA during lab or office hours to have your solution checked off. You should demonstrate a working
 implementation of both your trajectory planner and trajectory follower on your racecar.
 
@@ -292,10 +292,10 @@ cause issues since it does not consider the vehicle dynamics or any possible col
 
 A different possible heuristic is [dubins curves](https://en.wikipedia.org/wiki/Dubins_path), which more accurately
 estimates nonholonomic motion (other
-sources: [1](http://planning.cs.uiuc.edu/node821.html), [2](https://pypi.org/project/dubins/)), helping make paths more
+sources: [1](https://pypi.org/project/dubins/)), helping make paths more
 accurate to the vehicle dynamics. Performing a lower dimensional search such as Dijkstra's algorithm on the grid map can
 provide a better heuristic that accounts for obstacles, at the cost of some additional computational complexity (
-source: [3](http://ai.stanford.edu/~ddolgov/papers/dolgov_gpp_stair08.pdf)).
+source: [2](http://ai.stanford.edu/~ddolgov/papers/dolgov_gpp_stair08.pdf)).
 
 **Note:** although poses are defined as (x, y, theta), for this assignment, it is sufficient to plan only on (x, y) (i.e. you do not need any constraint on the start and ending yaws).
 
